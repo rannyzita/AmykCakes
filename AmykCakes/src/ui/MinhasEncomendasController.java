@@ -6,8 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class TelaInicialController {
-
+public class MinhasEncomendasController {
     @FXML
     private Label labelTelaInicial;
     @FXML
@@ -21,7 +20,7 @@ public class TelaInicialController {
 
     @FXML
     public void initialize() {
-        labelTelaInicial.setOnMouseClicked(event -> System.out.println("Tela Inicial clicada!"));
+        labelTelaInicial.setOnMouseClicked(event -> trocarTela("TelaInicial.fxml"));
         labelPersonalizarPedido.setOnMouseClicked(event -> trocarTela("PersonalizarPedido.fxml"));
         labelMinhasEncomendas.setOnMouseClicked(event -> trocarTela("MinhasEncomendas.fxml"));
         labelSobreNos.setOnMouseClicked(event -> trocarTela("SobreNos.fxml"));
