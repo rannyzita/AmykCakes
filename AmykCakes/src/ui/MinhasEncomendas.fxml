@@ -15,8 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+<AnchorPane prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="190.0" prefWidth="1920.0" style="-fx-background-color: D4B8E8;">
          <children>
@@ -55,7 +54,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" layoutX="906.0" layoutY="106.0" prefHeight="70.0" prefWidth="1000.0" spacing="40.0" style="-fx-background-color: D9D9D9;">
                <children>
-                  <Label text="Home">
+                  <Label text="Tela inicial">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
