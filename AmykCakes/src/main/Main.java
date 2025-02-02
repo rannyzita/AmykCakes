@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent p = FXMLLoader.load(getClass().getResource("/ui/TelaInicial.fxml"));
+            Parent p = FXMLLoader.load(getClass().getResource("/ui/ComprarSobremesa.fxml"));
             Scene cena = new Scene(p);
             cena.getStylesheets().add(getClass().getResource("/ui/style.css").toExternalForm());
             primaryStage.setTitle("Amyk Cakes - Sistema");

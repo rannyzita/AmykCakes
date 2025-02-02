@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="900.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" styleClass="borda" stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1">
+<AnchorPane prefHeight="900.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" styleClass="borda" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="190.0" prefWidth="1920.0" style="-fx-background-color: D4B8E8;">
          <children>
@@ -116,7 +115,7 @@
                   <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2004.png" />
                </image>
             </ImageView>
-            <Label layoutX="240.0" layoutY="661.0" opacity="0.7" style="-fx-background-color: 593F67;" text="Produto selecionado" underline="true">
+            <Label layoutX="240.0" layoutY="661.0" opacity="0.7" text="Produto selecionado" underline="true">
                <font>
                   <Font name="Yu Gothic UI Regular" size="24.0" />
                </font>
@@ -126,7 +125,7 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="755.0" layoutY="205.0" style="-fx-background-color: 593F67;" text="Bolo Fofo ">
+      <Label layoutX="755.0" layoutY="205.0" text="Bolo Fofo ">
          <font>
             <Font name="Yu Gothic UI Regular" size="36.0" />
          </font>
