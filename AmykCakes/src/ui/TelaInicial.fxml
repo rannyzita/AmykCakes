@@ -108,7 +108,7 @@
                   </Label>
                </children></Pane>
          </children></Pane>
-      <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="510.0" layoutY="257.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: D4B8E8; -fx-border-color: white;">
+      <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="510.0" layoutY="257.0" prefHeight="600.0" prefWidth="900.0" style="-fx-border-color: white;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -139,7 +139,7 @@
                   <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2008.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="309.0" pickOnBounds="true" GridPane.columnIndex="2">
+            <ImageView fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                <image>
                   <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2005.png" />
                </image>
