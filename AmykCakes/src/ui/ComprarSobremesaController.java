@@ -1,13 +1,13 @@
 package ui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 public class ComprarSobremesaController {
-	@FXML 
-	private TextField txtNome;
-    @FXML 
-    private TextField txtCobertura;
-    @FXML 
-    private TextField txtPreco;
+    @FXML
+    private Pane mainPane;
+
+    public void setMainPane(Pane mainPane) {
+        this.mainPane = mainPane;
+    }
 }
