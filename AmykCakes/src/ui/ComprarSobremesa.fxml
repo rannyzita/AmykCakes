@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" styleClass="borda" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ComprarSobremesaController">
+<AnchorPane fx:id="mainPane" prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" styleClass="borda" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ComprarSobremesaController">
    <children>
       <Pane prefHeight="190.0" prefWidth="1920.0" style="-fx-background-color: D4B8E8;">
          <children>
@@ -58,7 +58,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" layoutX="906.0" layoutY="106.0" prefHeight="70.0" prefWidth="1000.0" spacing="40.0" style="-fx-background-color: D9D9D9;">
                <children>
-                  <Label text="Tela inicial">
+                  <Label fx:id="labelTelaInicial" text="Tela inicial">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
@@ -66,7 +66,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label text="Personalizar pedido">
+                  <Label fx:id="labelPersonalizarPedido" text="Personalizar pedido">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
@@ -74,7 +74,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label text="Minhas encomendas">
+                  <Label fx:id="labelMinhasEncomendas" text="Minhas encomendas">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
@@ -82,7 +82,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label text="Sobre nós">
+                  <Label fx:id="labelSobreNos" text="Sobre nós">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
