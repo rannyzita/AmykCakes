@@ -112,7 +112,7 @@
          <children>
             <VBox prefHeight="600.0" prefWidth="950.0" spacing="10.0" style="-fx-background-color: D4B8E8;">
                <children>
-                  <Label alignment="TOP_CENTER" text="Integrantes da Equipe:">
+                  <Label alignment="TOP_CENTER" text="Integrantes da equipe:">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="27.0" />
                      </font>
@@ -148,6 +148,11 @@
                   </HBox>
                </children>
             </VBox>
+            <ImageView fitHeight="600.0" fitWidth="950.0" layoutX="950.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/sobrenos.jpg" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
       <Label layoutX="900.0" layoutY="214.0" text="Sobre nós">

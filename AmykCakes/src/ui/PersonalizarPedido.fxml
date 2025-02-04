@@ -138,7 +138,7 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </TextField>
-                  <Label layoutX="10.0" layoutY="10.0" text="Recheio:">
+                  <Label layoutX="10.0" layoutY="10.0" text="Cobertura:">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="27.0" />
                      </font>
@@ -172,7 +172,7 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                  <HBox prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                      <children>
                         <RadioButton mnemonicParsing="false" selected="true" text="P">
                            <toggleGroup>
@@ -194,15 +194,28 @@
                         </RadioButton>
                      </children>
                   </HBox>
+                  <Label layoutX="10.0" layoutY="447.0" text="Observações:">
+                     <font>
+                        <Font name="Yu Gothic UI Regular" size="27.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </Label>
+                  <TextArea layoutX="10.0" layoutY="332.0" prefHeight="115.0" prefWidth="200.0">
+                     <cursor>
+                        <Cursor fx:constant="TEXT" />
+                     </cursor>
+                  </TextArea>
                </children>
             </VBox>
          </children>
       </Pane>
       <Pane layoutX="960.0" layoutY="223.0" mouseTransparent="true" prefHeight="570.0" prefWidth="900.0" style="-fx-background-color: FFFFFF;">
          <children>
-            <ImageView fitHeight="570.0" fitWidth="900.0" layoutX="165.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="570.0" fitWidth="900.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Logo.png" />
+                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/MENU.jpg" />
                </image>
             </ImageView>
          </children>
