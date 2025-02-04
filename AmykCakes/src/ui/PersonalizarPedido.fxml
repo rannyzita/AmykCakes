@@ -133,7 +133,7 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-                  <TextField prefHeight="90.0" prefWidth="200.0">
+                  <TextField fx:id="nomePedido" prefHeight="90.0" prefWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -146,7 +146,7 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-                  <TextArea prefHeight="115.0" prefWidth="200.0">
+                  <TextArea fx:id="cobertura" prefHeight="115.0" prefWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -159,7 +159,7 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-                  <TextArea prefHeight="115.0" prefWidth="200.0">
+                  <TextArea fx:id="massa" prefHeight="115.0" prefWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -202,7 +202,7 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-                  <TextArea layoutX="10.0" layoutY="332.0" prefHeight="115.0" prefWidth="200.0">
+                  <TextArea fx:id="observacoes" layoutX="10.0" layoutY="332.0" prefHeight="115.0" prefWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
@@ -223,7 +223,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Pane>
-      <Button layoutX="960.0" layoutY="814.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="330.0" style="-fx-background-color: A384B4;" text="Encomendar">
+      <Button fx:id="botaoEncomendar" layoutX="960.0" layoutY="814.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="330.0" style="-fx-background-color: A384B4;" text="Encomendar">
          <font>
             <Font name="Yu Gothic UI Regular" size="24.0" />
          </font>

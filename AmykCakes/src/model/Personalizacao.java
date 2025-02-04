@@ -52,8 +52,8 @@ public class Personalizacao extends BaseEntity{
 		return Pedido_idPedido;
 	}
 	
-	public void setPedido_idPedido(Pedido pedido_idPedido) {
-		Pedido_idPedido = pedido_idPedido;
+	public void setPedido_idPedido(Pedido pedido) {
+		Pedido_idPedido = pedido;
 	}
 	
 }
