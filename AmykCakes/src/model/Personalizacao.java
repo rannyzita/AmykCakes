@@ -1,21 +1,12 @@
 package model;
 
-public class Personalizacao {
-	private int idPedidoPersonalizado;
+public class Personalizacao extends BaseEntity{
 	private String tipoCobertura;
 	private String tamanhoPedido;
 	private String massaPedido;
 	private String observacoes;
 	private String nome;
 	private Pedido Pedido_idPedido;
-	
-	public int getIdPedidoPersonalizado() {
-		return idPedidoPersonalizado;
-	}
-	
-	public void setIdPedidoPersonalizado(int idPedidoPersonalizado) {
-		this.idPedidoPersonalizado = idPedidoPersonalizado;
-	}
 	
 	public String getTipoCobertura() {
 		return tipoCobertura;

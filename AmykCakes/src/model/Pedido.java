@@ -1,8 +1,7 @@
 package model;
 import java.time.LocalDateTime;
 
-public class Pedido {
-	private int idPedido;
+public class Pedido extends BaseEntity{
 	private LocalDateTime dataPedido;
 	private LocalDateTime dataEntregaPrevista;
 	private double valorTotal;
@@ -11,14 +10,6 @@ public class Pedido {
         this.dataPedido = LocalDateTime.now(); 
         this.dataEntregaPrevista = LocalDateTime.now().plusDays(15);
     }
-
-	public int getIdPedido() {
-		return idPedido;
-	}
-
-	public void setIdPedido(int idPedido) {
-		this.idPedido = idPedido;
-	}
 
 	public LocalDateTime getDataPedido() {
 		return dataPedido;

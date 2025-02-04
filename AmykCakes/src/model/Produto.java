@@ -4,21 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 
-public class Produto {
-	private int idProduto;
+public class Produto extends BaseEntity{
 	private String nome;
 	private String descricao;
 	private double preco;
 	private byte[] foto;
 	private int estoque;
-	
-	public int getIdProduto() {
-		return idProduto;
-	}
-	
-	public void setIdProduto(int idProduto) {
-		this.idProduto = idProduto;
-	}
 	
 	public String getNome() {
 		return nome;

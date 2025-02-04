@@ -1,8 +1,7 @@
 package model;
 import java.time.LocalDateTime;
 
-public class Pagamento {
-	private int idPagamento;
+public class Pagamento extends BaseEntity{
 	private Pedido Pedido_idPedido;
 	private double valor;
 	private String formaPagamento;
@@ -11,14 +10,6 @@ public class Pagamento {
 	public Pagamento() {
         this.data = LocalDateTime.now(); 
     }
-	
-	public int getIdPagamento() {
-		return idPagamento;
-	}
-	
-	public void setIdPagamento(int idPagamento) {
-		this.idPagamento = idPagamento;
-	}
 	
 	public Pedido getPedido_idPedido() {
 		return Pedido_idPedido;

@@ -1,18 +1,12 @@
 package model;
 
-public class Carrinho {
-	private int id;
+public class Carrinho extends BaseEntity{
 	private double valorTotal;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+		
 	public double getValorTotal() {
 		return valorTotal;
 	}
+	
 	public void setValorTotal(double valorTotal) {
 		this.valorTotal = valorTotal;
 	}

@@ -1,18 +1,9 @@
 package model;
 
-public class Ingrediente {
-	private int idIngrediente;
+public class Ingrediente extends BaseEntity{
 	private String nomeIngrediente;
 	private int quantidadeEstoque;
 	private Produto Produto_idProduto;
-	
-	public int getIdIngrediente() {
-		return idIngrediente;
-	}
-	
-	public void setIdIngrediente(int idIngrediente) {
-		this.idIngrediente = idIngrediente;
-	}
 	
 	public String getNomeIngrediente() {
 		return nomeIngrediente;

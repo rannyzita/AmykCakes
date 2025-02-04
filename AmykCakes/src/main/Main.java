@@ -1,9 +1,13 @@
 package main;
 
+import dao.CarrinhoDAO;
+import model.Carrinho;
+
 public class Main {
+    public static void main(String[] args) {
+        CarrinhoDAO carrinhoDAO = new CarrinhoDAO();
 
-	public static void main(String[] args) {
-		
-	}
-
+        carrinhoDAO.delete(5);
+        carrinhoDAO.delete(6);
+    }
 }

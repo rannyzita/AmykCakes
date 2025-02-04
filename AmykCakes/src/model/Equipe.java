@@ -4,20 +4,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 
-public class Equipe {
-	private int id;
+public class Equipe extends BaseEntity{
 	private String nome;
 	private String descricao;
 	private byte[] foto;
 	private String cargo;
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
 	
 	public String getNome() {
 		return nome;
