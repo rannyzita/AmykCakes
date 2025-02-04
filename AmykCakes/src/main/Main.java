@@ -1,29 +1,24 @@
 package main;
-import dao.HistoricoDePedidosDAO;
+
+import dao.PagamentoDAO;
+import dao.PedidoDAO;
+import model.Pagamento;
+import model.Pedido;
 
 public class Main {
+
     public static void main(String[] args) {
-       
-        // Criando uma instância do DAO
-        HistoricoDePedidosDAO historicoDePedidosDAO = new HistoricoDePedidosDAO();
+        
+        PagamentoDAO pagamentoDAO = new PagamentoDAO();
 
         
+        pagamentoDAO.delete(1);  
+        pagamentoDAO.delete(2);  
+        pagamentoDAO.delete(3);  
+        pagamentoDAO.delete(4);  
+        pagamentoDAO.delete(5);  
+        pagamentoDAO.delete(6);  
 
-        // Testando o método delete
-        System.out.println("\n### Testando Delete ###");
-        historicoDePedidosDAO.delete(1);  // Excluindo o Histórico de Pedidos com o ID fornecido
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        historicoDePedidosDAO.delete(1);
-        
-        // Após excluir, testando novamente o findById
-        
+     
     }
 }

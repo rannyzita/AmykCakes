@@ -11,6 +11,9 @@ public class Pedido extends BaseEntity{
         this.dataEntregaPrevista = LocalDateTime.now().plusDays(15);
     }
 
+	public Pedido(int int1) {
+	}
+
 	public LocalDateTime getDataPedido() {
 		return dataPedido;
 	}

@@ -1,6 +1,6 @@
 package model;
 
-public class Carrinho extends BaseEntity{
+public class Carrinho extends BaseEntity {
 	private double valorTotal;
 		
 	public double getValorTotal() {

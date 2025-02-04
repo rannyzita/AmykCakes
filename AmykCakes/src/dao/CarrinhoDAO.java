@@ -9,7 +9,7 @@ import model.Carrinho;
 import model.Produto;
 import connection.DbConnection;
 
-public class CarrinhoDAO extends BaseDAO<Carrinho>{
+public class CarrinhoDAO extends BaseDAO<Carrinho> {
 	
 	@Override
 	protected String getTableName() {

@@ -72,19 +72,28 @@ public class PedidoDAO extends BaseDAO<Pedido> {
     }
 
     public void update(Pedido pedido, String updateFields) {
+        // Verifica se o ID do pedido existe na tabela
         if (!idExists(pedido.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
         }
 
+        // Gera o SQL para atualizar os campos fornecidos
         String sql = "UPDATE " + getTableName() + " SET " + updateFields + " WHERE id = ?";
+
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
+            
+            // Define o parâmetro para o ID do Pedido
             ps.setInt(1, pedido.getId());
+
+            // Executa o update
             ps.executeUpdate();
+            System.out.println("Pedido atualizado com sucesso!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
 }
