@@ -126,24 +126,68 @@
                         <Insets top="5.0" />
                      </padding>
                   </Label>
-                  <HBox prefHeight="120.0" prefWidth="200.0" style="-fx-background-color: A384B4;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: A384B4;">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/banco%20-%20imagens/foto-Julia.jpeg" />
+                           </image></ImageView>
+                        <Label>
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="27.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="120.0" prefWidth="200.0" style="-fx-background-color: A384B4;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: A384B4;">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/banco%20-%20imagens/foto-vitoria.jpeg" />
+                           </image></ImageView>
+                        <Label>
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="27.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="120.0" prefWidth="200.0" style="-fx-background-color: A384B4;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: A384B4;">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/banco%20-%20imagens/foto-kariny.jpeg" />
+                           </image></ImageView>
+                        <Label>
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="27.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
                      </children>
                   </HBox>
-                  <HBox prefHeight="120.0" prefWidth="200.0" style="-fx-background-color: A384B4;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: A384B4;">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/banco%20-%20imagens/foto-yarlla.jpeg" />
+                           </image></ImageView>
+                        <Label>
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="27.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
                      </children>
                   </HBox>
                </children>
