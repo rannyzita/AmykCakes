@@ -6,7 +6,16 @@ public class ItemCarrinho {
 	private int quantidade;
 	private double valorUnitario;
 	private double subTotal;
+	private Personalizacao Personalizacao_id;
 	
+	public Personalizacao getPersonalizacao_id() {
+		return Personalizacao_id;
+	}
+
+	public void setPersonalizacao_id(Personalizacao personalizacao_id) {
+		Personalizacao_id = personalizacao_id;
+	}
+
 	public Pedido getPedido_idPedido() {
 		return Pedido_idPedido;
 	}

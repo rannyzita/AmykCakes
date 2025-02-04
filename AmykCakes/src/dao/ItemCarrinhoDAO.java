@@ -10,9 +10,26 @@ import java.util.List;
 import connection.DbConnection;
 import model.ItemCarrinho;
 import model.Pedido;
+import model.Personalizacao;
 import model.Produto;
 
 public class ItemCarrinhoDAO {
+	
+	private boolean personalizadoExists(int Personalizacao_id) {
+        String sql = "SELECT 1 FROM Personalizacao WHERE id = ?";
+
+        try (Connection connection = DbConnection.getConexao();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, Personalizacao_id);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     private boolean pedidoExists(int idPedido) {
         String sql = "SELECT 1 FROM Pedido WHERE id = ?";
@@ -57,7 +74,7 @@ public class ItemCarrinhoDAO {
             return;
         }
 
-        String sql = "INSERT INTO ItemCarrinho (quantidade, Pedido_idPedido, Produto_idProduto, valorUnitario, subTotal) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ItemCarrinho (quantidade, Pedido_idPedido, Produto_idProduto, valorUnitario, subTotal, Personalizacao_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -67,6 +84,7 @@ public class ItemCarrinhoDAO {
             ps.setInt(3, itemCarrinho.getProduto_idProduto().getId()); 
             ps.setDouble(4, itemCarrinho.getValorUnitario());
             ps.setDouble(5, itemCarrinho.getSubTotal());
+            ps.setInt(6, itemCarrinho.getPersonalizacao_id().getId());
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -75,7 +93,11 @@ public class ItemCarrinhoDAO {
     }
 
     
-    public void delete(int idPedido, int idProduto) {
+    public void delete(int idPedido, int idProduto, int Personalizacao_id) {
+    	if (!personalizadoExists(Personalizacao_id)) {
+    		System.out.println("Erro: Pedido não existe.");
+    		return;
+    	}
         if (!pedidoExists(idPedido)) {
             System.out.println("Erro: Pedido não existe.");
             return;
@@ -86,13 +108,14 @@ public class ItemCarrinhoDAO {
             return;
         }
 
-        String sql = "DELETE FROM ItemCarrinho WHERE Pedido_idPedido = ? AND Produto_idProduto = ?";
+        String sql = "DELETE FROM ItemCarrinho WHERE Pedido_idPedido = ? AND Produto_idProduto = ? AND Personalizacao_id = ?";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, idPedido);
             ps.setInt(2, idProduto);
+            ps.setInt(3, Personalizacao_id);
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -101,8 +124,12 @@ public class ItemCarrinhoDAO {
     }
 
     
-    public void update(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal) {
-        if (!pedidoExists(idPedido)) {
+    public void update(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal, int Personalizacao_id) {
+    	if (!personalizadoExists(Personalizacao_id)) {
+    		System.out.println("Erro: Pedido não existe.");
+    		return;
+    	}
+    	if (!pedidoExists(idPedido)) {
             System.out.println("Erro: Pedido não existe.");
             return;
         }
@@ -112,7 +139,7 @@ public class ItemCarrinhoDAO {
             return;
         }
 
-        String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, subTotal = ? WHERE Pedido_idPedido = ? AND Produto_idProduto = ?";
+        String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, subTotal = ? WHERE Pedido_idPedido = ? AND Produto_idProduto = ? AND Personalizacao_id = ?";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -122,6 +149,7 @@ public class ItemCarrinhoDAO {
             ps.setDouble(3, subTotal); 
             ps.setInt(4, idPedido); 
             ps.setInt(5, idProduto); 
+            ps.setInt(6, Personalizacao_id);
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -129,8 +157,8 @@ public class ItemCarrinhoDAO {
         }
     }
 
-    public ItemCarrinho findById(int idPedido, int idProduto) {
-        String sql = "SELECT * FROM ItemCarrinho WHERE Pedido_idPedido = ? AND Produto_idProduto = ?";
+    public ItemCarrinho findById(int idPedido, int idProduto, int Personalizacao_id) {
+        String sql = "SELECT * FROM ItemCarrinho WHERE Pedido_idPedido = ? AND Produto_idProduto = ? AND Personalizacao_id = ?";
         ItemCarrinho itemCarrinho = null;
 
         try (Connection connection = DbConnection.getConexao();
@@ -138,6 +166,7 @@ public class ItemCarrinhoDAO {
 
             ps.setInt(1, idPedido);
             ps.setInt(2, idProduto);
+            ps.setInt(3, Personalizacao_id);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -154,6 +183,10 @@ public class ItemCarrinhoDAO {
                     Produto produto = new Produto();
                     produto.setId(rs.getInt("Produto_idProduto"));
                     itemCarrinho.setProduto_idProduto(produto);
+                    
+                    Personalizacao personalizacao = new Personalizacao();
+                    personalizacao.setId(rs.getInt("Personalizacao_id"));
+                    itemCarrinho.setPersonalizacao_id(personalizacao);
                 }
             }
         } catch (SQLException e) {
@@ -186,6 +219,10 @@ public class ItemCarrinhoDAO {
                 Produto produto = new Produto();
                 produto.setId(rs.getInt("Produto_idProduto"));
                 itemCarrinho.setProduto_idProduto(produto);
+                
+                Personalizacao personalizacao = new Personalizacao();
+                personalizacao.setId(rs.getInt("Personalizacao_id"));
+                itemCarrinho.setPersonalizacao_id(personalizacao);
 
                 itemCarrinhos.add(itemCarrinho);
             }

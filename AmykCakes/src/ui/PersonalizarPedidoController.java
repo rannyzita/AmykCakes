@@ -5,8 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import model.Personalizacao;
+import dao.ItemCarrinhoDAO;
 import dao.PedidoDAO;
 import dao.PersonalizacaoDAO;
+import model.ItemCarrinho;
 import model.Pedido;
 
 public class PersonalizarPedidoController {
@@ -33,6 +35,8 @@ public class PersonalizarPedidoController {
     private TextArea observacoes;
     @FXML
     private Button botaoEncomendar;
+    @FXML
+    private TextField quantidade;
 
     @FXML
     public void initialize() {
@@ -69,6 +73,7 @@ public class PersonalizarPedidoController {
         String tipoCobertura = cobertura.getText().trim().toLowerCase();
         String tipoMassa = massa.getText().trim().toLowerCase();
         String obs = observacoes.getText().trim().toLowerCase();
+        String quant = quantidade.getText().trim().toLowerCase();
 
         double precoMassa = 0;
         double precoCobertura = 0;
@@ -126,6 +131,7 @@ public class PersonalizarPedidoController {
         }
 
         double valorTotal = precoMassa + precoCobertura + precoTam;
+        double valorUnitario = precoMassa + precoCobertura + precoTam;
 
         Pedido pedido = new Pedido();
         pedido.setValorTotal(valorTotal);
@@ -138,7 +144,18 @@ public class PersonalizarPedidoController {
         PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO();
         personalizacaoDAO.create(personalizacao); // Agora salva a personalização
         
-        System.out.println("Pedido salvo com sucesso! ID: " + pedido.getId());
+        ItemCarrinhoDAO itemCarrinhoDAO = new ItemCarrinhoDAO();
+        ItemCarrinho itemCarrinho = new ItemCarrinho();
+
+        int quantInt = Integer.parseInt(quant);
+        itemCarrinho.setQuantidade(quantInt);
+
+        itemCarrinho.setValorUnitario(valorUnitario);
+
+        // Chamando corretamente o método create()
+        itemCarrinhoDAO.create(itemCarrinho);
+
+        System.out.println("Item do carrinho salvo com sucesso!");
     }
 
     public void setMainPane(Pane mainPane) {

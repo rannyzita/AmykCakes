@@ -133,10 +133,13 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-                  <TextField fx:id="nomePedido" prefHeight="90.0" prefWidth="200.0">
+                  <TextField fx:id="nomePedido" alignment="TOP_LEFT" prefHeight="90.0" prefWidth="200.0">
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
                   </TextField>
                   <Label layoutX="10.0" layoutY="10.0" text="Cobertura:">
                      <font>
@@ -150,6 +153,9 @@
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
                   </TextArea>
                   <Label layoutX="10.0" layoutY="74.0" text="Massa:">
                      <font>
@@ -163,6 +169,9 @@
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
                   </TextArea>
                   <Label layoutX="10.0" layoutY="313.0" text="Tamanho:">
                      <font>
@@ -192,6 +201,22 @@
                               <Font name="Yu Gothic UI Bold" size="24.0" />
                            </font>
                         </RadioButton>
+                        <Label text="Quantidade:">
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="27.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                        </Label>
+                        <TextField fx:id="quantidade" alignment="TOP_LEFT" prefHeight="90.0" prefWidth="200.0">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </TextField>
                      </children>
                   </HBox>
                   <Label layoutX="10.0" layoutY="447.0" text="Observações:">
@@ -206,6 +231,9 @@
                      <cursor>
                         <Cursor fx:constant="TEXT" />
                      </cursor>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
                   </TextArea>
                </children>
             </VBox>
