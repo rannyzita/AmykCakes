@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ui.TelaInicialController;
 
 public class Main extends Application {
     @Override
@@ -13,8 +12,6 @@ public class Main extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/TelaInicial.fxml"));
             Parent root = loader.load();
-            
-            TelaInicialController controller = loader.getController();
             
             Scene scene = new Scene(root);
             primaryStage.setTitle("Amyk Cakes - Sistema");
