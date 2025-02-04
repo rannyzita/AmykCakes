@@ -27,23 +27,6 @@ public abstract class BaseDAO<T extends BaseEntity> {
         }
     }
 
-    // Create (Inserir um novo registro)
-    public void create(T entity) {
-        if (idExists(entity.getId())) {
-            System.out.println("Erro: O ID já existe na tabela.");
-            return;
-        }
-
-        String sql = "INSERT INTO " + getTableName() + " (id) VALUES (?)";
-        try (Connection connection = DbConnection.getConexao();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, entity.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     // Delete (Excluir um registro)
     public void delete(int id) {
         if (!idExists(id)) {

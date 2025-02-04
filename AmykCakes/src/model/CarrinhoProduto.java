@@ -5,6 +5,7 @@ public class CarrinhoProduto {
     private Carrinho Carrinho_id;
     private Produto Produto_idProduto;
     
+    // construtor vazio
     public CarrinhoProduto () {
     	
     }
@@ -38,4 +39,5 @@ public class CarrinhoProduto {
     public void setProduto_idProduto(Produto Produto_idProduto) {
         this.Produto_idProduto = Produto_idProduto;
     }
+    
 }
