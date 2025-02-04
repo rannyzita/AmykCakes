@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" styleClass="borda" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="1000.0" prefWidth="1280.0" style="-fx-background-color: E6D6F5;" styleClass="borda" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ComprarSobremesaController">
    <children>
       <Pane prefHeight="190.0" prefWidth="1920.0" style="-fx-background-color: D4B8E8;">
          <children>
@@ -214,7 +214,7 @@
                         </RadioButton>
                      </children>
                   </HBox>
-                  <Label layoutX="10.0" layoutY="9.0" GridPane.columnIndex="1">
+                  <Label fx:id="txtNome" layoutX="10.0" layoutY="9.0" prefHeight="35.0" prefWidth="393.0" GridPane.columnIndex="1">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
@@ -222,7 +222,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label layoutX="10.0" layoutY="9.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Label fx:id="txtCobertura" layoutX="10.0" layoutY="9.0" prefHeight="35.0" prefWidth="394.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
@@ -230,7 +230,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label layoutX="10.0" layoutY="9.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="txtPreco" layoutX="10.0" layoutY="9.0" prefHeight="35.0" prefWidth="393.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
