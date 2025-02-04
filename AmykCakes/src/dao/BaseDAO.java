@@ -2,6 +2,7 @@ package dao;
 
 import connection.DbConnection;
 import model.BaseEntity;
+import model.RestricoesAlimentares;
 
 import java.sql.*;
 import java.util.ArrayList;

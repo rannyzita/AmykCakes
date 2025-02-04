@@ -77,4 +77,8 @@ public class Produto extends BaseEntity{
         }
     }
 
+	public String getRescricao() {
+		return null;
+	}
+
 }
