@@ -1,5 +1,7 @@
 package main;
-
+import dao.RestricoesAlimentaresDAO;
+import model.Personalizacao;
+import model.RestricoesAlimentares;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
