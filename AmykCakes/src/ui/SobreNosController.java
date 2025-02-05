@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 
 import connection.DbConnection;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,15 +16,40 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class SobreNosController {
+	
+	@FXML
+    private Label labelTelaInicial;
+    @FXML
+    private Label labelPersonalizarPedido;
+    @FXML
+    private Label labelMinhasEncomendas;
+    @FXML
+    private Label labelSobreNos;
+    @FXML
+    private Pane mainPane;
     
     @FXML
     private VBox equipeContainer; // Certifique-se de que o FXML contém esse ID!
 
     @FXML
     public void initialize() {
+    	labelTelaInicial.setOnMouseClicked(event -> System.out.println("Tela Inicial clicada!"));
+        labelPersonalizarPedido.setOnMouseClicked(event -> trocarTela("PersonalizarPedido.fxml"));
+        labelMinhasEncomendas.setOnMouseClicked(event -> trocarTela("MinhasEncomendas.fxml"));
+        labelSobreNos.setOnMouseClicked(event -> trocarTela("SobreNos.fxml"));
         carregarEquipe();
     }
-
+    
+    public void trocarTela(String fxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Pane novaTela = loader.load();
+            mainPane.getChildren().setAll(novaTela);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void carregarEquipe() {
         try (Connection conn = DbConnection.getConexao()) {
             String sql = "SELECT nome, foto, descricao, cargo FROM equipe"; 
@@ -72,9 +98,8 @@ public class SobreNosController {
         }
     }
 
-	public void setMainPane(Pane mainPane) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setMainPane(Pane mainPane) {
+        this.mainPane = mainPane;
+    }
 
 }

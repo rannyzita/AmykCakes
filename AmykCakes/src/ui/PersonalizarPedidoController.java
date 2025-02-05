@@ -149,8 +149,8 @@ public class PersonalizarPedidoController {
         ItemCarrinhoDAO itemcarrinhodao = new ItemCarrinhoDAO();
         
         // adicionando item no carrinho 
-        itemCarrinho.setPedido_idPedido(pedido.getId());
-        itemCarrinho.setPersonalizacao_id(personalizacao.getId());
+        //itemCarrinho.setPedido_idPedido(pedido.getId());
+        //itemCarrinho.setPersonalizacao_id(personalizacao.getId());
         itemCarrinho.setQuantidade(quantidade_);
         
         valorTotal = valorTotal*quantidade_;
