@@ -256,5 +256,10 @@
             <Font name="Yu Gothic UI Regular" size="24.0" />
          </font>
       </Button>
+      <Button fx:id="btnLimpar" layoutX="1305.0" layoutY="814.0" mnemonicParsing="false" onAction="#onBtnLimparClick" prefHeight="65.0" prefWidth="330.0" style="-fx-background-color: A384B4;" text="Limpar">
+         <font>
+            <Font name="Yu Gothic UI Regular" size="24.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

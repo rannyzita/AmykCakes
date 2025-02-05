@@ -37,6 +37,8 @@ public class PersonalizarPedidoController {
     private Button botaoEncomendar;
     @FXML 
     private TextField quantidade;
+    @FXML 
+    private Button btnLimpar;
 
     @FXML
     public void initialize() {
@@ -46,6 +48,7 @@ public class PersonalizarPedidoController {
         labelSobreNos.setOnMouseClicked(event -> trocarTela("SobreNos.fxml"));
         
         botaoEncomendar.setOnAction(event -> processarEncomenda());
+        btnLimpar.setOnAction(event -> onBtnLimparClick());
     }
 
     public void trocarTela(String fxml) {
@@ -69,6 +72,9 @@ public class PersonalizarPedidoController {
     }
 
     private void processarEncomenda() {
+    	// personalizacao
+    	// pedido
+    	// item Carrinho
         String nome = nomePedido.getText().trim().toLowerCase();
         String tipoCobertura = cobertura.getText().trim().toLowerCase();
         String tipoMassa = massa.getText().trim().toLowerCase();
@@ -133,7 +139,9 @@ public class PersonalizarPedidoController {
         }
 
         double valorTotal = precoMassa + precoCobertura + precoTam;
-
+        
+        valorTotal = valorTotal*quantidade_;
+        
         Pedido pedido = new Pedido();
         pedido.setValorTotal(valorTotal);
 
@@ -153,8 +161,6 @@ public class PersonalizarPedidoController {
         //itemCarrinho.setPersonalizacao_id(personalizacao.getId());
         itemCarrinho.setQuantidade(quantidade_);
         
-        valorTotal = valorTotal*quantidade_;
-        
         itemCarrinho.setValorUnitario(valorTotal);
         
         System.out.println(pedido);
@@ -167,6 +173,17 @@ public class PersonalizarPedidoController {
         System.out.println("Pedido salvo com sucesso! ID: " + pedido.getId());
         
         itemcarrinhodao.getCarrinhoPersonalizacao("id");
+        
+        //Limpar os campos do formulário
+        onBtnLimparClick();
+    }
+    
+    public void onBtnLimparClick() {
+        if (nomePedido != null) nomePedido.clear();
+        if (cobertura != null) cobertura.clear();
+        if (massa != null) massa.clear();
+        if (observacoes != null) observacoes.clear();
+        if (quantidade != null) quantidade.clear();
     }
 
     public void setMainPane(Pane mainPane) {

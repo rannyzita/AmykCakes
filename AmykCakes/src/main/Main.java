@@ -1,7 +1,8 @@
 package main;
-import dao.RestricoesAlimentaresDAO;
 import model.Personalizacao;
-import model.RestricoesAlimentares;
+
+import java.awt.Image;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,6 +17,8 @@ public class Main extends Application {
             Parent root = loader.load();
             
             Scene scene = new Scene(root);
+            
+            scene.getStylesheets().add(getClass().getResource("/ui/style.css").toExternalForm());
             primaryStage.setTitle("Amyk Cakes - Sistema");
             primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);

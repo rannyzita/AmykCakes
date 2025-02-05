@@ -16,6 +16,20 @@ public class ComprarSobremesaController {
     private Label labelSobreNos;
     @FXML
     private Pane mainPane; // O local onde as telas serão trocadas
+    @FXML 
+    private Label txtNome;
+    @FXML 
+    private Label txtCobertura;
+    @FXML 
+    private Label txtDescricao;
+    @FXML 
+    private Label txtEstoque;
+    //@FXML 
+    //private radionb txtPagamento;
+    @FXML 
+    private Label txtPreco;
+    @FXML 
+    private Label txtNomeH1;
     
     @FXML
     public void initialize() {
