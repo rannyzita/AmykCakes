@@ -5,8 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import model.Personalizacao;
+import dao.ItemCarrinhoDAO;
 import dao.PedidoDAO;
 import dao.PersonalizacaoDAO;
+import model.ItemCarrinho;
 import model.Pedido;
 
 public class PersonalizarPedidoController {
@@ -33,6 +35,8 @@ public class PersonalizarPedidoController {
     private TextArea observacoes;
     @FXML
     private Button botaoEncomendar;
+    @FXML 
+    private TextField quantidade;
 
     @FXML
     public void initialize() {
@@ -69,7 +73,7 @@ public class PersonalizarPedidoController {
         String tipoCobertura = cobertura.getText().trim().toLowerCase();
         String tipoMassa = massa.getText().trim().toLowerCase();
         String obs = observacoes.getText().trim().toLowerCase();
-
+        String quant = quantidade.getText().trim().toLowerCase();
         double precoMassa = 0;
         double precoCobertura = 0;
         double precoTam = 0;
@@ -120,7 +124,10 @@ public class PersonalizarPedidoController {
                 precoTam = 30.0; // Valor padrão
         }
         personalizacao.setTamanhoPedido(tam);
-
+        
+        int quantidade_ = Integer.parseInt(quant);
+        
+        personalizacao.setQuantidade(quantidade_);
         if (!obs.isEmpty()) {
             personalizacao.setObservacoes(obs);
         }
@@ -138,7 +145,28 @@ public class PersonalizarPedidoController {
         PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO();
         personalizacaoDAO.create(personalizacao); // Agora salva a personalização
         
+        ItemCarrinho itemCarrinho = new ItemCarrinho();
+        ItemCarrinhoDAO itemcarrinhodao = new ItemCarrinhoDAO();
+        
+        // adicionando item no carrinho 
+        itemCarrinho.setPedido_idPedido(pedido.getId());
+        itemCarrinho.setPersonalizacao_id(personalizacao.getId());
+        itemCarrinho.setQuantidade(quantidade_);
+        
+        valorTotal = valorTotal*quantidade_;
+        
+        itemCarrinho.setValorUnitario(valorTotal);
+        
+        System.out.println(pedido);
+        
+        itemcarrinhodao.create(itemCarrinho);
+       
+        System.out.println("ID da Personalização salvo: " + personalizacao.getId());
+        
+        
         System.out.println("Pedido salvo com sucesso! ID: " + pedido.getId());
+        
+        itemcarrinhodao.getCarrinhoPersonalizacao("id");
     }
 
     public void setMainPane(Pane mainPane) {

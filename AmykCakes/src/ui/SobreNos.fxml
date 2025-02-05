@@ -112,19 +112,10 @@
          <children>
             <VBox prefHeight="600.0" prefWidth="950.0" spacing="10.0" style="-fx-background-color: D4B8E8;">
                <children>
-                  <Label alignment="TOP_CENTER" text="Integrantes da equipe:">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="27.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <padding>
-                        <Insets top="5.0" />
-                     </padding>
-                  </Label>
-                  <VBox fx:id="equipeContainer" spacing="10.0" style="-fx-background-color: #F3E5F5; -fx-padding: 15;">
-                     <!-- Os membros da equipe serão adicionados dinamicamente aqui -->
+                  <VBox fx:id="equipeContainer" maxHeight="600.0" spacing="5.0" style="-fx-background-color: white; -fx-padding: 10;">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                   </VBox>
                </children>
             </VBox>
@@ -142,6 +133,17 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+      </Label>
+      <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="212.0" text="Integrantes da equipe:">
+         <font>
+            <Font name="Yu Gothic UI Regular" size="27.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <padding>
+            <Insets top="5.0" />
+         </padding>
       </Label>
    </children>
 </AnchorPane>

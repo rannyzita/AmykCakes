@@ -1,11 +1,12 @@
 package model;
 
+import javafx.scene.Node;
+
 public class ItemCarrinho extends BaseEntity {
 	private Pedido Pedido_idPedido;
 	private Produto Produto_idProduto;
 	private int quantidade;
 	private double valorUnitario;
-	private double subTotal;
 	private Personalizacao Personalizacao_id;
 	
 	public Personalizacao getPersonalizacao_id() {
@@ -47,13 +48,10 @@ public class ItemCarrinho extends BaseEntity {
 	public void setValorUnitario(double valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-	
-	public double getSubTotal() {
-		return subTotal;
+
+	public Node setPedido_idPedido() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	public void setSubTotal(double subTotal) {
-		this.subTotal = subTotal;
-	}
-	
+		
 }

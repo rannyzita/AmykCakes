@@ -38,7 +38,7 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     }
     
     public void create(Personalizacao personalizacao) {
-        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
             ps.setString(1, personalizacao.getNome());
@@ -46,6 +46,8 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
             ps.setString(3, personalizacao.getTamanhoPedido());
             ps.setString(4, personalizacao.getMassaPedido());
             ps.setString(5, personalizacao.getObservacoes());
+            ps.setInt(7, personalizacao.getQuantidade());
+            
             if (personalizacao.getPedido_idPedido() != null) {
                 ps.setInt(6, personalizacao.getPedido_idPedido().getId());
             } else {

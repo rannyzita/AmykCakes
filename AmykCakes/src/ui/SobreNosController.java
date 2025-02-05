@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class SobreNosController {
@@ -36,7 +37,7 @@ public class SobreNosController {
                 String cargo = rs.getString("cargo");
 
                 HBox membroBox = new HBox(10);
-                membroBox.setStyle("-fx-background-color: #A384B4; -fx-padding: 10;");
+                membroBox.setStyle("-fx-background-color: #A384B4; -fx-padding: 8px;");
 
                 ImageView foto = new ImageView();
                 foto.setFitHeight(120);
@@ -70,5 +71,10 @@ public class SobreNosController {
             e.printStackTrace();
         }
     }
+
+	public void setMainPane(Pane mainPane) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
