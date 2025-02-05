@@ -3,6 +3,8 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Personalizacao;
 import model.Pedido;
@@ -114,5 +116,22 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public List<Personalizacao> findAll() {
+        List<Personalizacao> personalizacoes = new ArrayList<>();
+        String sql = "SELECT * FROM " + getTableName();
+        
+        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                personalizacoes.add(fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return personalizacoes;
     }
 }

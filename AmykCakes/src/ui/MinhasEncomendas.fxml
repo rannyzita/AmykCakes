@@ -109,10 +109,11 @@
             </Pane>
          </children>
       </Pane>
-      <TableView layoutX="510.0" layoutY="279.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: D4B8E8;">
+      <TableView fx:id="tableEncomendas" layoutX="511.0" layoutY="278.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: D4B8E8;">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="colSubTotal" prefWidth="75.0" text="C1" />
+          <TableColumn fx:id="colValorUnitario" prefWidth="75.0" text="C2" />
+            <TableColumn prefWidth="75.0" text="C3" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

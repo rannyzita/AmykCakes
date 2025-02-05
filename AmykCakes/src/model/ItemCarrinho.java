@@ -1,6 +1,6 @@
 package model;
 
-public class ItemCarrinho {
+public class ItemCarrinho extends BaseEntity {
 	private Pedido Pedido_idPedido;
 	private Produto Produto_idProduto;
 	private int quantidade;
