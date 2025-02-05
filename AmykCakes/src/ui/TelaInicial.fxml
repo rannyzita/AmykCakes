@@ -162,32 +162,32 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <Button graphicTextGap="0.0" layoutX="61.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
+      <Button fx:id="btnBolo1" graphicTextGap="0.0" layoutX="61.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
          <font>
             <Font name="Yu Gothic UI Bold" size="18.0" />
          </font>
       </Button>
-      <Button graphicTextGap="0.0" layoutX="361.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
+      <Button fx:id="btnBolo2" graphicTextGap="0.0" layoutX="361.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
          <font>
             <Font name="Yu Gothic UI Bold" size="18.0" />
          </font>
       </Button>
-      <Button graphicTextGap="0.0" layoutX="661.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
+      <Button fx:id="btnBolo3" graphicTextGap="0.0" layoutX="661.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
          <font>
             <Font name="Yu Gothic UI Bold" size="18.0" />
          </font>
       </Button>
-      <Button graphicTextGap="0.0" layoutX="961.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
+      <Button fx:id="btnBolo4" graphicTextGap="0.0" layoutX="961.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
          <font>
             <Font name="Yu Gothic UI Bold" size="18.0" />
          </font>
       </Button>
-      <Button graphicTextGap="0.0" layoutX="1261.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
+      <Button fx:id="btnBolo5" graphicTextGap="0.0" layoutX="1261.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
          <font>
             <Font name="Yu Gothic UI Bold" size="18.0" />
          </font>
       </Button>
-      <Button graphicTextGap="0.0" layoutX="1561.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
+      <Button fx:id="btnBolo6" graphicTextGap="0.0" layoutX="1561.0" layoutY="638.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: white;" text="Comprar">
          <font>
             <Font name="Yu Gothic UI Bold" size="18.0" />
          </font>

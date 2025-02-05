@@ -24,7 +24,17 @@ public class TelaInicialController {
     private ImageView imgBolo1, imgBolo2, imgBolo3, imgBolo4, imgBolo5, imgBolo6;
     
     @FXML
-    private Button btnBolo1, btnBolo2, btnBolo3, btnBolo4, btnBolo5, btnBolo6;
+    private Button btnBolo1;
+    @FXML
+    private Button btnBolo2;
+    @FXML
+    private Button btnBolo3;
+    @FXML
+    private Button btnBolo4;
+    @FXML
+    private Button btnBolo5;
+    @FXML
+    private Button btnBolo6;
 
     @FXML
     public void initialize() {
