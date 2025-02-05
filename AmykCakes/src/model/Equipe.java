@@ -9,7 +9,15 @@ public class Equipe extends BaseEntity{
 	private String descricao;
 	private byte[] foto;
 	private String cargo;
+
+	public Equipe(int int1, String string, String string2, byte[] bytes, String string3) {
+		// TODO Auto-generated constructor stub
+	}
 	
+	public Equipe() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getNome() {
 		return nome;
 	}
