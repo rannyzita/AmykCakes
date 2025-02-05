@@ -2,6 +2,7 @@ package ui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -21,6 +22,9 @@ public class TelaInicialController {
 
     @FXML
     private ImageView imgBolo1, imgBolo2, imgBolo3, imgBolo4, imgBolo5, imgBolo6;
+    
+    @FXML
+    private Button btnBolo1, btnBolo2, btnBolo3, btnBolo4, btnBolo5, btnBolo6;
 
     @FXML
     public void initialize() {
