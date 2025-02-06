@@ -32,7 +32,7 @@ public class ItemCarrinhoDAO {
     public void getCarrinhoPersonalizacao(String field) {
   
         // Query com INNER JOIN entre ItemCarrinho e Personalizacao
-        String sql = "SELECT ic.id, ic.Pedido_idPedido, ic.quantidade, ic.valorUnitario, ic.Personalizacao_id " +
+        String sql = "SELECT ic.id, ic.Pedido_idPedido, ic.quantidade, ic.valorUnitario, p.tipoCobertura, p.massaPedido, p.nome" +
                      "FROM ItemCarrinho ic " +
                      "INNER JOIN Personalizacao p ON ic.Personalizacao_id = p.id";
 
@@ -64,9 +64,9 @@ public class ItemCarrinhoDAO {
     
     public void create(ItemCarrinho itemCarrinho) {
     	
-    	if (itemCarrinho.getPedido_idPedido() == null || itemCarrinho.getPedido_idPedido().getId() == 0) {
-    	    throw new IllegalArgumentException("Pedido_idPedido não pode ser nulo ou zero.");
-    	}
+    	//if (itemCarrinho.getPedido_idPedido() == null || itemCarrinho.getPedido_idPedido().getId() == 0) {
+    	//    throw new IllegalArgumentException("Pedido_idPedido não pode ser nulo ou zero.");
+    	//}
 
     	if (itemCarrinho.getPersonalizacao_id() == null) {
     	    System.out.println("Aviso: Nenhuma personalização associada. Continuando com Personalizacao_id como NULL.");

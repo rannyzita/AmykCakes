@@ -1,8 +1,11 @@
 package main;
 import model.Personalizacao;
+import model.Produto;
 
-import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 
+import dao.ProdutoDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

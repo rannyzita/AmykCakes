@@ -148,7 +148,7 @@ public class PersonalizarPedidoController {
         PedidoDAO pedidoDAO = new PedidoDAO();
         pedidoDAO.create(pedido); // Salva o pedido primeiro
         
-        personalizacao.setPedido_idPedido(pedido); // Associa o pedido à personalização
+        personalizacao.setPedido_idPedido(pedido.getId()); // Associa o pedido à personalização
 
         PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO();
         personalizacaoDAO.create(personalizacao); // Agora salva a personalização
@@ -157,8 +157,9 @@ public class PersonalizarPedidoController {
         ItemCarrinhoDAO itemcarrinhodao = new ItemCarrinhoDAO();
         
         // adicionando item no carrinho 
-        //itemCarrinho.setPedido_idPedido(pedido.getId());
-        //itemCarrinho.setPersonalizacao_id(personalizacao.getId());
+        itemCarrinho.setPedido_idPedido(pedido.getId());
+        itemCarrinho.setPersonalizacao_id(personalizacao.getId());
+        
         itemCarrinho.setQuantidade(quantidade_);
         
         itemCarrinho.setValorUnitario(valorTotal);
