@@ -129,7 +129,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="475.0" style="-fx-background-color: D4B8E8;">
+                  <VBox fx:id="vboxEncomendas" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="475.0" style="-fx-background-color: D4B8E8;">
                      <children>
                         <Label text="Personalizações:">
                            <font>

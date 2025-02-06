@@ -1,15 +1,10 @@
 package main;
-import model.Personalizacao;
-import model.Produto;
 
-import java.io.File;
-import java.io.IOException;
-
-import dao.ProdutoDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -25,6 +20,9 @@ public class Main extends Application {
             primaryStage.setTitle("Amyk Cakes - Sistema");
             primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);
+            
+            primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoMaior.png")));
+            
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
