@@ -3,12 +3,17 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Personalizacao;
 import model.Pedido;
 import connection.DbConnection;
+import exceptions.PersonalizacaoException;
+import logic.PersonalizacaoLogic;
 
 public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
+    PersonalizacaoLogic personalizarLogic = new PersonalizacaoLogic();
     
     @Override
     protected String getTableName() {
@@ -24,6 +29,7 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         personalizacao.setTamanhoPedido(rs.getString("tamanhoPedido"));
         personalizacao.setMassaPedido(rs.getString("massaPedido"));
         personalizacao.setObservacoes(rs.getString("observacoes"));
+        
         int pedidoId = rs.getInt("Pedido_idPedido");
         if (!rs.wasNull()) {
             Pedido pedido = new Pedido();
@@ -32,10 +38,13 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         } else {
             personalizacao.setPedido_idPedido(null);
         }
+        
         return personalizacao;
     }
     
-    public void create(Personalizacao personalizacao) {
+    public void create(Personalizacao personalizacao) throws PersonalizacaoException {
+        personalizarLogic.validarCamposPersonalizacao(personalizacao);
+        
         String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
@@ -44,6 +53,8 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
             ps.setString(3, personalizacao.getTamanhoPedido());
             ps.setString(4, personalizacao.getMassaPedido());
             ps.setString(5, personalizacao.getObservacoes());
+            ps.setInt(7, personalizacao.getQuantidade());
+            
             if (personalizacao.getPedido_idPedido() != null) {
                 ps.setInt(6, personalizacao.getPedido_idPedido().getId());
             } else {
@@ -74,7 +85,9 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void update(Personalizacao personalizacao) {
+    public void update(Personalizacao personalizacao) throws PersonalizacaoException {
+        personalizarLogic.validarCamposPersonalizacao(personalizacao);
+        
         if (!idExists(personalizacao.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
@@ -114,5 +127,22 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public List<Personalizacao> findAll() {
+        List<Personalizacao> personalizacoes = new ArrayList<>();
+        String sql = "SELECT * FROM " + getTableName();
+        
+        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                personalizacoes.add(fromResultSet(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return personalizacoes;
     }
 }

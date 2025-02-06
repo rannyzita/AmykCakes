@@ -2,9 +2,27 @@ package model;
 import java.time.LocalDateTime;
 
 public class Pedido extends BaseEntity{
+	private Personalizacao idPersonalizacao;
+	private Produto idProduto;
 	private LocalDateTime dataPedido;
 	private LocalDateTime dataEntregaPrevista;
 	private double valorTotal;
+	
+	public Personalizacao getIdPersonalizacao() {
+		return idPersonalizacao;
+	}
+
+	public void setIdPersonalizacao(Personalizacao idPersonalizacao) {
+		this.idPersonalizacao = idPersonalizacao;
+	}
+
+	public Produto getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(Produto idProduto) {
+		this.idProduto = idProduto;
+	}
 	
 	public Pedido() {
         this.dataPedido = LocalDateTime.now(); 

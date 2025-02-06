@@ -2,7 +2,6 @@ package dao;
 
 import connection.DbConnection;
 import model.BaseEntity;
-import model.RestricoesAlimentares;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public abstract class BaseDAO<T extends BaseEntity> {
     protected abstract T fromResultSet(ResultSet rs) throws SQLException; // método abstrato para converter resultSet
 
     // Método auxiliar para verificar se o ID já existe na tabela
-    protected boolean idExists(int id) {
+    public boolean idExists(int id) {
         String sql = "SELECT 1 FROM " + getTableName() + " WHERE id = ?";
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {

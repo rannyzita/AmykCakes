@@ -1,0 +1,6 @@
+.btnRealizarPedido{
+	    -fx-border-color: #0000; 
+	    -fx-border-radius: 20px; /* Borda arredondada */
+	    -fx-background-radius: 20px; /* Fundo arredondado */
+	    -fx-padding: 10px 20px; /* Espaçamento interno */
+}

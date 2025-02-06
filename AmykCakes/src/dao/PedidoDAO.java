@@ -2,10 +2,12 @@ package dao;
 
 import model.Pedido;
 import java.sql.*;
-
 import connection.DbConnection;
+import exceptions.PedidoException;
+import logic.PedidoLogic;
 
 public class PedidoDAO extends BaseDAO<Pedido> {
+    PedidoLogic pedidoLogic = new PedidoLogic();
 
     @Override
     protected String getTableName() {
@@ -22,8 +24,10 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         return pedido;
     }
 
-    public void create(Pedido pedido) {
-        // data de entrega prevista para 15 dias após a data do pedido
+    public void create(Pedido pedido) throws PedidoException {
+        pedidoLogic.validarCamposPedido(pedido);
+        
+        // Define a data de entrega prevista como 15 dias após a data do pedido
         pedido.setDataEntregaPrevista(pedido.getDataPedido().plusDays(15));
         
         String sql = "INSERT INTO " + getTableName() + " (dataPedido, dataEntregaPrevista, valorTotal) VALUES (?, ?, ?)";
@@ -39,12 +43,10 @@ public class PedidoDAO extends BaseDAO<Pedido> {
 
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    
-                    pedido.setId(rs.getInt(1));  
+                    pedido.setId(rs.getInt(1));
                     System.out.println("Pedido criado com sucesso! ID do Pedido: " + pedido.getId());
                 }
             }
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -72,28 +74,28 @@ public class PedidoDAO extends BaseDAO<Pedido> {
     }
 
     public void update(Pedido pedido, String updateFields) {
-        // Verifica se o ID do pedido existe na tabela
+        try {
+            pedidoLogic.validarCamposPedido(pedido);
+        } catch (PedidoException e) {
+            e.printStackTrace();
+        }
+
         if (!idExists(pedido.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
         }
 
-        // Gera o SQL para atualizar os campos fornecidos
         String sql = "UPDATE " + getTableName() + " SET " + updateFields + " WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             
-            // Define o parâmetro para o ID do Pedido
             ps.setInt(1, pedido.getId());
 
-            // Executa o update
             ps.executeUpdate();
             System.out.println("Pedido atualizado com sucesso!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-
 }

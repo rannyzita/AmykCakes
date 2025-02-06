@@ -1,27 +1,25 @@
 package dao;
 
 import model.Produto;
-
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import connection.DbConnection;
+import exceptions.ProdutoException;
+import logic.ProdutoLogic;
 
 public class ProdutoDAO extends BaseDAO<Produto> {
+    ProdutoLogic produtoLogic = new ProdutoLogic();
 
     @Override
     protected String getTableName() {
         return "PRODUTO";
     }
-    
-    // classe sobrecarregada para reaproveitar linhas e simplificar a 
-    // implementacao das classes no geral
+
     @Override
     protected Produto fromResultSet(ResultSet rs) throws SQLException {
         Produto produto = new Produto();
@@ -34,7 +32,26 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         return produto;
     }
 
-    public void create(Produto produto, File imagem) throws IOException {
+    public int getIdForeignKeyProduto(String nomeProduto) {
+        String sql = "SELECT id FROM Produto WHERE nome = ? LIMIT 1";
+        try (Connection conn = DbConnection.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nomeProduto);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public void create(Produto produto, File imagem) throws ProdutoException, IOException {
+        produtoLogic.validarCamposProduto(produto);
+        
         String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection connection = DbConnection.getConexao();
@@ -44,15 +61,14 @@ public class ProdutoDAO extends BaseDAO<Produto> {
             ps.setString(1, produto.getNome());
             ps.setString(2, produto.getDescricao());
             ps.setDouble(3, produto.getPreco());
-            ps.setBinaryStream(4, fis); // Corrigido: antes estava `setBinaryStream(3, fis);`
+            ps.setBinaryStream(4, fis);
             ps.setInt(5, produto.getEstoque());
 
             ps.executeUpdate();
 
-            // Recuperando o ID gerado pelo banco
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
-                    produto.setId(rs.getInt(1)); // Armazena o ID gerado
+                    produto.setId(rs.getInt(1));
                 }
             }
 
@@ -60,7 +76,6 @@ public class ProdutoDAO extends BaseDAO<Produto> {
             e.printStackTrace();
         }
     }
-
 
     public Produto findById(int id) {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
@@ -72,7 +87,7 @@ public class ProdutoDAO extends BaseDAO<Produto> {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    produto = fromResultSet(rs); // usa o método genérico la em cima
+                    produto = fromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
@@ -82,8 +97,10 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         return produto;
     }
 
-    public void update(Produto produto, File imagem) throws FileNotFoundException, IOException {
-        if (!super.idExists(produto.getId())) { // verifica se o ID existe
+    public void update(Produto produto, File imagem) throws ProdutoException, IOException {
+        produtoLogic.validarCamposProduto(produto);
+
+        if (!super.idExists(produto.getId())) {
             System.out.println("Erro: Produto com ID " + produto.getId() + " não encontrado.");
             return;
         }
@@ -113,5 +130,4 @@ public class ProdutoDAO extends BaseDAO<Produto> {
             e.printStackTrace();
         }
     }
-
 }

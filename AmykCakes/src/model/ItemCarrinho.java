@@ -1,12 +1,30 @@
 package model;
 
-public class ItemCarrinho {
-	private Pedido Pedido_idPedido;
-	private Produto Produto_idProduto;
+import javafx.scene.Node;
+
+public class ItemCarrinho extends BaseEntity {
+	private Pedido Pedido_idPedido = new Pedido();
+	private Produto Produto_idProduto = new Produto();
 	private int quantidade;
 	private double valorUnitario;
-	private double subTotal;
+	private Personalizacao Personalizacao_id = new Personalizacao();
 	
+	public Personalizacao getPersonalizacao_id() {
+		return Personalizacao_id;
+	}
+
+	public void setPersonalizacao_id(Personalizacao personalizacao_id) {
+		Personalizacao_id = personalizacao_id;
+	}
+	
+	public void setPersonalizacao_id(int id) {
+		Personalizacao_id.setId(id);
+	}
+	
+	public void setPedido_idPedido(int id) {
+		Pedido_idPedido.setId(id);
+	}
+
 	public Pedido getPedido_idPedido() {
 		return Pedido_idPedido;
 	}
@@ -38,13 +56,10 @@ public class ItemCarrinho {
 	public void setValorUnitario(double valorUnitario) {
 		this.valorUnitario = valorUnitario;
 	}
-	
-	public double getSubTotal() {
-		return subTotal;
+
+	public Node setPedido_idPedido() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	public void setSubTotal(double subTotal) {
-		this.subTotal = subTotal;
-	}
-	
+		
 }

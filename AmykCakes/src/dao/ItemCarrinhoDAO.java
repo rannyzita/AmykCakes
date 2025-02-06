@@ -8,19 +8,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.DbConnection;
+import exceptions.ItemCarrinhoException;
+import logic.ItemCarrinhoLogic;
 import model.ItemCarrinho;
 import model.Pedido;
+import model.Personalizacao;
 import model.Produto;
 
 public class ItemCarrinhoDAO {
+    ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
 
-    private boolean pedidoExists(int idPedido) {
-        String sql = "SELECT 1 FROM Pedido WHERE id = ?";
-
+    private boolean existsById(int id) {
+        String sql = "SELECT 1 FROM ItemCarrinho WHERE id = ?";
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setInt(1, idPedido);
+            ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next();
             }
@@ -30,98 +32,115 @@ public class ItemCarrinhoDAO {
         }
     }
 
-    private boolean produtoExists(int idProduto) {
-        String sql = "SELECT 1 FROM Produto WHERE id = ?";
+    public List<Integer> getIdForeignKeyPersonalizacao() {
+        String sql = "SELECT p.id, p.Pedido_idPedido " +
+                     "FROM Personalizacao p " +
+                     "INNER JOIN Pedido ped ON p.Pedido_idPedido = ped.id " +
+                     "ORDER BY p.id DESC LIMIT 1"; // Pega o último inserido
 
-        try (Connection connection = DbConnection.getConexao();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+        List<Integer> ids = new ArrayList<>();
 
-            ps.setInt(1, idProduto);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next(); 
+        try (Connection conn = DbConnection.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                ids.add(rs.getInt("id")); // ID de Personalizacao
+                ids.add(rs.getInt("Pedido_idPedido")); // ID de Pedido
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+
+        return ids; // Retorna a lista com os IDs
     }
 
-    public void create(ItemCarrinho itemCarrinho) {
-        if (!pedidoExists(itemCarrinho.getPedido_idPedido().getId())) {
-            System.out.println("Erro: Pedido não existe.");
-            return;
+    public void create(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
+        iCarrinho.validarCamposItemCarrinho(itemCarrinho); 
+
+        if (itemCarrinho.getPersonalizacao_id() == null) {
+            System.out.println("Aviso: Nenhuma personalização associada. Continuando com Personalizacao_id como NULL.");
         }
 
-        if (!produtoExists(itemCarrinho.getProduto_idProduto().getId())) {
-            System.out.println("Erro: Produto não existe.");
-            return;
+        if (itemCarrinho.getProduto_idProduto() == null) {
+            System.out.println("Aviso: Nenhum produto associado. Continuando com Produto_id como NULL.");
         }
 
-        String sql = "INSERT INTO ItemCarrinho (quantidade, Pedido_idPedido, Produto_idProduto, valorUnitario, subTotal) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ItemCarrinho (quantidade, Pedido_idPedido, Produto_idProduto, valorUnitario, Personalizacao_id) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, itemCarrinho.getQuantidade());
-            ps.setInt(2, itemCarrinho.getPedido_idPedido().getId()); 
-            ps.setInt(3, itemCarrinho.getProduto_idProduto().getId()); 
+            ps.setInt(2, itemCarrinho.getPedido_idPedido().getId());
             ps.setDouble(4, itemCarrinho.getValorUnitario());
-            ps.setDouble(5, itemCarrinho.getSubTotal());
+
+            // Verifica se existe personalização antes de setar
+            if (itemCarrinho.getPersonalizacao_id() != null) {
+                ps.setInt(5, itemCarrinho.getPersonalizacao_id().getId());
+            } else {
+                ps.setNull(5, java.sql.Types.INTEGER);
+            }
+            
+            if (itemCarrinho.getProduto_idProduto() != null) {
+                ps.setInt(3, itemCarrinho.getProduto_idProduto().getId());
+            } else {
+                ps.setNull(3, java.sql.Types.INTEGER);
+            }
 
             ps.executeUpdate();
+
+            // Buscar o último ID inserido
+            String getLastIdSQL = "SELECT MAX(id) FROM ItemCarrinho";
+            try (PreparedStatement psLastId = connection.prepareStatement(getLastIdSQL);
+                 ResultSet rs = psLastId.executeQuery()) {
+                if (rs.next()) {
+                    itemCarrinho.setId(rs.getInt(1)); // Define o ID gerado no objeto
+                }
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    
-    public void delete(int idPedido, int idProduto) {
-        if (!pedidoExists(idPedido)) {
-            System.out.println("Erro: Pedido não existe.");
+    public void delete(int id) {
+        if (!existsById(id)) {
+            System.out.println("Erro: ItemCarrinho não existe.");
             return;
         }
 
-        if (!produtoExists(idProduto)) {
-            System.out.println("Erro: Produto não existe.");
-            return;
-        }
-
-        String sql = "DELETE FROM ItemCarrinho WHERE Pedido_idPedido = ? AND Produto_idProduto = ?";
+        String sql = "DELETE FROM ItemCarrinho WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setInt(1, idPedido);
-            ps.setInt(2, idProduto);
-
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    
-    public void update(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal) {
-        if (!pedidoExists(idPedido)) {
-            System.out.println("Erro: Pedido não existe.");
-            return;
+    public void update(int idPedido, int idProduto, int idPersonalizacao, int quantidade, double valorUnitario) throws ItemCarrinhoException {
+        iCarrinho.validarAtualizarItemCarrinho(idPedido, idProduto, idPersonalizacao, quantidade, valorUnitario);
+
+        if (idProduto == 0) {
+            System.out.println("Atenção, está atualizando o pedido de personalização.");
+        } else if (idPersonalizacao == 0) {
+            System.out.println("Atenção, está atualizando o pedido do produto pronto.");
         }
 
-        if (!produtoExists(idProduto)) {
-            System.out.println("Erro: Produto não existe.");
-            return;
-        }
-
-        String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, subTotal = ? WHERE Pedido_idPedido = ? AND Produto_idProduto = ?";
+        String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, Pedido_idPedido = ?, Produto_idProduto = ?, Personalizacao_id = ? WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, quantidade);
-            ps.setDouble(2, valorUnitario); 
-            ps.setDouble(3, subTotal); 
-            ps.setInt(4, idPedido); 
-            ps.setInt(5, idProduto); 
+            ps.setDouble(2, valorUnitario);
+            ps.setInt(3, idPedido);
+            ps.setInt(4, idProduto);
+            ps.setInt(5, idPersonalizacao);
+            ps.setInt(6, idPedido); // Ajuste no ID
 
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -129,24 +148,20 @@ public class ItemCarrinhoDAO {
         }
     }
 
-    public ItemCarrinho findById(int idPedido, int idProduto) {
-        String sql = "SELECT * FROM ItemCarrinho WHERE Pedido_idPedido = ? AND Produto_idProduto = ?";
+    public ItemCarrinho findById(int id) {
+        String sql = "SELECT * FROM ItemCarrinho WHERE id = ?";
         ItemCarrinho itemCarrinho = null;
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-
-            ps.setInt(1, idPedido);
-            ps.setInt(2, idProduto);
-
+            ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     itemCarrinho = new ItemCarrinho();
+                    itemCarrinho.setId(rs.getInt("id"));
                     itemCarrinho.setQuantidade(rs.getInt("quantidade"));
                     itemCarrinho.setValorUnitario(rs.getDouble("valorUnitario"));
-                    itemCarrinho.setSubTotal(rs.getDouble("subTotal"));
-                    
-                    // Preenchendo os objetos Pedido e Produto corretamente
+
                     Pedido pedido = new Pedido();
                     pedido.setId(rs.getInt("Pedido_idPedido"));
                     itemCarrinho.setPedido_idPedido(pedido);
@@ -154,15 +169,17 @@ public class ItemCarrinhoDAO {
                     Produto produto = new Produto();
                     produto.setId(rs.getInt("Produto_idProduto"));
                     itemCarrinho.setProduto_idProduto(produto);
+
+                    Personalizacao personalizacao = new Personalizacao();
+                    personalizacao.setId(rs.getInt("Personalizacao_id"));
+                    itemCarrinho.setPersonalizacao_id(personalizacao);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return itemCarrinho;
     }
-
 
     public List<ItemCarrinho> findAll() {
         String sql = "SELECT * FROM ItemCarrinho";
@@ -174,11 +191,10 @@ public class ItemCarrinhoDAO {
 
             while (rs.next()) {
                 ItemCarrinho itemCarrinho = new ItemCarrinho();
+                itemCarrinho.setId(rs.getInt("id"));
                 itemCarrinho.setQuantidade(rs.getInt("quantidade"));
                 itemCarrinho.setValorUnitario(rs.getDouble("valorUnitario"));
-                itemCarrinho.setSubTotal(rs.getDouble("subTotal"));
 
-                // Preenchendo os objetos Pedido e Produto corretamente
                 Pedido pedido = new Pedido();
                 pedido.setId(rs.getInt("Pedido_idPedido"));
                 itemCarrinho.setPedido_idPedido(pedido);
@@ -187,13 +203,15 @@ public class ItemCarrinhoDAO {
                 produto.setId(rs.getInt("Produto_idProduto"));
                 itemCarrinho.setProduto_idProduto(produto);
 
+                Personalizacao personalizacao = new Personalizacao();
+                personalizacao.setId(rs.getInt("Personalizacao_id"));
+                itemCarrinho.setPersonalizacao_id(personalizacao);
+
                 itemCarrinhos.add(itemCarrinho);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return itemCarrinhos;
     }
-
 }
