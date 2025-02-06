@@ -7,57 +7,6 @@ Este projeto é um sistema para gerenciamento de uma confeitaria chamado **Amyk 
 Estrutura do Projeto
 A estrutura do projeto está organizada da seguinte forma:
 
-AmykCakes/
-│
-├── src/
-│   ├── connection/
-│   │   
-│   │
-│   ├── controller/
-│   │   
-│   │   
-│   │
-│   ├── dao/
-│   │   
-│   │   
-│   │   
-│   │
-│   ├── logic/
-│   │  
-│   │   
-│   │   
-│   │
-│   ├── main/
-│   │   
-│   │
-│   ├── model/
-│   │   
-│   │
-│   │   
-│   │
-│   ├── ui/
-│   │  
-│   │   
-│   │   
-│   │
-│   └── exceptions/
-│       
-│      
-│      
-│
-└── README.md
-Descrição dos Pacotes:
-
-connection: Gerencia a conexão com o banco de dados.
-controller: Contém as classes responsáveis por controlar a interação com o usuário.
-dao: Responsável pelas operações de acesso a dados (CRUD).
-logic: Lógica de negócios e processamento de dados.
-main: Contém a classe principal que inicializa a aplicação.
-model: Contém as classes que representam os dados do sistema.
-ui: Contém as interfaces gráficas do sistema com JavaFX.
-exceptions: Define exceções personalizadas para o sistema.
-
-
 ## 🔧 Configuração do Ambiente
 
 Antes de rodar o projeto, certifique-se de ter o seguinte ambiente configurado:
