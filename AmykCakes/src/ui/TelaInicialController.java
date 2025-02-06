@@ -9,32 +9,23 @@ import javafx.scene.layout.Pane;
 
 public class TelaInicialController {
 
-    @FXML
-    private Label labelTelaInicial;
-    @FXML
-    private Label labelPersonalizarPedido;
-    @FXML
-    private Label labelMinhasEncomendas;
-    @FXML
-    private Label labelSobreNos;
-    @FXML
-    private Pane mainPane;
-
-    @FXML
-    private ImageView imgBolo1, imgBolo2, imgBolo3, imgBolo4, imgBolo5, imgBolo6;
-    
-    @FXML
-    private Button btnBolo1;
-    @FXML
-    private Button btnBolo2;
-    @FXML
-    private Button btnBolo3;
-    @FXML
-    private Button btnBolo4;
-    @FXML
-    private Button btnBolo5;
-    @FXML
-    private Button btnBolo6;
+    @FXML private Label labelTelaInicial;
+    @FXML private Label labelPersonalizarPedido;
+    @FXML private Label labelMinhasEncomendas;
+    @FXML private Label labelSobreNos;
+    @FXML private Pane mainPane;
+    @FXML private ImageView imgBolo1;
+    @FXML private ImageView imgBolo2;
+    @FXML private ImageView imgBolo3;
+    @FXML private ImageView imgBolo4;
+    @FXML private ImageView imgBolo5;
+    @FXML private ImageView imgBolo6;
+    @FXML private Button btnBolo1;
+    @FXML private Button btnBolo2;
+    @FXML private Button btnBolo3;
+    @FXML private Button btnBolo4;
+    @FXML private Button btnBolo5;
+    @FXML private Button btnBolo6;
 
     @FXML
     public void initialize() {

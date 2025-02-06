@@ -7,7 +7,7 @@ public class Personalizacao extends BaseEntity{
 	private String observacoes;
 	private String nome;
 	private int quantidade;
-	private Pedido Pedido_idPedido;
+	private Pedido Pedido_idPedido = new Pedido();
 	
 	public String getTipoCobertura() {
 		return tipoCobertura;
@@ -55,6 +55,10 @@ public class Personalizacao extends BaseEntity{
 	
 	public void setPedido_idPedido(Pedido pedido) {
 		Pedido_idPedido = pedido;
+	}
+	
+	public void setPedido_idPedido(int id) {
+		Pedido_idPedido.setId(id);
 	}
 
 	public int getQuantidade() {
