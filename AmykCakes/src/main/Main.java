@@ -20,7 +20,6 @@ public class Main extends Application {
             primaryStage.setTitle("Amyk Cakes - Sistema");
             primaryStage.setFullScreen(true);
             primaryStage.setScene(scene);
-            
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoMaior.png")));
             
             primaryStage.show();
