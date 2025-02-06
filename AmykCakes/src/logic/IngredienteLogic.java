@@ -8,7 +8,7 @@ import model.Ingrediente;
 public class IngredienteLogic {
 	private IngredienteDAO ingredienteDAO = new IngredienteDAO();
 	
-	public void validarIngrediente(Ingrediente ingrediente) throws IngredienteException{
+	public void validarCamposIngrediente(Ingrediente ingrediente) throws IngredienteException{
 		if (ingrediente == null) {
 			throw new IngredienteException("O ingrediente não pode ser nulo.");
 		}
@@ -22,8 +22,10 @@ public class IngredienteLogic {
         }
 	}
 	
+	// isso usaria no controller para validar se os campos
+	// estao corretor e depois cria 
 	public void validarCriarIngrediente(Ingrediente ingrediente) throws IngredienteException {
-        validarIngrediente(ingrediente);
+        validarCamposIngrediente(ingrediente);
         ingredienteDAO.create(ingrediente);
     }
 
@@ -35,16 +37,9 @@ public class IngredienteLogic {
 	    return ingrediente;
 	}
 
-	public void validarAtualizarIngrediente(Ingrediente ingrediente, IngredienteLogic IngredienteLogic) throws IngredienteException {
-	    validarIngrediente(ingrediente);
-	    ingredienteDAO.update(ingrediente, IngredienteLogic);
+	public void validarAtualizarIngrediente(Ingrediente ingrediente) throws IngredienteException {
+	    validarCamposIngrediente(ingrediente);
+	    ingredienteDAO.update(ingrediente);
 	}
 
-	public void validarDeletarIngrediente(int id) throws IngredienteException {
-	    Ingrediente ingrediente = validarBuscarIngrediente(id);
-	    if (ingrediente == null) {
-	        throw new IngredienteException("Ingrediente com ID " + id + " não encontrado.");
-	    }
-	    ingredienteDAO.delete(id);
-	}	
 }

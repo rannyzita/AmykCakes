@@ -11,7 +11,8 @@ import exceptions.PagamentoException;
 import logic.PagamentoLogic;
 
 public class PagamentoDAO extends BaseDAO<Pagamento> {
-
+	PagamentoLogic p = new PagamentoLogic();
+	
     @Override
     protected String getTableName() {
         return "Pagamento"; // Nome da tabela no banco de dados
@@ -30,8 +31,7 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
 
     
     public void create(Pagamento pagamento) throws PagamentoException {
-    	PagamentoLogic p = new PagamentoLogic();
-    	p.validarPagamento(pagamento); 
+    	p.validarCamposPagamento(pagamento); 
     	
         String sql = "INSERT INTO " + getTableName() + " (Pedido_idPedido, valor, formaPagamento, data) VALUES (?, ?, ?, ?)";
 
@@ -88,7 +88,7 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
 
     // Método para atualizar um pagamento
     public void update(Pagamento pagamento, String updateFields, PagamentoLogic p) throws PagamentoException {
-    	p.validarPagamento(pagamento); 
+    	p.validarAtualizarPagamento(pagamento); 
     	
         // Verifica se o ID do pagamento existe na tabela
         if (!idExists(pagamento.getId())) {

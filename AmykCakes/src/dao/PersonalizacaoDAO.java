@@ -14,7 +14,8 @@ import exceptions.PersonalizacaoException;
 import logic.PersonalizacaoLogic;
 
 public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
-    
+	PersonalizacaoLogic personalizarLogic = new PersonalizacaoLogic();
+	
     @Override
     protected String getTableName() {
         return "PERSONALIZACAO";
@@ -42,8 +43,8 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     
 
     public void create(Personalizacao personalizacao) throws PersonalizacaoException {
-    	PersonalizacaoLogic pers = new PersonalizacaoLogic();
-    	pers.validarPersonalizacao(personalizacao);
+    	
+    	personalizarLogic.validarCamposPersonalizacao(personalizacao);
     	
         String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
         
@@ -85,8 +86,8 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void update(Personalizacao personalizacao, PersonalizacaoLogic pers) throws PersonalizacaoException {
-    	pers.validarPersonalizacao(personalizacao);
+    public void update(Personalizacao personalizacao) throws PersonalizacaoException {
+    	personalizarLogic.validarCamposPersonalizacao(personalizacao);
     	
         if (!idExists(personalizacao.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");

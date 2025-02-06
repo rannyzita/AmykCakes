@@ -12,7 +12,8 @@ import exceptions.IngredienteException;
 import logic.IngredienteLogic;
 
 public class IngredienteDAO extends BaseDAO<Ingrediente> {
-    
+	IngredienteLogic i = new IngredienteLogic();
+	
     @Override
     protected String getTableName() {
         return "INGREDIENTE";
@@ -36,8 +37,7 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
     }
     
     public void create(Ingrediente ingrediente) throws IngredienteException {
-    	IngredienteLogic i = new IngredienteLogic();
-    	i.validarIngrediente(ingrediente); 
+    	i.validarCamposIngrediente(ingrediente); 
     	
         String sql = "INSERT INTO " + getTableName() + " (nomeIngrediente, quantidadeEstoque, Produto_idProduto) VALUES (?, ?, ?)";
         
@@ -74,8 +74,8 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
         return ingrediente;
     }
     
-    public void update(Ingrediente ingrediente, IngredienteLogic i) throws IngredienteException {
-    	i.validarIngrediente(ingrediente);
+    public void update(Ingrediente ingrediente) throws IngredienteException {
+    	i.validarAtualizarIngrediente(ingrediente);
     	
         if (!idExists(ingrediente.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
@@ -100,6 +100,7 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
     }
     
     public void delete(int id) {
+    	
         if (!idExists(id)) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;

@@ -8,7 +8,7 @@ import model.Pedido;
 public class PedidoLogic {
 	private PedidoDAO pedidoDAO = new PedidoDAO();
 	
-	public void validarPedido(Pedido pedido) throws PedidoException {
+	public void validarCamposPedido(Pedido pedido) throws PedidoException {
 		if (pedido == null) {
 			throw new PedidoException("O pedido não pode ser nulo.");
 		}
@@ -18,23 +18,16 @@ public class PedidoLogic {
 		}	
 	}
 	
+	// usaria no controller do javafx
 	public void validarCriarPedido(Pedido pedido) throws PedidoException {
-        validarPedido(pedido);
+        validarCamposPedido(pedido);
         pedidoDAO.create(pedido);
     }
 
-	
+	// usaria no controller do javafx
 	public void validarAtualizarPedido(Pedido pedido, String updateFields) throws PedidoException {
-        validarPedido(pedido);
+        validarCamposPedido(pedido);
         pedidoDAO.update(pedido, updateFields);
     }
 	
-	public Pedido validarBuscarPedido(int id) throws PedidoException {
-        Pedido pedido = pedidoDAO.findById(id);
-        if (pedido == null) {
-            throw new PedidoException("Pedido com ID " + id + " não encontrado.");
-        }
-        return pedido;
-    }
-
 }

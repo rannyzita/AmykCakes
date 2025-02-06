@@ -11,7 +11,7 @@ import model.Produto;
 public class ProdutoLogic {
 	private ProdutoDAO produtoDAO = new ProdutoDAO();
 	
-	public void validarProduto(Produto produto)  throws ProdutoException {
+	public void validarCamposProduto(Produto produto)  throws ProdutoException {
         if (produto == null) {
             throw new ProdutoException("O produto não pode ser nulo.");
         }
@@ -35,20 +35,13 @@ public class ProdutoLogic {
 	}
 	
 	public void validarCriarProduto(Produto produto, File imagem) throws ProdutoException, IOException {
-        validarProduto(produto); 
+        validarCamposProduto(produto); 
         produtoDAO.create(produto, imagem);
     }
 	
-	public void validarAtualizarProduto(Produto produto, File imagem, ProdutoLogic ProdutoLogic) throws ProdutoException, IOException{
-		validarProduto(produto);
-		produtoDAO.update(produto, imagem, ProdutoLogic);
+	public void validarAtualizarProduto(Produto produto, File imagem) throws ProdutoException, IOException{
+		validarCamposProduto(produto);
+		produtoDAO.update(produto, imagem);
 	}
-	
-	public Produto validarBuscarProduto(int id) throws ProdutoException{
-		Produto produto = produtoDAO.findById(id);
-        if (produto == null) {
-            throw new ProdutoException("Produto com ID " + id + " não encontrado.");
-        }
-        return produto;
-	}
+
 }

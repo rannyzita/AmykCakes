@@ -8,7 +8,7 @@ import model.ItemCarrinho;
 public class ItemCarrinhoLogic {
     private ItemCarrinhoDAO itemCarrinhoDAO = new ItemCarrinhoDAO();
     
-    public void validarItemCarrinho(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
+    public void validarCamposItemCarrinho(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
         if (itemCarrinho == null) {
             throw new ItemCarrinhoException("O item não pode ser nulo.");
         }
@@ -20,23 +20,17 @@ public class ItemCarrinhoLogic {
         if (itemCarrinho.getValorUnitario() < 0) {
             throw new ItemCarrinhoException("O valor unitário do item não pode ser negativo.");
         }
-        
-        if (itemCarrinho.getPedido_idPedido() == null || itemCarrinho.getPedido_idPedido().getId() <= 0) {
-            throw new ItemCarrinhoException("Pedido inválido.");
-        }
-        
-        if (itemCarrinho.getProduto_idProduto() == null || itemCarrinho.getProduto_idProduto().getId() <= 0) {
-            throw new ItemCarrinhoException("Produto inválido.");
-        }
+      
     }
-
+    	
+    // isso usaria no controller do javafx
     public void validarCriarItemCarrinho(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
-        validarItemCarrinho(itemCarrinho);
+        validarCamposItemCarrinho(itemCarrinho);
         itemCarrinhoDAO.create(itemCarrinho);
     }
 
 
-    public void validarAtualizarItemCarrinho(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal, ItemCarrinhoLogic ItemCarrinhoLogic, ItemCarrinho ItemCarrinho) throws ItemCarrinhoException {
+    public void validarAtualizarItemCarrinho(int idPedido, int idProduto, int idPersonalizacao, int quantidade, double valorUnitario) throws ItemCarrinhoException {
         if (quantidade <= 0) {
             throw new ItemCarrinhoException("A quantidade do item não pode ser negativa, nem igual a 0.");
         }
@@ -45,11 +39,6 @@ public class ItemCarrinhoLogic {
             throw new ItemCarrinhoException("O valor unitário do item não pode ser negativo.");
         }
         
-        itemCarrinhoDAO.update(idPedido, idProduto, quantidade, valorUnitario, subTotal, ItemCarrinhoLogic, ItemCarrinho);
-    }
-
-    public void validarDeletarItemCarrinho(int idPedido, int idProduto) throws ItemCarrinhoException {
-        
-        //itemCarrinhoDAO.delete(idPedido, idProduto);
+        itemCarrinhoDAO.update(idPedido, idProduto, idPersonalizacao, quantidade, valorUnitario);
     }
 }

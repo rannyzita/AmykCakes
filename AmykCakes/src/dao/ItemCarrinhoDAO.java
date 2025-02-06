@@ -17,6 +17,9 @@ import model.Personalizacao;
 import model.Produto;
 
 public class ItemCarrinhoDAO {
+	ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
+	ItemCarrinho itemcarrinho = new ItemCarrinho();
+	
     private boolean existsById(int id) {
         String sql = "SELECT 1 FROM ItemCarrinho WHERE id = ?";
 
@@ -66,8 +69,7 @@ public class ItemCarrinhoDAO {
 
 
     public void create(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
-    	ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
-    	iCarrinho.validarItemCarrinho(itemCarrinho); 
+    	iCarrinho.validarCamposItemCarrinho(itemCarrinho); 
 
     	if (itemCarrinho.getPersonalizacao_id() == null) {
     	    System.out.println("Aviso: Nenhuma personalização associada. Continuando com Personalizacao_id como NULL.");
@@ -139,21 +141,27 @@ public class ItemCarrinhoDAO {
 
 
     
-    public void update(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal, ItemCarrinhoLogic iCarrinho, ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
-    	iCarrinho.validarItemCarrinho(itemCarrinho); 
+    public void update(int idPedido, int idProduto, int idPersonalizacao, int quantidade, double valorUnitario) throws ItemCarrinhoException {
     	
+    	iCarrinho.validarAtualizarItemCarrinho(idPedido, idProduto, idPersonalizacao, quantidade, valorUnitario);
+    	
+    	if (idProduto == 0) {
+    		System.out.println("Atenção, está atualizando o pedido de personalização.");
+    	} else if (idPersonalizacao == 0) {
+    		System.out.println("Atenção, está atualizando o pedido do produto pronto.");
+    	}
     
-        String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, subTotal = ?, Pedido_idPedido = ?, Produto_idProduto = ?, Personalizacao_id = ? WHERE id = ?";
+        String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, Pedido_idPedido = ?, Produto_idProduto = ?, Personalizacao_id = ? WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             
-            ps.setInt(1, itemCarrinho.getQuantidade());
-            ps.setDouble(2, itemCarrinho.getValorUnitario());
-            ps.setInt(4, itemCarrinho.getPedido_idPedido().getId());
-            ps.setInt(5, itemCarrinho.getProduto_idProduto().getId());
-            ps.setInt(6, itemCarrinho.getPersonalizacao_id().getId());
-            ps.setInt(7, itemCarrinho.getId());
+            ps.setInt(1, itemcarrinho.getQuantidade());
+            ps.setDouble(2, itemcarrinho.getValorUnitario());
+            ps.setInt(3, itemcarrinho.getPedido_idPedido().getId());
+            ps.setInt(4, itemcarrinho.getProduto_idProduto().getId());
+            ps.setInt(5, itemcarrinho.getPersonalizacao_id().getId());
+            ps.setInt(6, itemcarrinho.getId());
             
             ps.executeUpdate();
         } catch (SQLException e) {

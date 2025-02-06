@@ -9,7 +9,7 @@ import exceptions.PedidoException;
 import logic.PedidoLogic;
 
 public class PedidoDAO extends BaseDAO<Pedido> {
-
+	PedidoLogic pedidoLogic = new PedidoLogic();
     @Override
     protected String getTableName() {
         return "PEDIDO"; 
@@ -26,8 +26,8 @@ public class PedidoDAO extends BaseDAO<Pedido> {
     }
 
     public void create(Pedido pedido) throws PedidoException {
-    	PedidoLogic ped = new PedidoLogic();
-    	ped.validarPedido(pedido);
+    	
+    	pedidoLogic.validarCamposPedido(pedido);
     	
         // data de entrega prevista para 15 dias após a data do pedido
         pedido.setDataEntregaPrevista(pedido.getDataPedido().plusDays(15));
@@ -77,8 +77,13 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         return null;
     }
 
-    public void update(Pedido pedido, String updateFields, PedidoLogic ped) throws PedidoException {
-    	ped.validarPedido(pedido);
+    public void update(Pedido pedido, String updateFields) {
+    	try {
+			pedidoLogic.validarCamposPedido(pedido);
+		} catch (PedidoException e) {
+			e.printStackTrace();
+		}
+    	
     	
         // Verifica se o ID do pedido existe na tabela
         if (!idExists(pedido.getId())) {

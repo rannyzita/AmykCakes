@@ -8,7 +8,7 @@ import model.Pagamento;
 public class PagamentoLogic {
 	private PagamentoDAO pagamentoDAO = new PagamentoDAO();
 	
-	public void validarPagamento(Pagamento pagamento) throws PagamentoException{
+	public void validarCamposPagamento(Pagamento pagamento) throws PagamentoException{
 		if (pagamento == null) {
 			throw new PagamentoException("O pagamento não pode ser nulo.");
 		}
@@ -21,38 +21,22 @@ public class PagamentoLogic {
             throw new PagamentoException("A forma de pagamento não pode estar vazia.");
         }
         
-        if (pagamento.getData() == null) {
-            throw new PagamentoException("A data do pagamento não pode ser nula.");
-        }
         
         if (pagamento.getPedido_idPedido() == null || pagamento.getPedido_idPedido().getId() <= 0) {
             throw new PagamentoException("Pedido inválido.");
         }
 	}
 	
+	// controller javafx, na tela de seleção do pedido
+	// na tela inicial
 	public void validarCriarPagamento(Pagamento pagamento) throws PagamentoException {
-        validarPagamento(pagamento);
+        validarCamposPagamento(pagamento);
         pagamentoDAO.create(pagamento);
     }
-
-    public Pagamento validarBuscarPagamento(int id) throws PagamentoException {
-        Pagamento pagamento = pagamentoDAO.findById(id);
-        if (pagamento == null) {
-            throw new PagamentoException("Pagamento com ID " + id + " não encontrado.");
-        }
-        return pagamento;
+	
+	// usaria no controller do javafx
+    public void validarAtualizarPagamento(Pagamento pagamento) throws PagamentoException {
+        validarCamposPagamento(pagamento);
     }
 
-    public void validarAtualizarPagamento(Pagamento pagamento, String updateFields) throws PagamentoException {
-        validarPagamento(pagamento);
-        pagamentoDAO.update(pagamento, updateFields);
-    }
-
-    public void validarDeletarPagamento(int id) throws PagamentoException {
-        Pagamento pagamento = validarBuscarPagamento(id);
-        if (pagamento == null) {
-            throw new PagamentoException("Pagamento com ID " + id + " não encontrado.");
-        }
-        pagamentoDAO.delete(id);
-    } 
 }

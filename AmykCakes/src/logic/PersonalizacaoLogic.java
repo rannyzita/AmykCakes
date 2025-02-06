@@ -8,8 +8,7 @@ import model.Personalizacao;
 public class PersonalizacaoLogic {
 	private PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO();
 	
-	
-	public void validarPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
+	public void validarCamposPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
 		if (personalizacao == null) {
             throw new PersonalizacaoException("A personalização não pode ser nula.");
         }
@@ -22,10 +21,15 @@ public class PersonalizacaoLogic {
         if (personalizacao.getTamanhoPedido() == null || personalizacao.getTamanhoPedido().trim().isEmpty()) {
             throw new PersonalizacaoException("O tamanho do pedido não pode estar vazio.");
         }
+        
+        if (personalizacao.getQuantidade() <= 0) {
+        	throw new PersonalizacaoException("Quantidade inválida");
+        }
 	}
 	
+	// isso seria no arquivo de controller
 	public void validarCriarPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
-        validarPersonalizacao(personalizacao);
+        validarCamposPersonalizacao(personalizacao);
         personalizacaoDAO.create(personalizacao);
     }
 
@@ -36,17 +40,11 @@ public class PersonalizacaoLogic {
         }
         return personalizacao;
     }
-
-    public void validarAtualizarPersonalizacao(Personalizacao personalizacao, PersonalizacaoLogic PersonalizacaoLogic) throws PersonalizacaoException {
-        validarPersonalizacao(personalizacao);
-        personalizacaoDAO.update(personalizacao, PersonalizacaoLogic);
+    
+    // atualizaria isso no controller de javafx
+    public void validarAtualizarPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
+        validarCamposPersonalizacao(personalizacao);
+        personalizacaoDAO.update(personalizacao);
     }
 
-    public void validarDeletarPersonalizacao(int id) throws PersonalizacaoException {
-        Personalizacao personalizacao = validarBuscarPersonalizacao(id);
-        if (personalizacao == null) {
-            throw new PersonalizacaoException("Personalização com ID " + id + " não encontrada.");
-        }
-        personalizacaoDAO.delete(id);
-    }
 }
