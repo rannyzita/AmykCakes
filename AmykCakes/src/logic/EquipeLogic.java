@@ -1,7 +1,5 @@
 package logic;
-
 import java.io.File;
-
 import java.io.IOException;
 
 import dao.EquipeDAO;
@@ -11,6 +9,7 @@ import model.Equipe;
 public class EquipeLogic {
     private EquipeDAO equipeDAO = new EquipeDAO();
 
+    // Método para validar se os campos da equipe são válidos
     public void validarCamposEquipe(Equipe equipe) throws EquipeException {
         if (equipe == null) {
             throw new EquipeException("A equipe não pode ser nula.");
@@ -28,28 +27,32 @@ public class EquipeLogic {
             throw new EquipeException("O cargo da equipe é obrigatório.");
         }
     }
-    
-    // seria usado no controller do javafx, caso o usuario decidisse criar
-    // uma equipe, mas nao tem cliente, usuario
-    // so tem o adm, e os campos de equipe sao dados constantes do projeto
+
+    // Valida se a equipe existe, mas sem acessar diretamente a DAO.
+    public void validarBuscarEquipe(int id) throws EquipeException {
+        if (id <= 0) {
+            throw new EquipeException("ID inválido.");
+        }
+    }
+
     public void validarCriarEquipe(Equipe equipe, File imagem) throws EquipeException, IOException {
         validarCamposEquipe(equipe);
         equipeDAO.create(equipe, imagem);
     }
     
-    // seria usado no controller do javafx, caso o usuario decidisse atualizar
-    // uma equipe, mas nao tem cliente, usuario
-    // so tem o adm, e os campos de equipe sao dados constantes do projeto
-    public void validarAtualizarEquipe(Equipe equipe, File imagem, EquipeLogic EquipeLogic) throws EquipeException, IOException {
+    public void validarAtualizarEquipe(Equipe equipe, File imagem) throws EquipeException, IOException {
         validarCamposEquipe(equipe);
-        equipeDAO.update(equipe, imagem, EquipeLogic);
-    }
-  
-    public Equipe validarBuscarEquipe(int id) throws EquipeException {
-        Equipe equipe = equipeDAO.findById(id);
-        if (equipe == null) {
-            throw new EquipeException("Equipe com ID " + id + " não encontrada.");
+        
+        // Chame a DAO para verificar se a equipe existe, mas sem lógica de verificação dentro do EquipeLogic
+        if (!equipeDAO.idExists(equipe.getId())) {
+            throw new EquipeException("Equipe com ID " + equipe.getId() + " não encontrada.");
         }
-        return equipe;
+        
+        equipeDAO.update(equipe, imagem);
+    }
+
+    public Equipe validarBuscarEquipePorId(int id) throws EquipeException {
+        validarBuscarEquipe(id);
+        return equipeDAO.findById(id);
     }
 }

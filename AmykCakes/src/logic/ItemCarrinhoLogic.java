@@ -1,13 +1,12 @@
 package logic;
 
 import dao.ItemCarrinhoDAO;
-
 import exceptions.ItemCarrinhoException;
 import model.ItemCarrinho;
 
 public class ItemCarrinhoLogic {
     private ItemCarrinhoDAO itemCarrinhoDAO = new ItemCarrinhoDAO();
-    
+
     public void validarCamposItemCarrinho(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
         if (itemCarrinho == null) {
             throw new ItemCarrinhoException("O item não pode ser nulo.");
@@ -20,15 +19,13 @@ public class ItemCarrinhoLogic {
         if (itemCarrinho.getValorUnitario() < 0) {
             throw new ItemCarrinhoException("O valor unitário do item não pode ser negativo.");
         }
-      
     }
-    	
-    // isso usaria no controller do javafx
+
+    // Usado no controller para validar antes de criar
     public void validarCriarItemCarrinho(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
         validarCamposItemCarrinho(itemCarrinho);
         itemCarrinhoDAO.create(itemCarrinho);
     }
-
 
     public void validarAtualizarItemCarrinho(int idPedido, int idProduto, int idPersonalizacao, int quantidade, double valorUnitario) throws ItemCarrinhoException {
         if (quantidade <= 0) {

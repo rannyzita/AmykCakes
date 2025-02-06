@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,12 +16,10 @@ import model.Personalizacao;
 import model.Produto;
 
 public class ItemCarrinhoDAO {
-	ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
-	ItemCarrinho itemcarrinho = new ItemCarrinho();
-	
+    ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
+
     private boolean existsById(int id) {
         String sql = "SELECT 1 FROM ItemCarrinho WHERE id = ?";
-
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -34,52 +31,40 @@ public class ItemCarrinhoDAO {
             return false;
         }
     }
-    
-    public void getCarrinhoPersonalizacao(String field) {
-  
-        // Query com INNER JOIN entre ItemCarrinho e Personalizacao
-        String sql = "SELECT ic.id, ic.Pedido_idPedido, ic.quantidade, ic.valorUnitario, p.tipoCobertura, p.massaPedido, p.nome" +
-                     "FROM ItemCarrinho ic " +
-                     "INNER JOIN Personalizacao p ON ic.Personalizacao_id = p.id";
+
+    public List<Integer> getIdForeignKeyPersonalizacao() {
+        String sql = "SELECT p.id, p.Pedido_idPedido " +
+                     "FROM Personalizacao p " +
+                     "INNER JOIN Pedido ped ON p.Pedido_idPedido = ped.id " +
+                     "ORDER BY p.id DESC LIMIT 1"; // Pega o último inserido
+
+        List<Integer> ids = new ArrayList<>();
 
         try (Connection conn = DbConnection.getConexao();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
-            while (rs.next()) {
-                // Obtendo os valores de todos os atributos de ItemCarrinho
-                int id = rs.getInt("id");
-                int pedidoId = rs.getInt("Pedido_idPedido");
-                int quantidade = rs.getInt("quantidade");
-                double valorUnitario = rs.getDouble("valorUnitario");
-                int personalizacaoId = rs.getInt("Personalizacao_id");
-
-                // Exibindo os valores (pode ser adaptado para armazenar em um objeto e retornar)
-                System.out.println("ID: " + id);
-                System.out.println("Pedido ID: " + pedidoId);
-                System.out.println("Quantidade: " + quantidade);
-                System.out.println("Valor Unitário: " + valorUnitario);
-                System.out.println("Personalização ID: " + personalizacaoId);
-                System.out.println("----------------------------------");
+            if (rs.next()) {
+                ids.add(rs.getInt("id")); // ID de Personalizacao
+                ids.add(rs.getInt("Pedido_idPedido")); // ID de Pedido
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return ids; // Retorna a lista com os IDs
     }
 
-
     public void create(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
-    	iCarrinho.validarCamposItemCarrinho(itemCarrinho); 
+        iCarrinho.validarCamposItemCarrinho(itemCarrinho); 
 
-    	if (itemCarrinho.getPersonalizacao_id() == null) {
-    	    System.out.println("Aviso: Nenhuma personalização associada. Continuando com Personalizacao_id como NULL.");
-    	}
+        if (itemCarrinho.getPersonalizacao_id() == null) {
+            System.out.println("Aviso: Nenhuma personalização associada. Continuando com Personalizacao_id como NULL.");
+        }
 
-    	if (itemCarrinho.getProduto_idProduto() == null) {
-    	    System.out.println("Aviso: Nenhum produto associado. Continuando com Produto_id como NULL.");
-    	}
-
-
+        if (itemCarrinho.getProduto_idProduto() == null) {
+            System.out.println("Aviso: Nenhum produto associado. Continuando com Produto_id como NULL.");
+        }
 
         String sql = "INSERT INTO ItemCarrinho (quantidade, Pedido_idPedido, Produto_idProduto, valorUnitario, Personalizacao_id) VALUES (?, ?, ?, ?, ?)";
 
@@ -88,17 +73,16 @@ public class ItemCarrinhoDAO {
 
             ps.setInt(1, itemCarrinho.getQuantidade());
             ps.setInt(2, itemCarrinho.getPedido_idPedido().getId());
-
             ps.setDouble(4, itemCarrinho.getValorUnitario());
 
             // Verifica se existe personalização antes de setar
-            if (itemCarrinho.getPersonalizacao_id() != null ) {
+            if (itemCarrinho.getPersonalizacao_id() != null) {
                 ps.setInt(5, itemCarrinho.getPersonalizacao_id().getId());
             } else {
                 ps.setNull(5, java.sql.Types.INTEGER);
             }
             
-            if (itemCarrinho.getProduto_idProduto() != null ) {
+            if (itemCarrinho.getProduto_idProduto() != null) {
                 ps.setInt(3, itemCarrinho.getProduto_idProduto().getId());
             } else {
                 ps.setNull(3, java.sql.Types.INTEGER);
@@ -120,8 +104,6 @@ public class ItemCarrinhoDAO {
         }
     }
 
-
-
     public void delete(int id) {
         if (!existsById(id)) {
             System.out.println("Erro: ItemCarrinho não existe.");
@@ -139,30 +121,27 @@ public class ItemCarrinhoDAO {
         }
     }
 
-
-    
     public void update(int idPedido, int idProduto, int idPersonalizacao, int quantidade, double valorUnitario) throws ItemCarrinhoException {
-    	
-    	iCarrinho.validarAtualizarItemCarrinho(idPedido, idProduto, idPersonalizacao, quantidade, valorUnitario);
-    	
-    	if (idProduto == 0) {
-    		System.out.println("Atenção, está atualizando o pedido de personalização.");
-    	} else if (idPersonalizacao == 0) {
-    		System.out.println("Atenção, está atualizando o pedido do produto pronto.");
-    	}
-    
+        iCarrinho.validarAtualizarItemCarrinho(idPedido, idProduto, idPersonalizacao, quantidade, valorUnitario);
+
+        if (idProduto == 0) {
+            System.out.println("Atenção, está atualizando o pedido de personalização.");
+        } else if (idPersonalizacao == 0) {
+            System.out.println("Atenção, está atualizando o pedido do produto pronto.");
+        }
+
         String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, Pedido_idPedido = ?, Produto_idProduto = ?, Personalizacao_id = ? WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
-            
-            ps.setInt(1, itemcarrinho.getQuantidade());
-            ps.setDouble(2, itemcarrinho.getValorUnitario());
-            ps.setInt(3, itemcarrinho.getPedido_idPedido().getId());
-            ps.setInt(4, itemcarrinho.getProduto_idProduto().getId());
-            ps.setInt(5, itemcarrinho.getPersonalizacao_id().getId());
-            ps.setInt(6, itemcarrinho.getId());
-            
+
+            ps.setInt(1, quantidade);
+            ps.setDouble(2, valorUnitario);
+            ps.setInt(3, idPedido);
+            ps.setInt(4, idProduto);
+            ps.setInt(5, idPersonalizacao);
+            ps.setInt(6, idPedido); // Ajuste no ID
+
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -182,16 +161,15 @@ public class ItemCarrinhoDAO {
                     itemCarrinho.setId(rs.getInt("id"));
                     itemCarrinho.setQuantidade(rs.getInt("quantidade"));
                     itemCarrinho.setValorUnitario(rs.getDouble("valorUnitario"));
-     
-                    
+
                     Pedido pedido = new Pedido();
                     pedido.setId(rs.getInt("Pedido_idPedido"));
                     itemCarrinho.setPedido_idPedido(pedido);
-                    
+
                     Produto produto = new Produto();
                     produto.setId(rs.getInt("Produto_idProduto"));
                     itemCarrinho.setProduto_idProduto(produto);
-                    
+
                     Personalizacao personalizacao = new Personalizacao();
                     personalizacao.setId(rs.getInt("Personalizacao_id"));
                     itemCarrinho.setPersonalizacao_id(personalizacao);
@@ -216,15 +194,15 @@ public class ItemCarrinhoDAO {
                 itemCarrinho.setId(rs.getInt("id"));
                 itemCarrinho.setQuantidade(rs.getInt("quantidade"));
                 itemCarrinho.setValorUnitario(rs.getDouble("valorUnitario"));
-                
+
                 Pedido pedido = new Pedido();
                 pedido.setId(rs.getInt("Pedido_idPedido"));
                 itemCarrinho.setPedido_idPedido(pedido);
-                
+
                 Produto produto = new Produto();
                 produto.setId(rs.getInt("Produto_idProduto"));
                 itemCarrinho.setProduto_idProduto(produto);
-                
+
                 Personalizacao personalizacao = new Personalizacao();
                 personalizacao.setId(rs.getInt("Personalizacao_id"));
                 itemCarrinho.setPersonalizacao_id(personalizacao);
@@ -234,8 +212,6 @@ public class ItemCarrinhoDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return itemCarrinhos;
     }
 }
-

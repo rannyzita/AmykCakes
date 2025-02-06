@@ -1,15 +1,14 @@
 package logic;
 
 import dao.PersonalizacaoDAO;
-
 import exceptions.PersonalizacaoException;
 import model.Personalizacao;
 
 public class PersonalizacaoLogic {
-	private PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO();
-	
-	public void validarCamposPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
-		if (personalizacao == null) {
+    private PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO();
+    
+    public void validarCamposPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
+        if (personalizacao == null) {
             throw new PersonalizacaoException("A personalização não pode ser nula.");
         }
         if (personalizacao.getNome() == null || personalizacao.getNome().trim().isEmpty()) {
@@ -23,12 +22,11 @@ public class PersonalizacaoLogic {
         }
         
         if (personalizacao.getQuantidade() <= 0) {
-        	throw new PersonalizacaoException("Quantidade inválida");
+            throw new PersonalizacaoException("Quantidade inválida.");
         }
-	}
-	
-	// isso seria no arquivo de controller
-	public void validarCriarPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
+    }
+    
+    public void validarCriarPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
         validarCamposPersonalizacao(personalizacao);
         personalizacaoDAO.create(personalizacao);
     }
@@ -41,10 +39,15 @@ public class PersonalizacaoLogic {
         return personalizacao;
     }
     
-    // atualizaria isso no controller de javafx
     public void validarAtualizarPersonalizacao(Personalizacao personalizacao) throws PersonalizacaoException {
         validarCamposPersonalizacao(personalizacao);
         personalizacaoDAO.update(personalizacao);
     }
 
+    public void validarDeletarPersonalizacao(int id) throws PersonalizacaoException {
+        if (!personalizacaoDAO.idExists(id)) {
+            throw new PersonalizacaoException("Personalização com ID " + id + " não encontrada.");
+        }
+        personalizacaoDAO.delete(id);
+    }
 }

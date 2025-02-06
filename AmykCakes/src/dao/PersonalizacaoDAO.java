@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.PreparedStatement;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,8 +13,8 @@ import exceptions.PersonalizacaoException;
 import logic.PersonalizacaoLogic;
 
 public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
-	PersonalizacaoLogic personalizarLogic = new PersonalizacaoLogic();
-	
+    PersonalizacaoLogic personalizarLogic = new PersonalizacaoLogic();
+    
     @Override
     protected String getTableName() {
         return "PERSONALIZACAO";
@@ -30,6 +29,7 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         personalizacao.setTamanhoPedido(rs.getString("tamanhoPedido"));
         personalizacao.setMassaPedido(rs.getString("massaPedido"));
         personalizacao.setObservacoes(rs.getString("observacoes"));
+        
         int pedidoId = rs.getInt("Pedido_idPedido");
         if (!rs.wasNull()) {
             Pedido pedido = new Pedido();
@@ -38,14 +38,13 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         } else {
             personalizacao.setPedido_idPedido(null);
         }
+        
         return personalizacao;
     }
     
-
     public void create(Personalizacao personalizacao) throws PersonalizacaoException {
-    	
-    	personalizarLogic.validarCamposPersonalizacao(personalizacao);
-    	
+        personalizarLogic.validarCamposPersonalizacao(personalizacao);
+        
         String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
@@ -87,8 +86,8 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     }
     
     public void update(Personalizacao personalizacao) throws PersonalizacaoException {
-    	personalizarLogic.validarCamposPersonalizacao(personalizacao);
-    	
+        personalizarLogic.validarCamposPersonalizacao(personalizacao);
+        
         if (!idExists(personalizacao.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
