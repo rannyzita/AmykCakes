@@ -39,7 +39,7 @@ public class PersonalizarPedidoController {
     }
     
     public void onencomendarbotao() {
-    	botaoEncomendar.setStyle("-fx-background-color: #725d80; -fx-padding: 8px; -fx-text-fill: white");
+    	botaoEncomendar.setStyle("-fx-background-color: #725d80; -fx-text-fill: white");
     }
 
     public void trocarTela(String fxml) {
@@ -84,14 +84,14 @@ public class PersonalizarPedidoController {
         Personalizacao personalizacao = new Personalizacao();
         personalizacao.setNome(nome);
 
-        if (tipoCobertura.matches("chocolate|chantilly|brigadeiro|geleia|foundant|açucar glaceado|açúcar glaceado")) {
+        if (tipoCobertura.matches("chocolate|morango|chantilly|brigadeiro|geleia|foundant|açucar glaceado|açúcar glaceado")) {
             precoCobertura = 20.0;
             personalizacao.setTipoCobertura(tipoCobertura);
         } else {
             personalizacao.setTipoCobertura("chocolate"); // Valor padrão
         }
 
-        if (tipoMassa.matches("branca|chocolate|cenoura|fubá|nozes|pão de ló|pao de lo")) {
+        if (tipoMassa.matches("branca|morango|chocolate|cenoura|fubá|nozes|pão de ló|pao de lo")) {
             precoMassa = 30.0;
             personalizacao.setMassaPedido(tipoMassa);
         } else {
@@ -106,7 +106,6 @@ public class PersonalizarPedidoController {
             alert.showAndWait();
             return;
         }
-
         switch (tam) {
             case "p":
                 precoTam = 30.0;
@@ -160,7 +159,6 @@ public class PersonalizarPedidoController {
         itemcarrinhodao.create(itemCarrinho);
        
         System.out.println("ID da Personalização salvo: " + personalizacao.getId());
-        
         
         System.out.println("Pedido salvo com sucesso! ID: " + pedido.getId());
         

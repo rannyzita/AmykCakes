@@ -243,7 +243,7 @@
          <children>
             <ImageView fitHeight="570.0" fitWidth="900.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/MENU.jpg" />
+                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/MENU.png" />
                </image>
             </ImageView>
          </children>
