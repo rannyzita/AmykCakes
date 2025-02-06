@@ -64,29 +64,10 @@ public class ItemCarrinhoDAO {
         }
     }
 
-<<<<<<< HEAD
-    
-    public void create(ItemCarrinho itemCarrinho) {
-    	
-<<<<<<< HEAD
-    	if (itemCarrinho.getPedido_idPedido() == null || itemCarrinho.getPedido_idPedido().getId() == 0) {
-    	    throw new IllegalArgumentException("Pedido_idPedido não pode ser nulo ou zero.");
-    	}
-=======
+
     public void create(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
     	ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
     	iCarrinho.validarItemCarrinho(itemCarrinho); 
-    	
-        if (!pedidoExists(itemCarrinho.getPedido_idPedido().getId())) {
-            System.out.println("Erro: Pedido não existe.");
-            return;
-        }
->>>>>>> branch 'master' of https://github.com/rannyzita/AmykCakes
-=======
-    	//if (itemCarrinho.getPedido_idPedido() == null || itemCarrinho.getPedido_idPedido().getId() == 0) {
-    	//    throw new IllegalArgumentException("Pedido_idPedido não pode ser nulo ou zero.");
-    	//}
->>>>>>> refs/heads/feature-julia
 
     	if (itemCarrinho.getPersonalizacao_id() == null) {
     	    System.out.println("Aviso: Nenhuma personalização associada. Continuando com Personalizacao_id como NULL.");
@@ -156,21 +137,12 @@ public class ItemCarrinhoDAO {
         }
     }
 
-<<<<<<< HEAD
-    public void update(ItemCarrinho itemCarrinho) {
-        if (!existsById(itemCarrinho.getId())) {
-            System.out.println("Erro: ItemCarrinho não existe.");
-=======
+
     
     public void update(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal, ItemCarrinhoLogic iCarrinho, ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
     	iCarrinho.validarItemCarrinho(itemCarrinho); 
     	
-        if (!pedidoExists(idPedido)) {
-            System.out.println("Erro: Pedido não existe.");
->>>>>>> branch 'master' of https://github.com/rannyzita/AmykCakes
-            return;
-        }
-
+    
         String sql = "UPDATE ItemCarrinho SET quantidade = ?, valorUnitario = ?, subTotal = ?, Pedido_idPedido = ?, Produto_idProduto = ?, Personalizacao_id = ? WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();

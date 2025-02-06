@@ -40,16 +40,12 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-<<<<<<< HEAD
-    public void create(Personalizacao personalizacao) {
-        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
-=======
+
     public void create(Personalizacao personalizacao) throws PersonalizacaoException {
     	PersonalizacaoLogic pers = new PersonalizacaoLogic();
     	pers.validarPersonalizacao(personalizacao);
     	
         String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
->>>>>>> branch 'master' of https://github.com/rannyzita/AmykCakes
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
             ps.setString(1, personalizacao.getNome());

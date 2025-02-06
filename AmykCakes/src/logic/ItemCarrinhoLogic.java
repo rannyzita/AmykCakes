@@ -35,13 +35,6 @@ public class ItemCarrinhoLogic {
         itemCarrinhoDAO.create(itemCarrinho);
     }
 
-    public ItemCarrinho validarBuscarItemCarrinho(int idPedido, int idProduto) throws ItemCarrinhoException {
-        ItemCarrinho itemCarrinho = itemCarrinhoDAO.findById(idPedido, idProduto);
-        if (itemCarrinho == null) {
-            throw new ItemCarrinhoException("Item do carrinho com Pedido ID " + idPedido + " e Produto ID " + idProduto + " não encontrado.");
-        }
-        return itemCarrinho;
-    }
 
     public void validarAtualizarItemCarrinho(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal, ItemCarrinhoLogic ItemCarrinhoLogic, ItemCarrinho ItemCarrinho) throws ItemCarrinhoException {
         if (quantidade <= 0) {
@@ -56,10 +49,7 @@ public class ItemCarrinhoLogic {
     }
 
     public void validarDeletarItemCarrinho(int idPedido, int idProduto) throws ItemCarrinhoException {
-        ItemCarrinho itemCarrinho = validarBuscarItemCarrinho(idPedido, idProduto);
-        if (itemCarrinho == null) {
-            throw new ItemCarrinhoException("Item do carrinho com Pedido ID " + idPedido + " e Produto ID " + idProduto + " não encontrado.");
-        }
-        itemCarrinhoDAO.delete(idPedido, idProduto);
+        
+        //itemCarrinhoDAO.delete(idPedido, idProduto);
     }
 }

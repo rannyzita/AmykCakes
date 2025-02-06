@@ -13,7 +13,6 @@ import java.util.List;
 
 import connection.DbConnection;
 import exceptions.EquipeException;
-import logic.CarrinhoProdutoLogic;
 import logic.EquipeLogic;
 import model.Equipe;
 
@@ -40,15 +39,11 @@ public class EquipeDAO extends BaseDAO<Equipe> {
 	    }
 	    return equipe;
 	}
-<<<<<<< HEAD
-    public void create(Equipe equipe, File imagem) {
-=======
 	
     public void create(Equipe equipe, File imagem) throws EquipeException {
     	
     	eq.validarCamposEquipe(equipe); 
     	
->>>>>>> branch 'master' of https://github.com/rannyzita/AmykCakes
         String sql = "INSERT INTO EQUIPE (nome, descricao, foto, cargo) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = DbConnection.getConexao();
