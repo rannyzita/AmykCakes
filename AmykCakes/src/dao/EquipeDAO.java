@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -8,6 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import connection.DbConnection;
+import exceptions.EquipeException;
+import logic.CarrinhoProdutoLogic;
+import logic.EquipeLogic;
 import model.Equipe;
 
 public class EquipeDAO extends BaseDAO<Equipe> {
@@ -28,7 +32,10 @@ public class EquipeDAO extends BaseDAO<Equipe> {
         return equipe;
 	}
 	
-    public void create(Equipe equipe, File imagem) {
+    public void create(Equipe equipe, File imagem) throws EquipeException {
+    	EquipeLogic eq = new EquipeLogic();
+    	eq.validarEquipe(equipe); 
+    	
         String sql = "INSERT INTO EQUIPE (nome, descricao, foto, cargo) VALUES (?, ?, ?, ?)";
         
         try (Connection conn = DbConnection.getConexao();
@@ -48,6 +55,7 @@ public class EquipeDAO extends BaseDAO<Equipe> {
     }
     
     public Equipe findById(int id) {
+    	
         String sql = "SELECT id, nome, descricao, foto, cargo FROM EQUIPE WHERE id = ?";
         Equipe equipe = null;
         
@@ -63,6 +71,7 @@ public class EquipeDAO extends BaseDAO<Equipe> {
                     equipe.setDescricao(rs.getString("descricao"));
                     equipe.setFoto(rs.getBytes("foto")); 
                     equipe.setCargo(rs.getString("cargo"));
+                   
                 }
             }
         } catch (SQLException e) {
@@ -72,7 +81,9 @@ public class EquipeDAO extends BaseDAO<Equipe> {
         return equipe;
     }
     
-    public void update(Equipe equipe, File imagem) {
+    public void update(Equipe equipe, File imagem, EquipeLogic eq) throws EquipeException {
+    	eq.validarEquipe(equipe); 
+
     	if (!idExists(equipe.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;

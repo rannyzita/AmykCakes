@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.DbConnection;
+import logic.CarrinhoProdutoLogic;
 import model.CarrinhoProduto;
 
 
 public class CarrinhoProdutoDAO {
 	
-	private boolean produtoExists(int idProduto) {
+	public boolean produtoExists(int idProduto) {
         String sql = "SELECT 1 FROM Produto WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();
@@ -29,7 +30,7 @@ public class CarrinhoProdutoDAO {
         }
     }
 	
-	private boolean carrinhoExists(int idCarrinho) {
+	public boolean carrinhoExists(int idCarrinho) {
         String sql = "SELECT 1 FROM Carrinho WHERE id = ?";
 
         try (Connection connection = DbConnection.getConexao();
@@ -47,6 +48,9 @@ public class CarrinhoProdutoDAO {
 	
     // Método para inserir um novo CarrinhoProduto
     public void create(CarrinhoProduto carrinhoProduto) {
+    	CarrinhoProdutoLogic cProduto = new CarrinhoProdutoLogic();
+    	cProduto.validarCarrinhoProduto(carrinhoProduto);   
+    	
     	if (!produtoExists(carrinhoProduto.getProduto_idProduto().getId())) {
             System.out.println("Erro: Produto não existe.");
             return;
@@ -99,7 +103,9 @@ public class CarrinhoProdutoDAO {
     }
 
     // Método para atualizar a quantidade de um CarrinhoProduto
-    public void update(int idProduto, int idCarrinho, int quantidade) {
+    public void update(int idProduto, int idCarrinho, int quantidade, CarrinhoProduto carrinhoProduto, CarrinhoProdutoLogic cProduto) {
+    	cProduto.validarCarrinhoProduto(carrinhoProduto);
+    	
     	if (!produtoExists(idProduto)) {
             System.out.println("Erro: Produto não existe.");
             return;

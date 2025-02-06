@@ -1,16 +1,14 @@
-	package dao;
+package dao;
 
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
 import model.Carrinho;
-import model.Produto;
 import connection.DbConnection;
+import logic.CarrinhoLogic;
 
 public class CarrinhoDAO extends BaseDAO<Carrinho> {
-	
 	@Override
 	protected String getTableName() {
 		return "CARRINHO";
@@ -25,7 +23,10 @@ public class CarrinhoDAO extends BaseDAO<Carrinho> {
 	}
 	
     public void create(Carrinho carrinho) {
-        String sql = "INSERT INTO CARRINHO (valorTotal) VALUES (?)";  
+    	CarrinhoLogic c = new CarrinhoLogic();
+    	c.validarCarrinho(carrinho);   
+      
+    	String sql = "INSERT INTO CARRINHO (valorTotal) VALUES (?)";  
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
             ps.setDouble(1, carrinho.getValorTotal());
@@ -59,9 +60,11 @@ public class CarrinhoDAO extends BaseDAO<Carrinho> {
         return carrinho;
     }
 
-    public void update(Carrinho carrinho) {
+    public void update(Carrinho carrinho, CarrinhoLogic c) {
         // Verificando se o carrinho existe
     	// so que sem o id, usando a classe como arg
+    	c.validarCarrinho(carrinho);   
+    	
         Carrinho carrinhoExistente = findById(carrinho.getId());
         
         if (carrinhoExistente != null) {

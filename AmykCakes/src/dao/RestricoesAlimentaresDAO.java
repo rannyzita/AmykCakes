@@ -1,14 +1,15 @@
 package dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import connection.DbConnection;
+import exceptions.RestricoesAlimentaresException;
+import logic.RestricoesAlimentaresLogic;
 import model.RestricoesAlimentares;
-import model.Pedido;
 import model.Personalizacao;
-import model.Produto;
 
 public class RestricoesAlimentaresDAO extends BaseDAO<RestricoesAlimentares>{
 	
@@ -58,7 +59,10 @@ public class RestricoesAlimentaresDAO extends BaseDAO<RestricoesAlimentares>{
     }
 
     // Método para criar um novo registro de RestricoesAlimentares
-    public void create(RestricoesAlimentares restricoesAlimentares) {
+    public void create(RestricoesAlimentares restricoesAlimentares) throws RestricoesAlimentaresException {
+    	RestricoesAlimentaresLogic r = new RestricoesAlimentaresLogic();
+    	r.validarRestricoesAlimentares(restricoesAlimentares);
+    	
         // Verifica se a Personalizacao existe
         if (!personalizacaoExists(restricoesAlimentares.getPersonalizacao_idPedidoPersonalizado().getId())) {
             System.out.println("Erro: Personalizacao não existe.");
@@ -108,7 +112,9 @@ public class RestricoesAlimentaresDAO extends BaseDAO<RestricoesAlimentares>{
     }
 
     // Método para atualizar uma RestricoesAlimentares existente
-    public void update(RestricoesAlimentares restricoesAlimentares) {
+    public void update(RestricoesAlimentares restricoesAlimentares, RestricoesAlimentaresLogic r) throws RestricoesAlimentaresException {
+    	r.validarRestricoesAlimentares(restricoesAlimentares);
+    	
         // Verifica se a Personalizacao existe
         if (!personalizacaoExists(restricoesAlimentares.getPersonalizacao_idPedidoPersonalizado().getId())) {
             System.out.println("Erro: Personalizacao não existe.");

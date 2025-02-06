@@ -1,12 +1,15 @@
 package dao;
 
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.Personalizacao;
 import model.Pedido;
 import connection.DbConnection;
+import exceptions.PersonalizacaoException;
+import logic.PersonalizacaoLogic;
 
 public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     
@@ -35,7 +38,10 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void create(Personalizacao personalizacao) {
+    public void create(Personalizacao personalizacao) throws PersonalizacaoException {
+    	PersonalizacaoLogic pers = new PersonalizacaoLogic();
+    	pers.validarPersonalizacao(personalizacao);
+    	
         String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
@@ -74,7 +80,9 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void update(Personalizacao personalizacao) {
+    public void update(Personalizacao personalizacao, PersonalizacaoLogic pers) throws PersonalizacaoException {
+    	pers.validarPersonalizacao(personalizacao);
+    	
         if (!idExists(personalizacao.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
