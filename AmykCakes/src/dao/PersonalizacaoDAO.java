@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.List;
 import model.Personalizacao;
 import model.Pedido;
 import connection.DbConnection;
+import exceptions.PersonalizacaoException;
+import logic.PersonalizacaoLogic;
 
 public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     
@@ -37,8 +40,16 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
+<<<<<<< HEAD
     public void create(Personalizacao personalizacao) {
         String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
+=======
+    public void create(Personalizacao personalizacao) throws PersonalizacaoException {
+    	PersonalizacaoLogic pers = new PersonalizacaoLogic();
+    	pers.validarPersonalizacao(personalizacao);
+    	
+        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
+>>>>>>> branch 'master' of https://github.com/rannyzita/AmykCakes
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
             ps.setString(1, personalizacao.getNome());
@@ -78,7 +89,9 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void update(Personalizacao personalizacao) {
+    public void update(Personalizacao personalizacao, PersonalizacaoLogic pers) throws PersonalizacaoException {
+    	pers.validarPersonalizacao(personalizacao);
+    	
         if (!idExists(personalizacao.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;

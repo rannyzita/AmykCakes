@@ -1,9 +1,12 @@
 package dao;
 
 import model.Pedido;
+
 import java.sql.*;
 
 import connection.DbConnection;
+import exceptions.PedidoException;
+import logic.PedidoLogic;
 
 public class PedidoDAO extends BaseDAO<Pedido> {
 
@@ -22,7 +25,10 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         return pedido;
     }
 
-    public void create(Pedido pedido) {
+    public void create(Pedido pedido) throws PedidoException {
+    	PedidoLogic ped = new PedidoLogic();
+    	ped.validarPedido(pedido);
+    	
         // data de entrega prevista para 15 dias após a data do pedido
         pedido.setDataEntregaPrevista(pedido.getDataPedido().plusDays(15));
         
@@ -71,7 +77,9 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         return null;
     }
 
-    public void update(Pedido pedido, String updateFields) {
+    public void update(Pedido pedido, String updateFields, PedidoLogic ped) throws PedidoException {
+    	ped.validarPedido(pedido);
+    	
         // Verifica se o ID do pedido existe na tabela
         if (!idExists(pedido.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
