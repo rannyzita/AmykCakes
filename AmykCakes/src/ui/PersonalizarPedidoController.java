@@ -13,32 +13,19 @@ import model.Pedido;
 
 public class PersonalizarPedidoController {
 
-    @FXML
-    private Label labelTelaInicial;
-    @FXML
-    private Label labelPersonalizarPedido;
-    @FXML
-    private Label labelMinhasEncomendas;
-    @FXML
-    private Label labelSobreNos;
-    @FXML
-    private Pane mainPane;
-    @FXML
-    private TextField nomePedido;
-    @FXML
-    private TextArea cobertura;
-    @FXML
-    private TextArea massa;
-    @FXML
-    private ToggleGroup tamanho;
-    @FXML
-    private TextArea observacoes;
-    @FXML
-    private Button botaoEncomendar;
-    @FXML 
-    private TextField quantidade;
-    @FXML 
-    private Button btnLimpar;
+    @FXML private Label labelTelaInicial;
+    @FXML private Label labelPersonalizarPedido;
+    @FXML private Label labelMinhasEncomendas;
+    @FXML private Label labelSobreNos;
+    @FXML private Pane mainPane;
+    @FXML private TextField nomePedido;
+    @FXML private TextArea cobertura;
+    @FXML private TextArea massa;
+    @FXML private ToggleGroup tamanho;
+    @FXML private TextArea observacoes;
+    @FXML private Button botaoEncomendar;
+    @FXML private TextField quantidade;
+    @FXML private Button btnLimpar;
 
     @FXML
     public void initialize() {
@@ -49,6 +36,10 @@ public class PersonalizarPedidoController {
         
         botaoEncomendar.setOnAction(event -> processarEncomenda());
         btnLimpar.setOnAction(event -> onBtnLimparClick());
+    }
+    
+    public void onencomendarbotao() {
+    	botaoEncomendar.setStyle("-fx-background-color: #725d80; -fx-padding: 8px; -fx-text-fill: white");
     }
 
     public void trocarTela(String fxml) {
@@ -175,7 +166,6 @@ public class PersonalizarPedidoController {
         
         itemcarrinhodao.getCarrinhoPersonalizacao("id");
         
-        //Limpar os campos do formulário
         onBtnLimparClick();
     }
     

@@ -17,19 +17,12 @@ import javafx.scene.layout.VBox;
 
 public class SobreNosController {
 	
-	@FXML
-    private Label labelTelaInicial;
-    @FXML
-    private Label labelPersonalizarPedido;
-    @FXML
-    private Label labelMinhasEncomendas;
-    @FXML
-    private Label labelSobreNos;
-    @FXML
-    private Pane mainPane;
-    
-    @FXML
-    private VBox equipeContainer; // Certifique-se de que o FXML contém esse ID!
+	@FXML private Label labelTelaInicial;
+    @FXML private Label labelPersonalizarPedido;
+    @FXML private Label labelMinhasEncomendas;
+    @FXML private Label labelSobreNos;
+    @FXML private Pane mainPane;
+    @FXML private VBox equipeContainer; //container vertical que cresce para a equipe
 
     @FXML
     public void initialize() {
@@ -39,6 +32,7 @@ public class SobreNosController {
         labelSobreNos.setOnMouseClicked(event -> trocarTela("SobreNos.fxml"));
         carregarEquipe();
     }
+   
     
     public void trocarTela(String fxml) {
         try {

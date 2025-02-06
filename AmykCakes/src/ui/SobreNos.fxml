@@ -101,7 +101,7 @@
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
                      <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
                </children>
@@ -118,32 +118,27 @@
                      </opaqueInsets>
                   </VBox>
                </children>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
             </VBox>
             <ImageView fitHeight="600.0" fitWidth="950.0" layoutX="950.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/sobrenos.jpg" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
             </ImageView>
          </children>
       </Pane>
-      <Label layoutX="900.0" layoutY="214.0" text="Sobre nós">
+      <Label layoutX="14.0" layoutY="215.0" text="Sobre nós - Integrantes da equipe:">
          <font>
             <Font name="Yu Gothic UI Regular" size="27.0" />
          </font>
          <cursor>
-            <Cursor fx:constant="HAND" />
+            <Cursor fx:constant="TEXT" />
          </cursor>
-      </Label>
-      <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="212.0" text="Integrantes da equipe:">
-         <font>
-            <Font name="Yu Gothic UI Regular" size="27.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <padding>
-            <Insets top="5.0" />
-         </padding>
       </Label>
    </children>
 </AnchorPane>
