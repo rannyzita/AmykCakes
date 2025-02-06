@@ -11,7 +11,7 @@ import model.Equipe;
 public class EquipeLogic {
     private EquipeDAO equipeDAO = new EquipeDAO();
 
-    public void validarEquipe(Equipe equipe) throws EquipeException {
+    public void validarCamposEquipe(Equipe equipe) throws EquipeException {
         if (equipe == null) {
             throw new EquipeException("A equipe não pode ser nula.");
         }
@@ -28,17 +28,23 @@ public class EquipeLogic {
             throw new EquipeException("O cargo da equipe é obrigatório.");
         }
     }
-
+    
+    // seria usado no controller do javafx, caso o usuario decidisse criar
+    // uma equipe, mas nao tem cliente, usuario
+    // so tem o adm, e os campos de equipe sao dados constantes do projeto
     public void validarCriarEquipe(Equipe equipe, File imagem) throws EquipeException, IOException {
-        validarEquipe(equipe);
+        validarCamposEquipe(equipe);
         equipeDAO.create(equipe, imagem);
     }
-
+    
+    // seria usado no controller do javafx, caso o usuario decidisse atualizar
+    // uma equipe, mas nao tem cliente, usuario
+    // so tem o adm, e os campos de equipe sao dados constantes do projeto
     public void validarAtualizarEquipe(Equipe equipe, File imagem, EquipeLogic EquipeLogic) throws EquipeException, IOException {
-        validarEquipe(equipe);
+        validarCamposEquipe(equipe);
         equipeDAO.update(equipe, imagem, EquipeLogic);
     }
-
+  
     public Equipe validarBuscarEquipe(int id) throws EquipeException {
         Equipe equipe = equipeDAO.findById(id);
         if (equipe == null) {

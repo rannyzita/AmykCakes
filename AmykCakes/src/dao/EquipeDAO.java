@@ -15,7 +15,8 @@ import logic.EquipeLogic;
 import model.Equipe;
 
 public class EquipeDAO extends BaseDAO<Equipe> {
-    
+	EquipeLogic eq = new EquipeLogic();
+	
 	@Override
 	protected String getTableName() {
 		return "EQUIPE";
@@ -33,8 +34,8 @@ public class EquipeDAO extends BaseDAO<Equipe> {
 	}
 	
     public void create(Equipe equipe, File imagem) throws EquipeException {
-    	EquipeLogic eq = new EquipeLogic();
-    	eq.validarEquipe(equipe); 
+    	
+    	eq.validarCamposEquipe(equipe); 
     	
         String sql = "INSERT INTO EQUIPE (nome, descricao, foto, cargo) VALUES (?, ?, ?, ?)";
         
@@ -54,7 +55,8 @@ public class EquipeDAO extends BaseDAO<Equipe> {
         }
     }
     
-    public Equipe findById(int id) {
+    public Equipe findById(int id) throws EquipeException {
+    	eq.validarBuscarEquipe(id);
     	
         String sql = "SELECT id, nome, descricao, foto, cargo FROM EQUIPE WHERE id = ?";
         Equipe equipe = null;
@@ -82,7 +84,7 @@ public class EquipeDAO extends BaseDAO<Equipe> {
     }
     
     public void update(Equipe equipe, File imagem, EquipeLogic eq) throws EquipeException {
-    	eq.validarEquipe(equipe); 
+    	eq.validarBuscarEquipe(equipe.getId()); 
 
     	if (!idExists(equipe.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
