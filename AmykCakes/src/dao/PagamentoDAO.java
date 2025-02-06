@@ -1,14 +1,18 @@
 package dao;
 
 import model.Pagamento;
+
 import model.Pedido;
 
 import java.sql.*;
 
 import connection.DbConnection;
+import exceptions.PagamentoException;
+import logic.PagamentoLogic;
 
 public class PagamentoDAO extends BaseDAO<Pagamento> {
-
+	PagamentoLogic p = new PagamentoLogic();
+	
     @Override
     protected String getTableName() {
         return "Pagamento"; // Nome da tabela no banco de dados
@@ -26,7 +30,9 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
     }
 
     
-    public void create(Pagamento pagamento) {
+    public void create(Pagamento pagamento) throws PagamentoException {
+    	p.validarCamposPagamento(pagamento); 
+    	
         String sql = "INSERT INTO " + getTableName() + " (Pedido_idPedido, valor, formaPagamento, data) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = DbConnection.getConexao();
@@ -81,7 +87,9 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
     }
 
     // Método para atualizar um pagamento
-    public void update(Pagamento pagamento, String updateFields) {
+    public void update(Pagamento pagamento, String updateFields, PagamentoLogic p) throws PagamentoException {
+    	p.validarAtualizarPagamento(pagamento); 
+    	
         // Verifica se o ID do pagamento existe na tabela
         if (!idExists(pagamento.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");

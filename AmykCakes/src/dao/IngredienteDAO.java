@@ -1,15 +1,19 @@
 package dao;
 
 import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.Ingrediente;
 import model.Produto;
 import connection.DbConnection;
+import exceptions.IngredienteException;
+import logic.IngredienteLogic;
 
 public class IngredienteDAO extends BaseDAO<Ingrediente> {
-    
+	IngredienteLogic i = new IngredienteLogic();
+	
     @Override
     protected String getTableName() {
         return "INGREDIENTE";
@@ -32,7 +36,9 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
         return ingrediente;
     }
     
-    public void create(Ingrediente ingrediente) {
+    public void create(Ingrediente ingrediente) throws IngredienteException {
+    	i.validarCamposIngrediente(ingrediente); 
+    	
         String sql = "INSERT INTO " + getTableName() + " (nomeIngrediente, quantidadeEstoque, Produto_idProduto) VALUES (?, ?, ?)";
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
@@ -68,7 +74,9 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
         return ingrediente;
     }
     
-    public void update(Ingrediente ingrediente) {
+    public void update(Ingrediente ingrediente) throws IngredienteException {
+    	i.validarAtualizarIngrediente(ingrediente);
+    	
         if (!idExists(ingrediente.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
@@ -92,6 +100,7 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
     }
     
     public void delete(int id) {
+    	
         if (!idExists(id)) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
