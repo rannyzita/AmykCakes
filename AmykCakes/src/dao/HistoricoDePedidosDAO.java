@@ -1,11 +1,11 @@
 package dao;
 
 import connection.DbConnection;
+import logic.HistoricoDePedidosLogic;
 import java.sql.*;
 
 public class HistoricoDePedidosDAO {
-
-    
+	
     private boolean pedidoExists(int idPedido) {
         String sql = "SELECT 1 FROM Pedido WHERE id = ?";
 
@@ -22,7 +22,10 @@ public class HistoricoDePedidosDAO {
         }
     }
 
-    public void create(int idPedido) {
+    public void create(int idPedido){
+    	HistoricoDePedidosLogic h = new HistoricoDePedidosLogic();
+    	h.validarIdPedido(idPedido); 
+    	
         if (!pedidoExists(idPedido)) {
             System.out.println("Erro: Pedido não existe.");
             return;
@@ -44,7 +47,9 @@ public class HistoricoDePedidosDAO {
 
 
     
-    public void update(int idPedido) {
+    public void update(int idPedido, HistoricoDePedidosLogic h) {
+    	h.validarIdPedido(idPedido); 
+    	
         if (!pedidoExists(idPedido)) {
             System.out.println("Erro: Pedido não existe.");
             return;

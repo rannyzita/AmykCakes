@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import connection.DbConnection;
+import exceptions.ProdutoException;
+import logic.ProdutoLogic;
 
 public class ProdutoDAO extends BaseDAO<Produto> {
 
@@ -34,7 +36,10 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         return produto;
     }
 
-    public void create(Produto produto, File imagem) throws IOException {
+    public void create(Produto produto, File imagem) throws IOException, ProdutoException {
+    	ProdutoLogic prod = new ProdutoLogic();
+    	prod.validarProduto(produto);
+    	
         String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection connection = DbConnection.getConexao();
@@ -82,7 +87,9 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         return produto;
     }
 
-    public void update(Produto produto, File imagem) throws FileNotFoundException, IOException {
+    public void update(Produto produto, File imagem, ProdutoLogic prod) throws FileNotFoundException, IOException, ProdutoException {
+    	prod.validarProduto(produto);
+    	
         if (!super.idExists(produto.getId())) { // verifica se o ID existe
             System.out.println("Erro: Produto com ID " + produto.getId() + " não encontrado.");
             return;

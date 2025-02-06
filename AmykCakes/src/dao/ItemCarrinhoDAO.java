@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.DbConnection;
+import exceptions.ItemCarrinhoException;
+import logic.ItemCarrinhoLogic;
 import model.ItemCarrinho;
 import model.Pedido;
 import model.Produto;
@@ -46,7 +49,10 @@ public class ItemCarrinhoDAO {
         }
     }
 
-    public void create(ItemCarrinho itemCarrinho) {
+    public void create(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
+    	ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
+    	iCarrinho.validarItemCarrinho(itemCarrinho); 
+    	
         if (!pedidoExists(itemCarrinho.getPedido_idPedido().getId())) {
             System.out.println("Erro: Pedido não existe.");
             return;
@@ -101,7 +107,9 @@ public class ItemCarrinhoDAO {
     }
 
     
-    public void update(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal) {
+    public void update(int idPedido, int idProduto, int quantidade, double valorUnitario, double subTotal, ItemCarrinhoLogic iCarrinho, ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
+    	iCarrinho.validarItemCarrinho(itemCarrinho); 
+    	
         if (!pedidoExists(idPedido)) {
             System.out.println("Erro: Pedido não existe.");
             return;
