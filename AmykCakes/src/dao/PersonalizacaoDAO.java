@@ -1,8 +1,6 @@
 package dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +11,12 @@ import exceptions.PersonalizacaoException;
 import logic.PersonalizacaoLogic;
 
 public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
-    PersonalizacaoLogic personalizarLogic = new PersonalizacaoLogic();
-    Personalizacao personalizacao = new Personalizacao();
-    
+    private PersonalizacaoLogic personalizacaoLogic;
+
+    public PersonalizacaoDAO(PersonalizacaoLogic personalizacaoLogic) {
+        this.personalizacaoLogic = personalizacaoLogic;
+    }
+
     @Override
     protected String getTableName() {
         return "PERSONALIZACAO";
@@ -23,130 +24,66 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     
     @Override
     protected Personalizacao fromResultSet(ResultSet rs) throws SQLException {
-        
+        Personalizacao personalizacao = new Personalizacao();
         personalizacao.setId(rs.getInt("id"));
         personalizacao.setNome(rs.getString("nome"));
         personalizacao.setTipoCobertura(rs.getString("tipoCobertura"));
         personalizacao.setTamanhoPedido(rs.getString("tamanhoPedido"));
         personalizacao.setMassaPedido(rs.getString("massaPedido"));
         personalizacao.setObservacoes(rs.getString("observacoes"));
-        
-        int pedidoId = rs.getInt("Pedido_idPedido");
-        if (!rs.wasNull()) {
-            Pedido pedido = new Pedido();
-            pedido.setId(pedidoId);
-            personalizacao.setPedido_idPedido(pedido);
-        } else {
-            personalizacao.setPedido_idPedido(null);
-        }
-        
+            
         return personalizacao;
     }
     
-    public void create(String nome, String tipoCobertura, String tamanhoPedido, String massaPedido,
-    		String observacoes, int Pedido_idPedido, int quantidade) throws PersonalizacaoException {
-    	
-        personalizarLogic.validarCamposPersonalizacao(nome, tipoCobertura, tamanhoPedido, quantidade);
-        
-        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setString(2, tipoCobertura);
-            ps.setString(3, tamanhoPedido);
-            ps.setString(4, massaPedido);
-            ps.setString(5, observacoes);
-            ps.setInt(7, quantidade);
+    public void create(Personalizacao personalizacao) throws PersonalizacaoException {
+        // Validando os campos da personalização usando o objeto
+        personalizacaoLogic.validarCamposPersonalizacao(
+            personalizacao.getNome(),
+            personalizacao.getTipoCobertura(),
+            personalizacao.getTamanhoPedido(),
+            personalizacao.getQuantidade()
+        );
+
+        // Preparando a consulta SQL com os dados do objeto
+        String sql = "INSERT INTO " + getTableName() + 
+                     " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, quantidade) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = DbConnection.getConexao();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             
-            if (Pedido_idPedido != 0) {
-                ps.setInt(6, Pedido_idPedido);
-            } else {
-                ps.setNull(6, java.sql.Types.INTEGER);
-            }
+            // Setando os valores na query a partir do objeto `personalizacao`
+            ps.setString(1, personalizacao.getNome());
+            ps.setString(2, personalizacao.getTipoCobertura());
+            ps.setString(3, personalizacao.getTamanhoPedido());
+            ps.setString(4, personalizacao.getMassaPedido());
+            ps.setString(5, personalizacao.getObservacoes());
+            ps.setInt(6, personalizacao.getQuantidade());
+            
+            // Executando a atualização no banco de dados
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new PersonalizacaoException("Erro ao criar personalização.");
         }
     }
-    
+
     public Personalizacao findById(int id) {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
-        Personalizacao personalizacao = null;
         
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
+        try (Connection connection = DbConnection.getConexao();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    personalizacao = fromResultSet(rs);
+                    return fromResultSet(rs);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-        return personalizacao;
-    }
-    
-    public void update(String nome, String tipoCobertura, String tamanhoPedido, String massaPedido,
-    	String observacoes, int Pedido_idPedido, int quantidade) throws PersonalizacaoException {
-        personalizarLogic.validarCamposPersonalizacao(nome, tipoCobertura, tamanhoPedido, quantidade);
-        
-        if (!idExists(personalizacao.getId())) {
-            System.out.println("Erro: O ID não existe na tabela.");
-            return;
-        }
-        
-        String sql = "UPDATE " + getTableName() + " SET nome = ?, tipoCobertura = ?, tamanhoPedido = ?, massaPedido = ?, observacoes = ?, Pedido_idPedido = ? WHERE id = ?";
-        
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setString(1, nome);
-            ps.setString(2, tipoCobertura);
-            ps.setString(3, tamanhoPedido);
-            ps.setString(4, massaPedido);
-            ps.setString(5, observacoes);
-            if (personalizacao.getPedido_idPedido() != null) {
-                ps.setInt(6, personalizacao.getPedido_idPedido().getId());
-            } else {
-                ps.setNull(6, java.sql.Types.INTEGER);
-            }
-            ps.setInt(7, personalizacao.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public void delete(int id) {
-        if (!idExists(id)) {
-            System.out.println("Erro: O ID não existe na tabela.");
-            return;
-        }
-        
-        String sql = "DELETE FROM " + getTableName() + " WHERE id = ?";
-        
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public List<Personalizacao> findAll() {
-        List<Personalizacao> personalizacoes = new ArrayList<>();
-        String sql = "SELECT * FROM " + getTableName();
-        
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            
-            while (rs.next()) {
-                personalizacoes.add(fromResultSet(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return personalizacoes;
+        return null;
     }
 }

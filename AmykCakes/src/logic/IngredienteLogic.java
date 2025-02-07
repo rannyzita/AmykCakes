@@ -5,7 +5,11 @@ import exceptions.IngredienteException;
 import model.Ingrediente;
 
 public class IngredienteLogic {
-    private IngredienteDAO ingredienteDAO = new IngredienteDAO();
+    private IngredienteDAO ingredienteDAO;
+
+    public IngredienteLogic() {
+        this.ingredienteDAO = new IngredienteDAO(this);
+    }
 
     public void validarCamposIngrediente(Ingrediente ingrediente) throws IngredienteException {
         if (ingrediente == null) {
@@ -21,32 +25,16 @@ public class IngredienteLogic {
         }
     }
 
-    // Método que valida e cria o ingrediente
     public void validarCriarIngrediente(Ingrediente ingrediente) throws IngredienteException {
         validarCamposIngrediente(ingrediente);
         ingredienteDAO.create(ingrediente);
     }
 
-    // Método que valida e busca o ingrediente pelo ID
     public Ingrediente validarBuscarIngrediente(int id) throws IngredienteException {
         Ingrediente ingrediente = ingredienteDAO.findById(id);
         if (ingrediente == null) {
             throw new IngredienteException("Ingrediente com ID " + id + " não encontrado.");
         }
         return ingrediente;
-    }
-
-    // Método que valida e atualiza o ingrediente
-    public void validarAtualizarIngrediente(Ingrediente ingrediente) throws IngredienteException {
-        validarCamposIngrediente(ingrediente);
-        ingredienteDAO.update(ingrediente);
-    }
-
-    // Método que valida e exclui o ingrediente
-    public void validarExcluirIngrediente(int id) throws IngredienteException {
-        if (ingredienteDAO.findById(id) == null) {
-            throw new IngredienteException("Ingrediente com ID " + id + " não encontrado.");
-        }
-        ingredienteDAO.delete(id);
     }
 }

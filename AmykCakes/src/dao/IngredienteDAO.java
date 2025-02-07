@@ -5,11 +5,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.Ingrediente;
+import model.Personalizacao;
 import model.Produto;
 import connection.DbConnection;
 import exceptions.IngredienteException;
+import logic.IngredienteLogic;
 
 public class IngredienteDAO extends BaseDAO<Ingrediente> {
+    private IngredienteLogic ingredienteLogic;
+
+    public IngredienteDAO(IngredienteLogic ingredienteLogic) {
+        this.ingredienteLogic = ingredienteLogic;
+    }
 
     @Override
     protected String getTableName() {
@@ -33,23 +40,32 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
         return ingrediente;
     }
 
-    public void create(Ingrediente ingrediente) throws IngredienteException {
-        String sql = "INSERT INTO " + getTableName() + " (nomeIngrediente, quantidadeEstoque, Produto_idProduto) VALUES (?, ?, ?)";
+    public void create(Personalizacao personalizacao) {
+        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setString(1, ingrediente.getNomeIngrediente());
-            ps.setInt(2, ingrediente.getQuantidadeEstoque());
-            if (ingrediente.getProduto_idProduto() != null) {
-                ps.setInt(3, ingrediente.getProduto_idProduto().getId());
+            ps.setString(1, personalizacao.getNome());
+            ps.setString(2, personalizacao.getTipoCobertura());
+            ps.setString(3, personalizacao.getTamanhoPedido());
+            ps.setString(4, personalizacao.getMassaPedido());
+            ps.setString(5, personalizacao.getObservacoes());
+
+            // Verifica se o Pedido_idPedido é nulo ou se não for zero
+            if (personalizacao.getPedido_idPedido() != null) {
+                ps.setInt(6, personalizacao.);
             } else {
-                ps.setNull(3, java.sql.Types.INTEGER);
+                ps.setNull(6, java.sql.Types.INTEGER);  // Usando setNull para lidar com valores nulos
             }
+
+            ps.setInt(7, personalizacao.getQuantidade());
+
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new IngredienteException("Erro ao criar o ingrediente.");
         }
     }
+
+
 
     public Ingrediente findById(int id) {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
@@ -68,61 +84,5 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
         }
 
         return ingrediente;
-    }
-
-    public void update(Ingrediente ingrediente) throws IngredienteException {
-        if (!idExists(ingrediente.getId())) {
-            System.out.println("Erro: O ID não existe na tabela.");
-            return;
-        }
-
-        String sql = "UPDATE " + getTableName() + " SET nomeIngrediente = ?, quantidadeEstoque = ?, Produto_idProduto = ? WHERE id = ?";
-
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setString(1, ingrediente.getNomeIngrediente());
-            ps.setInt(2, ingrediente.getQuantidadeEstoque());
-            if (ingrediente.getProduto_idProduto() != null) {
-                ps.setInt(3, ingrediente.getProduto_idProduto().getId());
-            } else {
-                ps.setNull(3, java.sql.Types.INTEGER);
-            }
-            ps.setInt(4, ingrediente.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new IngredienteException("Erro ao atualizar o ingrediente.");
-        }
-    }
-
-    public void delete(int id) {
-        if (!idExists(id)) {
-            System.out.println("Erro: O ID não existe na tabela.");
-            return;
-        }
-
-        String sql = "DELETE FROM " + getTableName() + " WHERE id = ?";
-
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Verifica se o ID existe no banco de dados
-    public boolean idExists(int id) {
-        String sql = "SELECT COUNT(*) FROM " + getTableName() + " WHERE id = ?";
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setInt(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next() && rs.getInt(1) > 0) {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 }

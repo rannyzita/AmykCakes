@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import model.Personalizacao;
 
 import javafx.util.Pair;
+import logic.PersonalizacaoLogic;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -72,10 +73,21 @@ public class PersonalizarPedidoController {
     }
     
     private void processarEncomenda() {
+    	// personalizacao
+    	// item carrinho 
+    	// produto
+    	
+    	// 1 - personalizacao (ok)
+    	
+    	// 2 - cria o pedido (ok)
+    	
+    	// 3 - cria o item carrinho passando as foreign keys 
+    	
         // Inicializando DAOs
         ItemCarrinhoDAO itemCarrinhoDAO = new ItemCarrinhoDAO();
         PedidoDAO pedidoDAO = new PedidoDAO();
-        PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO();
+        PersonalizacaoLogic personalizacaoLogic = new PersonalizacaoLogic();
+        PersonalizacaoDAO personalizacaoDAO = new PersonalizacaoDAO(personalizacaoLogic);
 
         // Captura dos dados do formulário
         String nome = nomePedido.getText().trim().toLowerCase();
@@ -94,25 +106,21 @@ public class PersonalizarPedidoController {
             return;
         }
 
-        // Criando personalização
-        Personalizacao personalizacao = new Personalizacao();
-        personalizacao.setNome(nome);
-
         // Definição dos preços e tipos
         if (tipoCobertura.matches("chocolate|morango|chantilly|brigadeiro|geleia|foundant|açucar glaceado|açúcar glaceado")) {
             precoCobertura = 20.0;
-            personalizacao.setTipoCobertura(tipoCobertura);
         } else {
-            personalizacao.setTipoCobertura("chocolate"); // Valor padrão
+            tipoCobertura = "chocolate"; // Valor padrão
+            precoCobertura = 20.0;
         }
 
         if (tipoMassa.matches("branca|morango|chocolate|cenoura|fubá|nozes|pão de ló|pao de lo")) {
             precoMassa = 30.0;
-            personalizacao.setMassaPedido(tipoMassa);
         } else {
-            personalizacao.setMassaPedido("branca"); // Valor padrão
+            tipoMassa = "branca"; // Valor padrão
+            precoMassa = 30.0;
         }
-        
+
         // Obtendo tamanho
         RadioButton selecionado = (RadioButton) tamanho.getSelectedToggle();
         String tam = (selecionado != null) ? selecionado.getText().trim().toLowerCase() : "";
@@ -129,29 +137,42 @@ public class PersonalizarPedidoController {
             case "g": precoTam = 50.0; break;
             default: precoTam = 30.0;
         }
-        personalizacao.setTamanhoPedido(tam);
-
-        // Conversão da quantidade
+        
         int quantidade_ = Integer.parseInt(quant);
-        personalizacao.setQuantidade(quantidade_);
-        if (!obs.isEmpty()) {
-            personalizacao.setObservacoes(obs);
-        }
-
-        // Cálculo do valor total
+        
+     // Cálculo do valor total
         double valorTotal = (precoMassa + precoCobertura + precoTam) * quantidade_;
+        
+     // Criando a Personalização
+        Personalizacao personalizacao = new Personalizacao();
+        
+        personalizacao.setNome(nome);
+        personalizacao.setTipoCobertura(tipoCobertura);
+        personalizacao.setMassaPedido(tipoMassa);
+        personalizacao.setTamanhoPedido(tam);
+        personalizacao.setObservacoes(obs);
+        personalizacao.setQuantidade(quantidade_);
 
-        // Criando pedido
+        // Salvando a personalização no banco
+        try {
+            personalizacaoDAO.create(personalizacao);
+        } catch (PersonalizacaoException e) {
+            e.printStackTrace();
+            return;
+        }
+        
         Pedido pedido = new Pedido();
         pedido.setValorTotal(valorTotal);
         try {
-        	
-			pedidoDAO.create(valorTotal);
-		} catch (PedidoException e) {
-			e.printStackTrace();
-		}
-
-     // Obtendo IDs de Personalização e Pedido a partir do ItemCarrinhoDAO
+        	int idProduto = 0;
+        	int idPersonalizado = personalizacao.getId();
+            pedidoDAO.create(valorTotal, idProduto, idPersonalizado);
+        } catch (PedidoException e) {
+            e.printStackTrace();
+            return;
+        }
+        
+        // Agora que a personalização e o pedido foram salvos, obtemos os IDs
         List<Integer> personalizacaoData = itemCarrinhoDAO.getIdForeignKeyPersonalizacao();
         if (personalizacaoData == null || personalizacaoData.size() < 2) {
             System.out.println("Erro ao recuperar a Personalização.");
@@ -160,25 +181,19 @@ public class PersonalizarPedidoController {
 
         int personalizacaoId = personalizacaoData.get(0); // ID de Personalização
         int pedidoId = personalizacaoData.get(1); // ID de Pedido
-
-        personalizacao.setPedido_idPedido(pedidoId);
         
-        try {
-			personalizacaoDAO.create(nome, tipoCobertura, tam, tipoMassa, obs, pedidoId, quantidade_);
-		} catch (PersonalizacaoException e) {
-			e.printStackTrace();
-		}
-
+        System.out.println(personalizacaoId);
+        System.out.println(pedidoId);
+        
         // Criando item do carrinho
         ItemCarrinho itemCarrinho = new ItemCarrinho();
         itemCarrinho.setPedido_idPedido(pedidoId);
-        itemCarrinho.setPersonalizacao_id(personalizacaoId);
         itemCarrinho.setQuantidade(quantidade_);
         itemCarrinho.setValorUnitario(valorTotal);
-		
-		int produtoId = 0;
+
+        // Salvando item no carrinho
         try {
-            itemCarrinhoDAO.create(quantidade_, pedidoId, produtoId, valorTotal, personalizacaoId);
+            itemCarrinhoDAO.create(quantidade_, pedidoId, valorTotal);
             System.out.println("Item salvo no carrinho com sucesso! ID da Personalização: " + personalizacaoId + ", ID do Pedido: " + pedidoId);
         } catch (ItemCarrinhoException e) {
             e.printStackTrace();
@@ -188,6 +203,7 @@ public class PersonalizarPedidoController {
         // Limpando o formulário
         onBtnLimparClick();
     }
+
 
     
     public void onBtnLimparClick() {

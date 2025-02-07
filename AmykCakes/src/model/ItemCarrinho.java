@@ -4,22 +4,8 @@ import javafx.scene.Node;
 
 public class ItemCarrinho extends BaseEntity {
 	private Pedido Pedido_idPedido = new Pedido();
-	private Produto Produto_idProduto = new Produto();
 	private int quantidade;
 	private double valorUnitario;
-	private Personalizacao Personalizacao_id = new Personalizacao();
-	
-	public Personalizacao getPersonalizacao_id() {
-		return Personalizacao_id;
-	}
-
-	public void setPersonalizacao_id(Personalizacao personalizacao_id) {
-		Personalizacao_id = personalizacao_id;
-	}
-	
-	public void setPersonalizacao_id(int id) {
-		Personalizacao_id.setId(id);
-	}
 	
 	public void setPedido_idPedido(int id) {
 		Pedido_idPedido.setId(id);
@@ -31,14 +17,6 @@ public class ItemCarrinho extends BaseEntity {
 	
 	public void setPedido_idPedido(Pedido pedido_idPedido) {
 		Pedido_idPedido = pedido_idPedido;
-	}
-	
-	public Produto getProduto_idProduto() {
-		return Produto_idProduto;
-	}
-	
-	public void setProduto_idProduto(Produto produto_idProduto) {
-		Produto_idProduto = produto_idProduto;
 	}
 	
 	public int getQuantidade() {

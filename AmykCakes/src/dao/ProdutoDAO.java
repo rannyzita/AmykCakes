@@ -12,10 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import connection.DbConnection;
 import exceptions.ProdutoException;
-import logic.ProdutoLogic;
 
 public class ProdutoDAO extends BaseDAO<Produto> {
-    ProdutoLogic produtoLogic = new ProdutoLogic();
 
     @Override
     protected String getTableName() {
@@ -59,45 +57,55 @@ public class ProdutoDAO extends BaseDAO<Produto> {
     }
 
     public void create(String nome, String descricao, File imagem, int pedido_id,
-            double preco, int estoque) throws ProdutoException, IOException {
-		produtoLogic.validarCamposProduto(nome, descricao, preco, estoque);
-		
-		String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque, Pedido_id) VALUES (?, ?, ?, ?, ?, ?)";
-		
-		try (Connection connection = DbConnection.getConexao();
-		  PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-		  FileInputStream fis = (imagem != null) ? new FileInputStream(imagem) : null) {
-		
-		 ps.setString(1, nome);
-		 ps.setString(2, descricao);
-		 ps.setDouble(3, preco);
-		
-		 // Se houver uma imagem, define o fluxo de bytes, senão define NULL
-		 if (fis != null) {
-		     ps.setBinaryStream(4, fis, (int) imagem.length());
-		 } else {
-		     ps.setNull(4, java.sql.Types.BLOB);
-		 }
-		
-		 ps.setInt(5, estoque);
-		 ps.setInt(6, pedido_id);
-		
-		 ps.executeUpdate();
-		
-		 // Captura o ID gerado e armazena em um objeto Produto
-		 try (ResultSet rs = ps.getGeneratedKeys()) {
-		     if (rs.next()) {
-		         int produtoId = rs.getInt(1);
-		         System.out.println("Produto criado com sucesso! ID: " + produtoId);
-		     }
-		 }
-		
-		} catch (SQLException e) {
-		 System.err.println("Erro ao inserir produto no banco: " + e.getMessage());
-		 e.printStackTrace();
-			}
-		}
+                       double preco, int estoque) throws ProdutoException, IOException {
+        
+        // A validação é feita antes de chamar o método do DAO
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new ProdutoException("O nome do produto é obrigatório.");
+        }
+        if (descricao == null || descricao.trim().isEmpty()) {
+            throw new ProdutoException("A descrição do produto é obrigatória.");
+        }
+        if (preco <= 0) {
+            throw new ProdutoException("O preço do produto não pode ser negativo, nem igual a 0.");
+        }
+        if (estoque < 0) {
+            throw new ProdutoException("O estoque não pode ser menor que zero.");
+        }
 
+        String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque, Pedido_id) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try (Connection connection = DbConnection.getConexao();
+             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+             FileInputStream fis = (imagem != null) ? new FileInputStream(imagem) : null) {
+        
+            ps.setString(1, nome);
+            ps.setString(2, descricao);
+            ps.setDouble(3, preco);
+        
+            if (fis != null) {
+                ps.setBinaryStream(4, fis, (int) imagem.length());
+            } else {
+                ps.setNull(4, java.sql.Types.BLOB);
+            }
+        
+            ps.setInt(5, estoque);
+            ps.setInt(6, pedido_id);
+        
+            ps.executeUpdate();
+        
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int produtoId = rs.getInt(1);
+                    System.out.println("Produto criado com sucesso! ID: " + produtoId);
+                }
+            }
+        
+        } catch (SQLException e) {
+            System.err.println("Erro ao inserir produto no banco: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     public Produto findById(int id) {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
@@ -120,8 +128,21 @@ public class ProdutoDAO extends BaseDAO<Produto> {
     }
 
     public void update(String nome, String descricao, File imagem, int pedido_id,
-            double preco, int estoque, int produtoId) throws ProdutoException, IOException {
-        produtoLogic.validarCamposProduto(nome, descricao, preco, estoque);
+                       double preco, int estoque, int produtoId) throws ProdutoException, IOException {
+        
+        // Validação feita antes da atualização
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new ProdutoException("O nome do produto é obrigatório.");
+        }
+        if (descricao == null || descricao.trim().isEmpty()) {
+            throw new ProdutoException("A descrição do produto é obrigatória.");
+        }
+        if (preco <= 0) {
+            throw new ProdutoException("O preço do produto não pode ser negativo, nem igual a 0.");
+        }
+        if (estoque < 0) {
+            throw new ProdutoException("O estoque não pode ser menor que zero.");
+        }
 
         if (!super.idExists(produtoId)) {
             System.out.println("Erro: Produto com ID " + produtoId + " não encontrado.");

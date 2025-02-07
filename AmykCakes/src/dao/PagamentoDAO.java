@@ -9,11 +9,15 @@ import exceptions.PagamentoException;
 import logic.PagamentoLogic;
 
 public class PagamentoDAO extends BaseDAO<Pagamento> {
-    PagamentoLogic pagamentoLogic = new PagamentoLogic();
-    
+    private PagamentoLogic pagamentoLogic;
+
+    public PagamentoDAO() {
+        this.pagamentoLogic = new PagamentoLogic(this);
+    }
+
     @Override
     protected String getTableName() {
-        return "Pagamento"; // Nome da tabela no banco de dados
+        return "Pagamento";
     }
 
     @Override
@@ -29,7 +33,7 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
 
     public void create(int Pedido_idPedido, double valor, String formaPagamento, Pagamento pagamento) throws PagamentoException {
         pagamentoLogic.validarCamposPagamento(formaPagamento, valor);
-            
+
         String sql = "INSERT INTO " + getTableName() + " (Pedido_idPedido, valor, formaPagamento, data) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = DbConnection.getConexao();
@@ -96,8 +100,8 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
 
             ps.setString(1, formaPagamento);
             ps.setDouble(2, valor);
-            ps.setTimestamp(3, new Timestamp(System.currentTimeMillis())); 
-            ps.setInt(4, pagamentoId); 
+            ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            ps.setInt(4, pagamentoId);
             ps.executeUpdate();
             System.out.println("Pagamento atualizado com sucesso!");
 
@@ -105,5 +109,4 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
             e.printStackTrace();
         }
     }
-
 }
