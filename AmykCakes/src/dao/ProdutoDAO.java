@@ -61,7 +61,7 @@ public class ProdutoDAO extends BaseDAO<Produto> {
     public void create(Produto produto, File imagem) throws ProdutoException, IOException {
         produtoLogic.validarCamposProduto(produto);
         
-        String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque, Pedido_id) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -72,7 +72,9 @@ public class ProdutoDAO extends BaseDAO<Produto> {
             ps.setDouble(3, produto.getPreco());
             ps.setBinaryStream(4, fis);
             ps.setInt(5, produto.getEstoque());
-
+            
+            //ps.setInt(6, produto.getP());
+            
             ps.executeUpdate();
 
             try (ResultSet rs = ps.getGeneratedKeys()) {

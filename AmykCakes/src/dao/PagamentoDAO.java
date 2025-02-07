@@ -3,12 +3,14 @@ package dao;
 import model.Pagamento;
 import model.Pedido;
 import java.sql.*;
+import java.time.LocalDateTime;
+
 import connection.DbConnection;
 import exceptions.PagamentoException;
 import logic.PagamentoLogic;
 
 public class PagamentoDAO extends BaseDAO<Pagamento> {
-    PagamentoLogic p = new PagamentoLogic();
+    PagamentoLogic pagamentoLogic = new PagamentoLogic();
     
     @Override
     protected String getTableName() {
@@ -26,9 +28,9 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
         return pagamento;
     }
 
-    public void create(Pagamento pagamento) throws PagamentoException {
-        p.validarCamposPagamento(pagamento);
-
+    public void create(int Pedido_idPedido, double valor, String formaPagamento, Pagamento pagamento) throws PagamentoException {
+        pagamentoLogic.validarCamposPagamento(valor, formaPagamento, Pedido_idPedido);
+            
         String sql = "INSERT INTO " + getTableName() + " (Pedido_idPedido, valor, formaPagamento, data) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = DbConnection.getConexao();
@@ -80,11 +82,11 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
         return pagamento;
     }
 
-    public void update(Pagamento pagamento) throws PagamentoException {
-        p.validarCamposPagamento(pagamento);
+    public void update(String formaPagamento, double valor, int Pagamentoid) throws PagamentoException {
+        pagamentoLogic.validarCamposPagamento(formaPagamento, valor);
 
         // Verifica se o ID do pagamento existe na tabela
-        if (!idExists(pagamento.getId())) {
+        if (!idExists(Pagamentoid) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
         }
@@ -94,9 +96,9 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setString(1, pagamento.getFormaPagamento());
-            ps.setDouble(2, pagamento.getValor());
-            ps.setTimestamp(3, Timestamp.valueOf(pagamento.getData()));
+            ps.setString(1, formaPagamento);
+            ps.setDouble(2, valor);
+            ps.setTimestamp(3, Timestamp.valueOf(data.getData()));
             ps.setInt(4, pagamento.getId());
 
             ps.executeUpdate();

@@ -17,6 +17,7 @@ import model.Produto;
 
 public class ItemCarrinhoDAO {
     ItemCarrinhoLogic iCarrinho = new ItemCarrinhoLogic();
+    ItemCarrinho itemCarrinho = new ItemCarrinho();
 
     private boolean existsById(int id) {
         String sql = "SELECT 1 FROM ItemCarrinho WHERE id = ?";
@@ -55,14 +56,15 @@ public class ItemCarrinhoDAO {
         return ids; // Retorna a lista com os IDs
     }
 
-    public void create(ItemCarrinho itemCarrinho) throws ItemCarrinhoException {
-        iCarrinho.validarCamposItemCarrinho(itemCarrinho); 
+    public void create(int quantidade, int Pedido_idPedido, int Produto_idProduto,
+    		double valorUnitario, int Personalizacao_id) throws ItemCarrinhoException {
+        iCarrinho.validarCamposItemCarrinho(quantidade, valorUnitario); 
 
-        if (itemCarrinho.getPersonalizacao_id() == null) {
+        if (Personalizacao_id == 0) {
             System.out.println("Aviso: Nenhuma personalização associada. Continuando com Personalizacao_id como NULL.");
         }
 
-        if (itemCarrinho.getProduto_idProduto() == null) {
+        if (Produto_idProduto == 0) {
             System.out.println("Aviso: Nenhum produto associado. Continuando com Produto_id como NULL.");
         }
 
@@ -71,19 +73,19 @@ public class ItemCarrinhoDAO {
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, itemCarrinho.getQuantidade());
-            ps.setInt(2, itemCarrinho.getPedido_idPedido().getId());
-            ps.setDouble(4, itemCarrinho.getValorUnitario());
+            ps.setInt(1, quantidade);
+            ps.setInt(2, Pedido_idPedido);
+            ps.setDouble(4, valorUnitario);
 
             // Verifica se existe personalização antes de setar
-            if (itemCarrinho.getPersonalizacao_id() != null) {
-                ps.setInt(5, itemCarrinho.getPersonalizacao_id().getId());
+            if (Personalizacao_id != 0) {
+                ps.setInt(5, Personalizacao_id);
             } else {
                 ps.setNull(5, java.sql.Types.INTEGER);
             }
             
-            if (itemCarrinho.getProduto_idProduto() != null) {
-                ps.setInt(3, itemCarrinho.getProduto_idProduto().getId());
+            if (Produto_idProduto != 0) {
+                ps.setInt(3, Produto_idProduto);
             } else {
                 ps.setNull(3, java.sql.Types.INTEGER);
             }

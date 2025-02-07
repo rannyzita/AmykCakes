@@ -10,6 +10,7 @@ public class Produto extends BaseEntity{
 	private double preco;
 	private byte[] foto;
 	private int estoque;
+	private Pedido Pedido_id; 
 	
 	public String getNome() {
 		return nome;
@@ -79,6 +80,14 @@ public class Produto extends BaseEntity{
 
 	public String getRescricao() {
 		return null;
+	}
+
+	public Pedido getPedido_id() {
+		return Pedido_id;
+	}
+
+	public void setPedido_id(Pedido pedido_id) {
+		Pedido_id = pedido_id;
 	}
 
 }

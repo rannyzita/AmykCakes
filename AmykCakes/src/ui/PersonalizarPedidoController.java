@@ -69,7 +69,7 @@ public class PersonalizarPedidoController {
             e.printStackTrace();
         }
     }
-
+    
     private void processarEncomenda() {
         // Inicializando DAOs
         ItemCarrinhoDAO itemCarrinhoDAO = new ItemCarrinhoDAO();
@@ -111,7 +111,7 @@ public class PersonalizarPedidoController {
         } else {
             personalizacao.setMassaPedido("branca"); // Valor padrão
         }
-
+        
         // Obtendo tamanho
         RadioButton selecionado = (RadioButton) tamanho.getSelectedToggle();
         String tam = (selecionado != null) ? selecionado.getText().trim().toLowerCase() : "";
