@@ -8,6 +8,7 @@ import model.Personalizacao;
 
 import javafx.util.Pair;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import dao.ItemCarrinhoDAO;
@@ -144,7 +145,8 @@ public class PersonalizarPedidoController {
         Pedido pedido = new Pedido();
         pedido.setValorTotal(valorTotal);
         try {
-			pedidoDAO.create(pedido);
+        	
+			pedidoDAO.create(valorTotal);
 		} catch (PedidoException e) {
 			e.printStackTrace();
 		}
@@ -161,10 +163,8 @@ public class PersonalizarPedidoController {
 
         personalizacao.setPedido_idPedido(pedidoId);
         
-
-        personalizacao.setPedido_idPedido(pedidoId);
         try {
-			personalizacaoDAO.create(personalizacao);
+			personalizacaoDAO.create(nome, tipoCobertura, tam, tipoMassa, obs, pedidoId, quantidade_);
 		} catch (PersonalizacaoException e) {
 			e.printStackTrace();
 		}
@@ -175,10 +175,10 @@ public class PersonalizarPedidoController {
         itemCarrinho.setPersonalizacao_id(personalizacaoId);
         itemCarrinho.setQuantidade(quantidade_);
         itemCarrinho.setValorUnitario(valorTotal);
-
-        // Salvando no banco
+		
+		int produtoId = 0;
         try {
-            itemCarrinhoDAO.create(itemCarrinho);
+            itemCarrinhoDAO.create(quantidade_, pedidoId, produtoId, valorTotal, personalizacaoId);
             System.out.println("Item salvo no carrinho com sucesso! ID da Personalização: " + personalizacaoId + ", ID do Pedido: " + pedidoId);
         } catch (ItemCarrinhoException e) {
             e.printStackTrace();

@@ -26,38 +26,38 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         return pedido;
     }
 
-    public void create(int clienteId, LocalDateTime dataPedido, double valorTotal, 
-        String status, String formaPagamento) throws PedidoException {
-		pedidoLogic.validarCamposPedido(valorTotal);
-		
-		// Define a data de entrega prevista como 15 dias após a data do pedido
-		LocalDateTime dataEntregaPrevista = dataPedido.plusDays(15);
-		
-		String sql = "INSERT INTO " + getTableName() + 
-		      " (dataPedido, dataEntregaPrevista, valorTotal) " +
-		      "VALUES (?, ?, ?)";
-		
-		try (Connection connection = DbConnection.getConexao();
-		  PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-		
-		 ps.setTimestamp(1, Timestamp.valueOf(dataPedido));
-		 ps.setTimestamp(2, Timestamp.valueOf(dataEntregaPrevista));
-		 ps.setDouble(3, valorTotal);
-		
-		 ps.executeUpdate();
-		
-		 // Buscar o último ID inserido
-		 try (ResultSet rs = ps.getGeneratedKeys()) {
-		     if (rs.next()) {
-		         int pedidoId = rs.getInt(1);
-		         System.out.println("Pedido criado com sucesso! ID do Pedido: " + pedidoId);
-		     }
-		 }
-			} catch (SQLException e) {
-				e.printStackTrace();
-				}
-    	}
-
+    public void create(double valorTotal) throws PedidoException {
+        pedidoLogic.validarCamposPedido(valorTotal);
+        
+        // Obtém a data e hora atual como data do pedido
+        LocalDateTime dataPedido = LocalDateTime.now();
+        // Define a data de entrega prevista como 15 dias após a data do pedido
+        LocalDateTime dataEntregaPrevista = dataPedido.plusDays(15);
+        
+        String sql = "INSERT INTO " + getTableName() + 
+                     " (dataPedido, dataEntregaPrevista, valorTotal) " +
+                     "VALUES (?, ?, ?)";
+        
+        try (Connection connection = DbConnection.getConexao();
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            
+            ps.setTimestamp(1, Timestamp.valueOf(dataPedido));
+            ps.setTimestamp(2, Timestamp.valueOf(dataEntregaPrevista));
+            ps.setDouble(3, valorTotal);
+            
+            ps.executeUpdate();
+            
+            // Buscar o último ID inserido
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int pedidoId = rs.getInt(1);
+                    System.out.println("Pedido criado com sucesso! ID do Pedido: " + pedidoId);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Pedido findById(int id) {
         if (!idExists(id)) {
