@@ -58,35 +58,46 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         return ids; // Retorna a lista com os IDs
     }
 
-    public void create(Produto produto, File imagem) throws ProdutoException, IOException {
-        produtoLogic.validarCamposProduto(produto);
-        
-        String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque, Pedido_id) VALUES (?, ?, ?, ?, ?, ?)";
-        
-        try (Connection connection = DbConnection.getConexao();
-             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-             FileInputStream fis = new FileInputStream(imagem)) {
+    public void create(String nome, String descricao, File imagem, int pedido_id,
+            double preco, int estoque) throws ProdutoException, IOException {
+		produtoLogic.validarCamposProduto(nome, descricao, preco, estoque);
+		
+		String sql = "INSERT INTO " + getTableName() + " (nome, descricao, preco, foto, estoque, Pedido_id) VALUES (?, ?, ?, ?, ?, ?)";
+		
+		try (Connection connection = DbConnection.getConexao();
+		  PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+		  FileInputStream fis = (imagem != null) ? new FileInputStream(imagem) : null) {
+		
+		 ps.setString(1, nome);
+		 ps.setString(2, descricao);
+		 ps.setDouble(3, preco);
+		
+		 // Se houver uma imagem, define o fluxo de bytes, senão define NULL
+		 if (fis != null) {
+		     ps.setBinaryStream(4, fis, (int) imagem.length());
+		 } else {
+		     ps.setNull(4, java.sql.Types.BLOB);
+		 }
+		
+		 ps.setInt(5, estoque);
+		 ps.setInt(6, pedido_id);
+		
+		 ps.executeUpdate();
+		
+		 // Captura o ID gerado e armazena em um objeto Produto
+		 try (ResultSet rs = ps.getGeneratedKeys()) {
+		     if (rs.next()) {
+		         int produtoId = rs.getInt(1);
+		         System.out.println("Produto criado com sucesso! ID: " + produtoId);
+		     }
+		 }
+		
+		} catch (SQLException e) {
+		 System.err.println("Erro ao inserir produto no banco: " + e.getMessage());
+		 e.printStackTrace();
+			}
+		}
 
-            ps.setString(1, produto.getNome());
-            ps.setString(2, produto.getDescricao());
-            ps.setDouble(3, produto.getPreco());
-            ps.setBinaryStream(4, fis);
-            ps.setInt(5, produto.getEstoque());
-            
-            //ps.setInt(6, produto.getP());
-            
-            ps.executeUpdate();
-
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    produto.setId(rs.getInt(1));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Produto findById(int id) {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
@@ -108,11 +119,12 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         return produto;
     }
 
-    public void update(Produto produto, File imagem) throws ProdutoException, IOException {
-        produtoLogic.validarCamposProduto(produto);
+    public void update(String nome, String descricao, File imagem, int pedido_id,
+            double preco, int estoque, int produtoId) throws ProdutoException, IOException {
+        produtoLogic.validarCamposProduto(nome, descricao, preco, estoque);
 
-        if (!super.idExists(produto.getId())) {
-            System.out.println("Erro: Produto com ID " + produto.getId() + " não encontrado.");
+        if (!super.idExists(produtoId)) {
+            System.out.println("Erro: Produto com ID " + produtoId + " não encontrado.");
             return;
         }
 
@@ -122,12 +134,12 @@ public class ProdutoDAO extends BaseDAO<Produto> {
              PreparedStatement ps = connection.prepareStatement(sql);
              FileInputStream fis = new FileInputStream(imagem)) {
 
-            ps.setString(1, produto.getNome());
-            ps.setString(2, produto.getDescricao());
-            ps.setDouble(3, produto.getPreco());
+            ps.setString(1, nome);
+            ps.setString(2, descricao);
+            ps.setDouble(3, preco);
             ps.setBinaryStream(4, fis);
-            ps.setInt(5, produto.getEstoque());
-            ps.setInt(6, produto.getId());
+            ps.setInt(5, estoque);
+            ps.setInt(6, produtoId);
 
             int rowsAffected = ps.executeUpdate();
 

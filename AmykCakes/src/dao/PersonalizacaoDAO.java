@@ -14,6 +14,7 @@ import logic.PersonalizacaoLogic;
 
 public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     PersonalizacaoLogic personalizarLogic = new PersonalizacaoLogic();
+    Personalizacao personalizacao = new Personalizacao();
     
     @Override
     protected String getTableName() {
@@ -22,7 +23,7 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
     
     @Override
     protected Personalizacao fromResultSet(ResultSet rs) throws SQLException {
-        Personalizacao personalizacao = new Personalizacao();
+        
         personalizacao.setId(rs.getInt("id"));
         personalizacao.setNome(rs.getString("nome"));
         personalizacao.setTipoCobertura(rs.getString("tipoCobertura"));
@@ -42,21 +43,23 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void create(Personalizacao personalizacao) throws PersonalizacaoException {
-        personalizarLogic.validarCamposPersonalizacao(personalizacao);
+    public void create(String nome, String tipoCobertura, String tamanhoPedido, String massaPedido,
+    		String observacoes, int Pedido_idPedido, int quantidade) throws PersonalizacaoException {
+    	
+        personalizarLogic.validarCamposPersonalizacao(nome, tipoCobertura, tamanhoPedido, quantidade);
         
-        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setString(1, personalizacao.getNome());
-            ps.setString(2, personalizacao.getTipoCobertura());
-            ps.setString(3, personalizacao.getTamanhoPedido());
-            ps.setString(4, personalizacao.getMassaPedido());
-            ps.setString(5, personalizacao.getObservacoes());
-            ps.setInt(7, personalizacao.getQuantidade());
+            ps.setString(1, nome);
+            ps.setString(2, tipoCobertura);
+            ps.setString(3, tamanhoPedido);
+            ps.setString(4, massaPedido);
+            ps.setString(5, observacoes);
+            ps.setInt(7, quantidade);
             
-            if (personalizacao.getPedido_idPedido() != null) {
-                ps.setInt(6, personalizacao.getPedido_idPedido().getId());
+            if (Pedido_idPedido != 0) {
+                ps.setInt(6, Pedido_idPedido);
             } else {
                 ps.setNull(6, java.sql.Types.INTEGER);
             }
@@ -85,8 +88,9 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void update(Personalizacao personalizacao) throws PersonalizacaoException {
-        personalizarLogic.validarCamposPersonalizacao(personalizacao);
+    public void update(String nome, String tipoCobertura, String tamanhoPedido, String massaPedido,
+    	String observacoes, int Pedido_idPedido, int quantidade) throws PersonalizacaoException {
+        personalizarLogic.validarCamposPersonalizacao(nome, tipoCobertura, tamanhoPedido, quantidade);
         
         if (!idExists(personalizacao.getId())) {
             System.out.println("Erro: O ID não existe na tabela.");
@@ -96,11 +100,11 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         String sql = "UPDATE " + getTableName() + " SET nome = ?, tipoCobertura = ?, tamanhoPedido = ?, massaPedido = ?, observacoes = ?, Pedido_idPedido = ? WHERE id = ?";
         
         try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setString(1, personalizacao.getNome());
-            ps.setString(2, personalizacao.getTipoCobertura());
-            ps.setString(3, personalizacao.getTamanhoPedido());
-            ps.setString(4, personalizacao.getMassaPedido());
-            ps.setString(5, personalizacao.getObservacoes());
+            ps.setString(1, nome);
+            ps.setString(2, tipoCobertura);
+            ps.setString(3, tamanhoPedido);
+            ps.setString(4, massaPedido);
+            ps.setString(5, observacoes);
             if (personalizacao.getPedido_idPedido() != null) {
                 ps.setInt(6, personalizacao.getPedido_idPedido().getId());
             } else {

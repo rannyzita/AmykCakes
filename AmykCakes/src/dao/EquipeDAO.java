@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.DbConnection;
-import exceptions.EquipeException;
 import model.Equipe;
 
 public class EquipeDAO extends BaseDAO<Equipe> {
@@ -34,7 +33,7 @@ public class EquipeDAO extends BaseDAO<Equipe> {
     }
 
     // Criação de uma nova equipe
-    public void create(Equipe equipe, File imagem) throws EquipeException {
+    public void create(Equipe equipe, File imagem) {
         String sql = "INSERT INTO EQUIPE (nome, descricao, foto, cargo) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DbConnection.getConexao();
@@ -49,12 +48,11 @@ public class EquipeDAO extends BaseDAO<Equipe> {
             ps.executeUpdate();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            throw new EquipeException("Erro ao criar a equipe.");
         }
     }
 
     // Buscar equipe por ID
-    public Equipe findById(int id) throws EquipeException {
+    public Equipe findById(int id) {
         String sql = "SELECT id, nome, descricao, foto, cargo FROM EQUIPE WHERE id = ?";
         Equipe equipe = null;
 
@@ -74,18 +72,13 @@ public class EquipeDAO extends BaseDAO<Equipe> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EquipeException("Erro ao buscar equipe.");
         }
 
-        if (equipe == null) {
-            throw new EquipeException("Equipe com ID " + id + " não encontrada.");
-        }
-        
         return equipe;
     }
 
     // Atualiza uma equipe
-    public void update(Equipe equipe, File imagem) throws EquipeException {
+    public void update(Equipe equipe, File imagem) {
         String sql = "UPDATE EQUIPE SET nome = ?, descricao = ?, foto = ?, cargo = ? WHERE id = ?";
 
         try (Connection conn = DbConnection.getConexao();
@@ -106,7 +99,6 @@ public class EquipeDAO extends BaseDAO<Equipe> {
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            throw new EquipeException("Erro ao atualizar a equipe.");
         }
     }
 

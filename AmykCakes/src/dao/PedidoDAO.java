@@ -2,6 +2,8 @@ package dao;
 
 import model.Pedido;
 import java.sql.*;
+import java.time.LocalDateTime;
+
 import connection.DbConnection;
 import exceptions.PedidoException;
 import logic.PedidoLogic;
@@ -24,33 +26,38 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         return pedido;
     }
 
-    public void create(Pedido pedido) throws PedidoException {
-        pedidoLogic.validarCamposPedido(pedido);
-        
-        // Define a data de entrega prevista como 15 dias após a data do pedido
-        pedido.setDataEntregaPrevista(pedido.getDataPedido().plusDays(15));
-        
-        String sql = "INSERT INTO " + getTableName() + " (dataPedido, dataEntregaPrevista, valorTotal) VALUES (?, ?, ?)";
+    public void create(int clienteId, LocalDateTime dataPedido, double valorTotal, 
+        String status, String formaPagamento) throws PedidoException {
+		pedidoLogic.validarCamposPedido(valorTotal);
+		
+		// Define a data de entrega prevista como 15 dias após a data do pedido
+		LocalDateTime dataEntregaPrevista = dataPedido.plusDays(15);
+		
+		String sql = "INSERT INTO " + getTableName() + 
+		      " (dataPedido, dataEntregaPrevista, valorTotal) " +
+		      "VALUES (?, ?, ?)";
+		
+		try (Connection connection = DbConnection.getConexao();
+		  PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+		
+		 ps.setTimestamp(1, Timestamp.valueOf(dataPedido));
+		 ps.setTimestamp(2, Timestamp.valueOf(dataEntregaPrevista));
+		 ps.setDouble(3, valorTotal);
+		
+		 ps.executeUpdate();
+		
+		 // Buscar o último ID inserido
+		 try (ResultSet rs = ps.getGeneratedKeys()) {
+		     if (rs.next()) {
+		         int pedidoId = rs.getInt(1);
+		         System.out.println("Pedido criado com sucesso! ID do Pedido: " + pedidoId);
+		     }
+		 }
+			} catch (SQLException e) {
+				e.printStackTrace();
+				}
+    	}
 
-        try (Connection connection = DbConnection.getConexao();
-             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) { 
-
-            ps.setTimestamp(1, Timestamp.valueOf(pedido.getDataPedido()));
-            ps.setTimestamp(2, Timestamp.valueOf(pedido.getDataEntregaPrevista()));
-            ps.setDouble(3, pedido.getValorTotal());
-
-            ps.executeUpdate(); 
-
-            try (ResultSet rs = ps.getGeneratedKeys()) {
-                if (rs.next()) {
-                    pedido.setId(rs.getInt(1));
-                    System.out.println("Pedido criado com sucesso! ID do Pedido: " + pedido.getId());
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public Pedido findById(int id) {
         if (!idExists(id)) {
@@ -73,14 +80,8 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         return null;
     }
 
-    public void update(Pedido pedido, String updateFields) {
-        try {
-            pedidoLogic.validarCamposPedido(pedido);
-        } catch (PedidoException e) {
-            e.printStackTrace();
-        }
-
-        if (!idExists(pedido.getId())) {
+    public void update(int idPedido, String updateFields) {
+        if (!idExists(idPedido)) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
         }
@@ -90,7 +91,7 @@ public class PedidoDAO extends BaseDAO<Pedido> {
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
             
-            ps.setInt(1, pedido.getId());
+            ps.setInt(1, idPedido);
 
             ps.executeUpdate();
             System.out.println("Pedido atualizado com sucesso!");

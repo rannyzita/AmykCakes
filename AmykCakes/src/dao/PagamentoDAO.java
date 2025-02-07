@@ -3,7 +3,6 @@ package dao;
 import model.Pagamento;
 import model.Pedido;
 import java.sql.*;
-import java.time.LocalDateTime;
 
 import connection.DbConnection;
 import exceptions.PagamentoException;
@@ -29,7 +28,7 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
     }
 
     public void create(int Pedido_idPedido, double valor, String formaPagamento, Pagamento pagamento) throws PagamentoException {
-        pagamentoLogic.validarCamposPagamento(valor, formaPagamento, Pedido_idPedido);
+        pagamentoLogic.validarCamposPagamento(formaPagamento, valor);
             
         String sql = "INSERT INTO " + getTableName() + " (Pedido_idPedido, valor, formaPagamento, data) VALUES (?, ?, ?, ?)";
 
@@ -82,11 +81,10 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
         return pagamento;
     }
 
-    public void update(String formaPagamento, double valor, int Pagamentoid) throws PagamentoException {
+    public void update(String formaPagamento, double valor, int pagamentoId) throws PagamentoException {
         pagamentoLogic.validarCamposPagamento(formaPagamento, valor);
 
-        // Verifica se o ID do pagamento existe na tabela
-        if (!idExists(Pagamentoid) {
+        if (!idExists(pagamentoId)) {
             System.out.println("Erro: O ID não existe na tabela.");
             return;
         }
@@ -98,9 +96,8 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
 
             ps.setString(1, formaPagamento);
             ps.setDouble(2, valor);
-            ps.setTimestamp(3, Timestamp.valueOf(data.getData()));
-            ps.setInt(4, pagamento.getId());
-
+            ps.setTimestamp(3, new Timestamp(System.currentTimeMillis())); 
+            ps.setInt(4, pagamentoId); 
             ps.executeUpdate();
             System.out.println("Pagamento atualizado com sucesso!");
 
@@ -108,4 +105,5 @@ public class PagamentoDAO extends BaseDAO<Pagamento> {
             e.printStackTrace();
         }
     }
+
 }

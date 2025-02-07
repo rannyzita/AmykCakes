@@ -1,8 +1,6 @@
 package logic;
 
-import dao.PagamentoDAO;
 import exceptions.PagamentoException;
-import model.Pagamento;
 
 public class PagamentoLogic {
     
