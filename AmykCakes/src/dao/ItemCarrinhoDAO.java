@@ -26,7 +26,7 @@ public class ItemCarrinhoDAO {
     public List<Integer> getIdForeignKeyPersonalizacao() {
         String sql = "SELECT p.id AS idPedido, p.idPersonalizacao " +
                      "FROM Pedido p " +
-                     "INNER JOIN ItemCarrinho ic ON ic.Pedido_idPedido = p.id " +
+                     "INNER JOIN Personalizacao ic ON ic.Pedido_idPedido = p.id " +
                      "ORDER BY p.id DESC LIMIT 1"; // Pega o último inserido
 
         List<Integer> ids = new ArrayList<>();

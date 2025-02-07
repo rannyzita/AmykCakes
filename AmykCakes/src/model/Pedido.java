@@ -8,8 +8,8 @@ public class Pedido extends BaseEntity{
 	private LocalDateTime dataEntregaPrevista;
 	private double valorTotal;
 	
-	public Personalizacao getIdPersonalizacao() {
-		return idPersonalizacao;
+	public int getIdPersonalizacao() {
+		return idPersonalizacao.getId();
 	}
 
 	public void setIdPersonalizacao(Personalizacao idPersonalizacao) {

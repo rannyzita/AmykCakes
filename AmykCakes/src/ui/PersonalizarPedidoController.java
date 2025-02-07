@@ -172,19 +172,18 @@ public class PersonalizarPedidoController {
             return;
         }
         
+        System.out.println("id do pedido personalizacao: " + pedido.getIdPersonalizacao());
+        
         // Agora que a personalização e o pedido foram salvos, obtemos os IDs
-        List<Integer> personalizacaoData = itemCarrinhoDAO.getIdForeignKeyPersonalizacao();
-        if (personalizacaoData == null || personalizacaoData.size() < 2) {
-            System.out.println("Erro ao recuperar a Personalização.");
-            return;
-        }
+        // List<Integer> personalizacaoData = itemCarrinhoDAO.getIdForeignKeyPersonalizacao();
+        // if (personalizacaoData == null || personalizacaoData.size() < 2) {
+            // System.out.println("Erro ao recuperar a Personalização.");
+            // return;
+        //}
 
-        int personalizacaoId = personalizacaoData.get(0); // ID de Personalização
-        int pedidoId = personalizacaoData.get(1); // ID de Pedido
-        
-        System.out.println(personalizacaoId);
-        System.out.println(pedidoId);
-        
+        //int personalizacaoId = personalizacaoData.get(0); // ID de Personalização
+        //int pedidoId = personalizacaoData.get(1); // ID de Pedido
+                
         // Criando item do carrinho
         ItemCarrinho itemCarrinho = new ItemCarrinho();
         itemCarrinho.setPedido_idPedido(pedidoId);
