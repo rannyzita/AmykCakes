@@ -160,7 +160,7 @@ public class PersonalizarPedidoController {
         int pedidoId = personalizacaoData.get(1); // ID de Pedido
 
         personalizacao.setPedido_idPedido(pedidoId);
-
+        
 
         personalizacao.setPedido_idPedido(pedidoId);
         try {
@@ -188,8 +188,6 @@ public class PersonalizarPedidoController {
         // Limpando o formulário
         onBtnLimparClick();
     }
-
-
 
     
     public void onBtnLimparClick() {

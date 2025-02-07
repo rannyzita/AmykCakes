@@ -31,7 +31,7 @@ public class ItemCarrinhoDAO {
             return false;
         }
     }
-
+    
     public List<Integer> getIdForeignKeyPersonalizacao() {
         String sql = "SELECT p.id, p.Pedido_idPedido " +
                      "FROM Personalizacao p " +

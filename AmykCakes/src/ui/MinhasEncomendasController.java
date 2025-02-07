@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.DbConnection;
+import dao.ItemCarrinhoDAO;
 
 public class MinhasEncomendasController {
 	
@@ -51,33 +52,11 @@ public class MinhasEncomendasController {
     }
 
     private void carregarEncomendas() {
-        List<String> encomendas = obterDadosEncomendas();
-        System.out.println("Encomendas carregadas: " + encomendas); // Verificar se há dados
-        vboxEncomendas.getChildren().clear();
-
-        for (String encomenda : encomendas) {
-            Label label = new Label(encomenda);
-            label.setStyle("-fx-font-size: 18px; -fx-padding: 10px;");
-            vboxEncomendas.getChildren().add(label);
-        }
-    }
-
-    private List<String> obterDadosEncomendas() {
-        List<String> lista = new ArrayList<>();
-        try (Connection conn = DbConnection.getConexao();
-             PreparedStatement stmt = conn.prepareStatement("SELECT personalizacao FROM encomendas");
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                lista.add(rs.getString("personalizacao"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         
-        return lista;
+        
+        
     }
-    
+
     public void setMainPane(Pane mainPane) {
         this.mainPane = mainPane;
     }

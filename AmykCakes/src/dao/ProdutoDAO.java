@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import connection.DbConnection;
 import exceptions.ProdutoException;
 import logic.ProdutoLogic;
@@ -23,6 +25,7 @@ public class ProdutoDAO extends BaseDAO<Produto> {
     @Override
     protected Produto fromResultSet(ResultSet rs) throws SQLException {
         Produto produto = new Produto();
+        
         produto.setId(rs.getInt("id"));
         produto.setNome(rs.getString("nome"));
         produto.setDescricao(rs.getString("descricao"));
@@ -32,21 +35,27 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         return produto;
     }
 
-    public int getIdForeignKeyProduto(String nomeProduto) {
-        String sql = "SELECT id FROM Produto WHERE nome = ? LIMIT 1";
-        try (Connection conn = DbConnection.getConexao();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    public List<Integer> getIdForeignKeyPersonalizacao() {
+        String sql = "SELECT p.id, p.Pedido_idPedido " +
+                     "FROM Produto p " +
+                     "INNER JOIN Pedido ped ON p.Pedido_idPedido = ped.id " +
+                     "ORDER BY p.id DESC LIMIT 1"; // Pega o último inserido
 
-            stmt.setString(1, nomeProduto);
-            ResultSet rs = stmt.executeQuery();
+        List<Integer> ids = new ArrayList<>();
+
+        try (Connection conn = DbConnection.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
-                return rs.getInt("id");
+                ids.add(rs.getInt("id")); // ID de Personalizacao
+                ids.add(rs.getInt("Pedido_idPedido")); // ID de Pedido
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return -1;
+
+        return ids; // Retorna a lista com os IDs
     }
 
     public void create(Produto produto, File imagem) throws ProdutoException, IOException {
