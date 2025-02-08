@@ -12,8 +12,8 @@ A estrutura do projeto está organizada da seguinte forma:
 Antes de rodar o projeto, certifique-se de ter o seguinte ambiente configurado:
 
 - **Java Development Kit (JDK) 11 ou superior**
-- **Eclipse IDE** (ou outra IDE compatível com Java)
-- **JavaFX** corretamente configurado na IDE
+- **Eclipse IDE** (ou outra IDE compatível com Java) 
+- **JavaFX** corretamente configurado na IDE (link para configurar: https://youtu.be/_7OM-cMYWbQ?si=sk7BDOm7HLd214yK)
 - **MySQL Workbench** instalado
 - **Driver JDBC para MySQL** configurado no projeto
 - **Arquivo JAR do JavaFX e JDBC** referenciado corretamente no projeto (disponível no repositório)
