@@ -123,49 +123,31 @@
         </rowConstraints>
          <children>
             <ImageView fx:id="imgBolo1" fitHeight="302.0" fitWidth="300.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true">
-               <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2001.png" />
-               </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
             <ImageView fx:id="imgBolo4" fitHeight="302.0" fitWidth="300.0" layoutX="10.0" layoutY="9.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="3">
-               <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2007.png" />
-               </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
             <ImageView fx:id="imgBolo2" fitHeight="302.0" fitWidth="300.0" layoutX="10.0" layoutY="309.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="1">
-               <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2006.png" />
-               </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
             <ImageView fx:id="imgBolo5" fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="9.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="4">
-               <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2008.png" />
-               </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
             <ImageView fx:id="imgBolo3" fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="309.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-               <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2005.png" />
-               </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
             <ImageView fx:id="imgBolo6" fitHeight="302.0" fitWidth="300.0" layoutX="610.0" layoutY="9.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="5">
-               <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2002.png" />
-               </image>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

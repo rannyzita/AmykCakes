@@ -1,14 +1,10 @@
 package logic;
 
-import dao.PedidoDAO;
 import exceptions.PedidoException;
-import model.Pedido;
 
 public class PedidoLogic {
-    private PedidoDAO pedidoDAO;
 
-    public PedidoLogic(PedidoDAO pedidoDAO) {
-        this.pedidoDAO = pedidoDAO;  // Agora passando o PedidoDAO como dependência
+    public PedidoLogic() {
     }
 
     public void validarCamposPedido(double valorTotal) throws PedidoException {
@@ -17,16 +13,4 @@ public class PedidoLogic {
         }
     }
 
-    public void validarCriarPedido(double valorTotal) throws PedidoException {
-        validarCamposPedido(valorTotal);
-        pedidoDAO.create(valorTotal);
-    }
-
-    public Pedido validarBuscarPedido(int id) throws PedidoException {
-        Pedido pedido = pedidoDAO.findById(id);
-        if (pedido == null) {
-            throw new PedidoException("Pedido com ID " + id + " não encontrado.");
-        }
-        return pedido;
-    }
 }

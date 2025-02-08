@@ -1,8 +1,10 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import model.Ingrediente;
 import model.Personalizacao;
@@ -40,31 +42,33 @@ public class IngredienteDAO extends BaseDAO<Ingrediente> {
         return ingrediente;
     }
 
-    public void create(Personalizacao personalizacao) {
-        String sql = "INSERT INTO " + getTableName() + " (nome, tipoCobertura, tamanhoPedido, massaPedido, observacoes, Pedido_idPedido, quantidade) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public int create(Ingrediente ingrediente, int idProduto) throws IngredienteException {
+        String sql = "INSERT INTO " + getTableName() + " (nomeIngrediente, quantidadeEstoque, Produto_idProduto) VALUES (?, ?, ?)";
 
-        try (PreparedStatement ps = DbConnection.getConexao().prepareStatement(sql)) {
-            ps.setString(1, personalizacao.getNome());
-            ps.setString(2, personalizacao.getTipoCobertura());
-            ps.setString(3, personalizacao.getTamanhoPedido());
-            ps.setString(4, personalizacao.getMassaPedido());
-            ps.setString(5, personalizacao.getObservacoes());
+        try (Connection conn = DbConnection.getConexao();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            // Verifica se o Pedido_idPedido é nulo ou se não for zero
-            if (personalizacao.getPedido_idPedido() != null) {
-                ps.setInt(6, personalizacao.);
-            } else {
-                ps.setNull(6, java.sql.Types.INTEGER);  // Usando setNull para lidar com valores nulos
+            ps.setString(1, ingrediente.getNomeIngrediente());
+            ps.setInt(2, ingrediente.getQuantidadeEstoque());
+            ps.setInt(3, idProduto);
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        return rs.getInt(1);  // Retorna o ID gerado, caso precisse em algm dia ai
+                    }
+                }
             }
 
-            ps.setInt(7, personalizacao.getQuantidade());
+            throw new IngredienteException("Erro ao inserir ingrediente: Nenhuma linha foi afetada.");
 
-            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new IngredienteException("Erro ao inserir ingrediente no banco de dados.");
         }
     }
-
 
 
     public Ingrediente findById(int id) {

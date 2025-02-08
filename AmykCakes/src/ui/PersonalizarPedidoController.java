@@ -6,11 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import model.Personalizacao;
 
-import javafx.util.Pair;
 import logic.PersonalizacaoLogic;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 import dao.ItemCarrinhoDAO;
 import dao.PedidoDAO;
@@ -18,7 +14,6 @@ import dao.PersonalizacaoDAO;
 import exceptions.ItemCarrinhoException;
 import exceptions.PedidoException;
 import exceptions.PersonalizacaoException;
-import model.ItemCarrinho;
 import model.Pedido;
 
 public class PersonalizarPedidoController {
@@ -154,53 +149,34 @@ public class PersonalizarPedidoController {
         personalizacao.setQuantidade(quantidade_);
 
         // Salvando a personalização no banco
+        
+        int idPersonalizacao;
         try {
-            personalizacaoDAO.create(personalizacao);
-        } catch (PersonalizacaoException e) {
-            e.printStackTrace();
-            return;
-        }
-        
-        Pedido pedido = new Pedido();
-        pedido.setValorTotal(valorTotal);
-        try {
-        	int idProduto = 0;
-        	int idPersonalizado = personalizacao.getId();
-            pedidoDAO.create(valorTotal, idProduto, idPersonalizado);
-        } catch (PedidoException e) {
-            e.printStackTrace();
-            return;
-        }
-        
-        System.out.println("id do pedido personalizacao: " + pedido.getIdPersonalizacao());
-        
-        // Agora que a personalização e o pedido foram salvos, obtemos os IDs
-        // List<Integer> personalizacaoData = itemCarrinhoDAO.getIdForeignKeyPersonalizacao();
-        // if (personalizacaoData == null || personalizacaoData.size() < 2) {
-            // System.out.println("Erro ao recuperar a Personalização.");
-            // return;
-        //}
+            idPersonalizacao = personalizacaoDAO.create(personalizacao);
+            
+            // Só continua se a personalização foi criada com sucesso
+            if (idPersonalizacao > 0) {
+                Pedido pedido = new Pedido();
+                pedido.setValorTotal(valorTotal);
+                int idProduto = 0;
+                int idPedido = pedidoDAO.create(valorTotal, idProduto, idPersonalizacao);
 
-        //int personalizacaoId = personalizacaoData.get(0); // ID de Personalização
-        //int pedidoId = personalizacaoData.get(1); // ID de Pedido
-                
-        // Criando item do carrinho
-        ItemCarrinho itemCarrinho = new ItemCarrinho();
-        itemCarrinho.setPedido_idPedido(pedidoId);
-        itemCarrinho.setQuantidade(quantidade_);
-        itemCarrinho.setValorUnitario(valorTotal);
-
-        // Salvando item no carrinho
-        try {
-            itemCarrinhoDAO.create(quantidade_, pedidoId, valorTotal);
-            System.out.println("Item salvo no carrinho com sucesso! ID da Personalização: " + personalizacaoId + ", ID do Pedido: " + pedidoId);
-        } catch (ItemCarrinhoException e) {
+                // Só continua se o pedido foi criado com sucesso
+                if (idPedido > 0) {
+                    itemCarrinhoDAO.createPersonalizacao(quantidade_, idPedido, valorTotal, idPersonalizacao);
+                    System.out.println("Item salvo no carrinho com sucesso!");
+                } else {
+                    System.out.println("Erro ao criar o pedido.");
+                }
+            } else {
+                System.out.println("Erro ao criar a personalização.");
+            }
+        } catch (PersonalizacaoException | PedidoException | ItemCarrinhoException e) {
             e.printStackTrace();
-            return;
         }
 
-        // Limpando o formulário
         onBtnLimparClick();
+
     }
 
 

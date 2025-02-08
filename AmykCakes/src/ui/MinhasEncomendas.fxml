@@ -82,7 +82,7 @@
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
                      <padding>
-                        <Insets right="40.0" />
+                        <Insets bottom="0.0" left="0.0" right="40.0" top="0.0" />
                      </padding>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -96,7 +96,7 @@
          <children>
             <Pane layoutY="21.0" prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: A384B4;">
                <children>
-                  <Label layoutX="885.0" layoutY="13.0" text="\@Amyk Cakes" underline="true">
+                  <Label layoutX="885.0" layoutY="13.0" text="file:/C:/Users/felix/git/AmykCakes/AmykCakes/src/ui/Amyk Cakes" underline="true">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="24.0" />
                      </font>
@@ -116,31 +116,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <Pane layoutX="20.0" layoutY="285.0" prefHeight="600.0" prefWidth="1900.0" style="-fx-background-color: FFFFFF;">
-         <children>
-            <HBox alignment="CENTER" prefHeight="600.0" prefWidth="1900.0" spacing="100.0" style="-fx-background-color: E6D6F5;">
-               <children>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="475.0" style="-fx-background-color: D4B8E8;">
-                     <children>
-                        <Label text="Produtos:">
-                           <font>
-                              <Font name="Yu Gothic UI Regular" size="27.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-                  <VBox fx:id="vboxEncomendas" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="475.0" style="-fx-background-color: D4B8E8;">
-                     <children>
-                        <Label text="Personalizações:">
-                           <font>
-                              <Font name="Yu Gothic UI Regular" size="27.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </Pane>
+      <VBox fx:id="encomendasContainer" layoutX="610.0" layoutY="317.0" prefHeight="500.0" prefWidth="700.0" />
    </children>
 </AnchorPane>
