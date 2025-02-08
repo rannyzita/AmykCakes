@@ -92,22 +92,6 @@
             </HBox>
          </children>
       </Pane>
-      <Pane layoutY="910.0" prefHeight="100.0" prefWidth="1920.0" style="-fx-background-color: D4B8E8;">
-         <children>
-            <Pane layoutY="21.0" prefHeight="60.0" prefWidth="1920.0" style="-fx-background-color: A384B4;">
-               <children>
-                  <Label layoutX="885.0" layoutY="13.0" text="file:/C:/Users/felix/git/AmykCakes/AmykCakes/src/ui/Amyk Cakes" underline="true">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-               </children>
-            </Pane>
-         </children>
-      </Pane>
       <Label layoutX="810.0" layoutY="221.0" text="Registro de encomendas:">
          <font>
             <Font name="Yu Gothic UI Regular" size="27.0" />
@@ -116,7 +100,13 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <VBox fx:id="encomendasContainer" fillWidth="false" layoutX="140.0" layoutY="275.0" maxHeight="600.0" maxWidth="640.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="640.0" />
+      
+      <!-- Contêiner para encomendas normais -->
+      <VBox fx:id="encomendasContainer" layoutX="140.0" layoutY="275.0" maxHeight="600.0" maxWidth="640.0" prefHeight="600.0" prefWidth="640.0" />
+      
+      <!-- Contêiner para encomendas personalizadas -->
+      <VBox fx:id="encomendasPersonalizadasContainer" layoutX="820.0" layoutY="275.0" maxHeight="600.0" maxWidth="640.0" prefHeight="600.0" prefWidth="640.0" />
+      
       <Label layoutX="403.0" layoutY="236.0" text="Produtos:">
          <font>
             <Font name="Yu Gothic UI Regular" size="27.0" />

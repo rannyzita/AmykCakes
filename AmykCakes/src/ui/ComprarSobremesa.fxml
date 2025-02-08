@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
@@ -116,11 +117,7 @@
       </Pane>
       <Pane layoutY="190.0" prefHeight="710.0" prefWidth="700.0" style="-fx-background-color: D4B8E8;">
          <children>
-            <ImageView fitHeight="580.0" fitWidth="670.0" layoutX="63.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../../OneDrive/Área%20de%20Trabalho/Amyk%20Cakes/Imagens%20-%20produtos/b%2004.png" />
-               </image>
-            </ImageView>
+            <ImageView fitHeight="580.0" fitWidth="670.0" layoutX="63.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
             <Label layoutX="240.0" layoutY="661.0" opacity="0.7" text="Produto selecionado" underline="true">
                <font>
                   <Font name="Yu Gothic UI Regular" size="24.0" />
@@ -141,136 +138,130 @@
       </Label>
       <Pane layoutX="755.0" layoutY="250.0" prefHeight="300.0" prefWidth="670.0" style="-fx-background-color: FFFFFF;">
          <children>
-            <GridPane layoutX="14.0" layoutY="1.0" prefHeight="229.0" prefWidth="633.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <VBox fx:id="sobremesaContainer" layoutX="15.0" prefHeight="300.0" prefWidth="100.0">
                <children>
-                  <Label text="Nome:">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label layoutX="10.0" layoutY="8.0" text="Cobertura:" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label layoutX="10.0" layoutY="75.0" text="Forma de pagamento:" GridPane.rowIndex="5">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <GridPane prefHeight="229.0" prefWidth="633.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <RadioButton mnemonicParsing="false" selected="true" text="Pix">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="formadepag" />
-                           </toggleGroup>
+                        <Label text="Nome:">
                            <font>
-                              <Font name="Yu Gothic UI Bold" size="18.0" />
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
                            </font>
-                        </RadioButton>
-                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Cartão de crédito" toggleGroup="$formadepag">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="75.0" text="Forma de pagamento:" GridPane.rowIndex="4">
                            <font>
-                              <Font name="Yu Gothic UI Bold" size="18.0" />
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
                            </font>
-                        </RadioButton>
-                        <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Dinheiro" toggleGroup="$formadepag">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <children>
+                              <RadioButton mnemonicParsing="false" selected="true" text="Pix">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="formadepag" />
+                                 </toggleGroup>
+                                 <font>
+                                    <Font name="Yu Gothic UI Bold" size="18.0" />
+                                 </font>
+                              </RadioButton>
+                              <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Cartão de crédito" toggleGroup="$formadepag">
+                                 <font>
+                                    <Font name="Yu Gothic UI Bold" size="18.0" />
+                                 </font>
+                              </RadioButton>
+                              <RadioButton layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Dinheiro" toggleGroup="$formadepag">
+                                 <font>
+                                    <Font name="Yu Gothic UI Bold" size="18.0" />
+                                 </font>
+                              </RadioButton>
+                           </children>
+                        </HBox>
+                        <Label fx:id="txtNome" layoutX="10.0" layoutY="9.0" prefHeight="35.0" prefWidth="393.0" GridPane.columnIndex="1">
                            <font>
-                              <Font name="Yu Gothic UI Bold" size="18.0" />
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
                            </font>
-                        </RadioButton>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label text="Descrição:" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label layoutX="10.0" layoutY="127.0" text="Estoque:" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label fx:id="txtDescricao" layoutX="252.0" layoutY="89.0" prefHeight="35.0" prefWidth="394.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label fx:id="txtEstoque" layoutX="252.0" layoutY="127.0" prefHeight="35.0" prefWidth="394.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                     </children>
+                  </GridPane>
+                  <Line endX="540.0" startX="-100.0" />
+                  <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="txtPreco" prefHeight="35.0" prefWidth="116.0">
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Label>
+                        <Label text="Preço:  R$">
+                           <font>
+                              <Font name="Yu Gothic UI Regular" size="24.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
                      </children>
                   </HBox>
-                  <Label fx:id="txtNome" layoutX="10.0" layoutY="9.0" prefHeight="35.0" prefWidth="393.0" GridPane.columnIndex="1">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label fx:id="txtCobertura" layoutX="10.0" layoutY="9.0" prefHeight="35.0" prefWidth="394.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label text="Descrição:" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label layoutX="10.0" layoutY="127.0" text="Estoque:" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label fx:id="txtDescricao" layoutX="252.0" layoutY="89.0" prefHeight="35.0" prefWidth="394.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label fx:id="txtEstoque" layoutX="252.0" layoutY="127.0" prefHeight="35.0" prefWidth="394.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <font>
-                        <Font name="Yu Gothic UI Regular" size="24.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
                </children>
-            </GridPane>
-            <Line endX="540.0" layoutX="110.0" layoutY="238.0" startX="-100.0" />
-            <Label layoutX="418.0" layoutY="250.0" text="Preço:  R$">
-               <font>
-                  <Font name="Yu Gothic UI Regular" size="24.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Label>
-            <Label fx:id="txtPreco" layoutX="531.0" layoutY="250.0" prefHeight="35.0" prefWidth="116.0">
-               <font>
-                  <Font name="Yu Gothic UI Regular" size="24.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Label>
+            </VBox>
          </children>
       </Pane>
-      <Button layoutX="1090.0" layoutY="673.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="335.0" style="-fx-background-color: A384B4;" styleClass="btnRealizarPedido" stylesheets="@style.css" text="Realizar pedido" textFill="#422851">
+      <Button fx:id="btnRealizarPedido" layoutX="1090.0" layoutY="673.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="335.0" style="-fx-background-color: A384B4;" styleClass="btnRealizarPedido" stylesheets="@style.css" text="Realizar pedido" textFill="#422851">
          <font>
             <Font name="Yu Gothic UI Regular" size="24.0" />
          </font>

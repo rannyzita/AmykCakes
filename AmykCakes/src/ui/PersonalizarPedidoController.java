@@ -178,8 +178,6 @@ public class PersonalizarPedidoController {
         onBtnLimparClick();
 
     }
-
-
     
     public void onBtnLimparClick() {
         if (nomePedido != null) nomePedido.clear();

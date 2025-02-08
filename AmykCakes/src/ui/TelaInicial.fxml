@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -107,47 +106,49 @@
                         <Cursor fx:constant="TEXT" />
                      </cursor>
                   </Label>
-               </children></Pane>
-         </children></Pane>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
       <GridPane alignment="CENTER" layoutX="60.0" layoutY="325.0" prefHeight="350.0" prefWidth="1800.0" vgap="50.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView fx:id="imgBolo1" fitHeight="302.0" fitWidth="300.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true">
+            <ImageView fx:id="imgBolo1" fitHeight="302.0" fitWidth="300.0" pickOnBounds="true">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgBolo4" fitHeight="302.0" fitWidth="300.0" layoutX="10.0" layoutY="9.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="3">
+            <ImageView fx:id="imgBolo4" fitHeight="302.0" fitWidth="300.0" layoutX="10.0" layoutY="9.0" pickOnBounds="true" GridPane.columnIndex="3">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgBolo2" fitHeight="302.0" fitWidth="300.0" layoutX="10.0" layoutY="309.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="1">
+            <ImageView fx:id="imgBolo2" fitHeight="302.0" fitWidth="300.0" layoutX="10.0" layoutY="309.0" pickOnBounds="true" GridPane.columnIndex="1">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgBolo5" fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="9.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="4">
+            <ImageView fx:id="imgBolo5" fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="9.0" pickOnBounds="true" GridPane.columnIndex="4">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgBolo3" fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="309.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+            <ImageView fx:id="imgBolo3" fitHeight="302.0" fitWidth="300.0" layoutX="310.0" layoutY="309.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ImageView>
-            <ImageView fx:id="imgBolo6" fitHeight="302.0" fitWidth="300.0" layoutX="610.0" layoutY="9.0" onMouseClicked="#onComprarBoloClick" pickOnBounds="true" GridPane.columnIndex="5">
+            <ImageView fx:id="imgBolo6" fitHeight="302.0" fitWidth="300.0" layoutX="610.0" layoutY="9.0" pickOnBounds="true" GridPane.columnIndex="5">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -162,53 +163,41 @@
             <Cursor fx:constant="TEXT" />
          </cursor>
       </Label>
-      <Button fx:id="btnBolo1" layoutX="60.0" layoutY="699.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: D4B8E8; -fx-border-color: black;" text="Selecionar">
+      <Label fx:id="labelBolo1" layoutX="196.0" layoutY="712.0" />
+      <Label fx:id="labelBolo2" layoutX="496.0" layoutY="712.0" />
+      <Label fx:id="labelBolo3" layoutX="796.0" layoutY="712.0" />
+      <Label fx:id="labelBolo4" layoutX="1096.0" layoutY="712.0" />
+      <Label fx:id="labelBolo5" layoutX="1396.0" layoutY="712.0" />
+      <Label fx:id="labelBolo6" layoutX="1696.0" layoutY="712.0" />
+      <Label fx:id="labelComprar1" layoutX="175.0" layoutY="765.0" text="Comprar">
          <font>
-            <Font name="Yu Gothic Bold" size="18.0" />
+            <Font size="18.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btnBolo2" layoutX="360.0" layoutY="699.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: D4B8E8; -fx-border-color: black;" text="Selecionar">
+      </Label>
+      <Label fx:id="labelComprar2" layoutX="461.0" layoutY="765.0" text="Comprar">
          <font>
-            <Font name="Yu Gothic Bold" size="18.0" />
+            <Font size="18.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btnBolo3" layoutX="660.0" layoutY="699.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: D4B8E8; -fx-border-color: black;" text="Selecionar">
+      </Label>
+      <Label fx:id="labelComprar3" layoutX="761.0" layoutY="765.0" text="Comprar">
          <font>
-            <Font name="Yu Gothic Bold" size="18.0" />
+            <Font size="18.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btnBolo4" layoutX="960.0" layoutY="699.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: D4B8E8; -fx-border-color: black;" text="Selecionar">
+      </Label>
+      <Label fx:id="labelComprar4" layoutX="1061.0" layoutY="765.0" text="Comprar">
          <font>
-            <Font name="Yu Gothic Bold" size="18.0" />
+            <Font size="18.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btnBolo5" layoutX="1260.0" layoutY="699.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: D4B8E8; -fx-border-color: black;" text="Selecionar">
+      </Label>
+      <Label fx:id="labelComprar5" layoutX="1361.0" layoutY="765.0" text="Comprar">
          <font>
-            <Font name="Yu Gothic Bold" size="18.0" />
+            <Font size="18.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
-      <Button fx:id="btnBolo6" layoutX="1560.0" layoutY="699.0" mnemonicParsing="false" onMouseClicked="#onComprarBoloClick" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: D4B8E8; -fx-border-color: black;" text="Selecionar">
+      </Label>
+      <Label fx:id="labelComprar6" layoutX="1661.0" layoutY="765.0" text="Comprar">
          <font>
-            <Font name="Yu Gothic Bold" size="18.0" />
+            <Font size="18.0" />
          </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
+      </Label>
    </children>
 </AnchorPane>

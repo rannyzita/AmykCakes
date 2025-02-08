@@ -155,7 +155,4 @@ public class PedidoDAO extends BaseDAO<Pedido> {
 
         return lista;
     }
-
-
-
 }
