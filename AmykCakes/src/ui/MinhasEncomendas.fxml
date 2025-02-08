@@ -116,6 +116,14 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Label>
-      <VBox fx:id="encomendasContainer" layoutX="610.0" layoutY="317.0" prefHeight="500.0" prefWidth="700.0" />
+      <VBox fx:id="encomendasContainer" fillWidth="false" layoutX="140.0" layoutY="275.0" maxHeight="600.0" maxWidth="640.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="600.0" prefWidth="640.0" />
+      <Label layoutX="403.0" layoutY="236.0" text="Produtos:">
+         <font>
+            <Font name="Yu Gothic UI Regular" size="27.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
    </children>
 </AnchorPane>
