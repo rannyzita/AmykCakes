@@ -1,14 +1,11 @@
 package logic;
 
-import dao.IngredienteDAO;
 import exceptions.IngredienteException;
 import model.Ingrediente;
 
 public class IngredienteLogic {
-    private IngredienteDAO ingredienteDAO;
 
     public IngredienteLogic() {
-        this.ingredienteDAO = new IngredienteDAO(this);
     }
 
     public void validarCamposIngrediente(Ingrediente ingrediente) throws IngredienteException {
@@ -25,16 +22,4 @@ public class IngredienteLogic {
         }
     }
 
-    public void validarCriarIngrediente(Ingrediente ingrediente) throws IngredienteException {
-        validarCamposIngrediente(ingrediente);
-        ingredienteDAO.create(ingrediente);
-    }
-
-    public Ingrediente validarBuscarIngrediente(int id) throws IngredienteException {
-        Ingrediente ingrediente = ingredienteDAO.findById(id);
-        if (ingrediente == null) {
-            throw new IngredienteException("Ingrediente com ID " + id + " não encontrado.");
-        }
-        return ingrediente;
-    }
 }

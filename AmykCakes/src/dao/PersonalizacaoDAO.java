@@ -1,11 +1,8 @@
 package dao;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import model.Personalizacao;
-import model.Pedido;
 import connection.DbConnection;
 import exceptions.PersonalizacaoException;
 import logic.PersonalizacaoLogic;
@@ -35,8 +32,9 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
         return personalizacao;
     }
     
-    public void create(Personalizacao personalizacao) throws PersonalizacaoException {
-        // Validando os campos da personalização usando o objeto
+    public int create(Personalizacao personalizacao) throws PersonalizacaoException {
+        int personalizacaoId = 0;
+    	// Validando os campos da personalização usando o objeto
         personalizacaoLogic.validarCamposPersonalizacao(
             personalizacao.getNome(),
             personalizacao.getTipoCobertura(),
@@ -50,7 +48,7 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
                      "VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DbConnection.getConexao();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
             // Setando os valores na query a partir do objeto `personalizacao`
             ps.setString(1, personalizacao.getNome());
@@ -61,11 +59,22 @@ public class PersonalizacaoDAO extends BaseDAO<Personalizacao> {
             ps.setInt(6, personalizacao.getQuantidade());
             
             // Executando a atualização no banco de dados
-            ps.executeUpdate();
+            int affectedRows = ps.executeUpdate();  
+            
+            if (affectedRows > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        personalizacaoId = rs.getInt(1);
+      
+                        return personalizacaoId;
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new PersonalizacaoException("Erro ao criar personalização.");
         }
+		return personalizacaoId;
     }
 
     public Personalizacao findById(int id) {

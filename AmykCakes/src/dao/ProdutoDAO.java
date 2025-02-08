@@ -4,6 +4,7 @@ import model.Produto;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,6 +32,25 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         produto.setFoto(rs.getBytes("foto"));
         produto.setEstoque(rs.getInt("estoque"));
         return produto;
+    }
+    
+    public List<Produto> findAll() {
+        String sql = "SELECT * FROM " + getTableName();
+        List<Produto> produtos = new ArrayList<>();
+
+        try (Connection connection = DbConnection.getConexao();
+             PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Produto produto = fromResultSet(rs);
+                produtos.add(produto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return produtos;
     }
 
     public List<Integer> getIdForeignKeyPersonalizacao() {
@@ -107,14 +127,14 @@ public class ProdutoDAO extends BaseDAO<Produto> {
         }
     }
 
-    public Produto findById(int id) {
+    public Produto findById(int produtoId) {
         String sql = "SELECT * FROM " + getTableName() + " WHERE id = ?";
         Produto produto = null;
 
         try (Connection connection = DbConnection.getConexao();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, id);
+            ps.setInt(1, produtoId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     produto = fromResultSet(rs);
@@ -124,6 +144,30 @@ public class ProdutoDAO extends BaseDAO<Produto> {
             e.printStackTrace();
         }
 
+        return produto;
+    }
+    
+    public static Produto getProdutoPorId(int id) {
+        Produto produto = null;
+        try (Connection con = DbConnection.getConexao()) {
+            String sql = "SELECT id, nome, foto, descricao, preco, estoque FROM produtos WHERE id = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int produtoId = rs.getInt("id");
+                String nome = rs.getString("nome");
+                byte[] foto = rs.getBytes("foto");
+                String descricao = rs.getString("descricao");
+                double preco = rs.getDouble("preco");
+                int estoque = rs.getInt("estoque");
+
+                produto = new Produto(produtoId, nome, foto, descricao, preco, estoque); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return produto;
     }
 

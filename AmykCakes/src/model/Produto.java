@@ -12,6 +12,20 @@ public class Produto extends BaseEntity{
 	private int estoque;
 	private Pedido Pedido_id; 
 	
+	// construtor pra qnd n tiver nd no arg
+	public Produto () {
+		
+	}
+	// construtor pra qnd tiver algo de arg
+	public Produto(int id, String nome, byte[] foto, String descricao, double preco, int estoque) {
+        super.setId(id); // Chama o construtor da classe BaseEntity para inicializar o ID
+        this.nome = nome;
+        this.foto = foto;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.estoque = estoque;
+    }
+	
 	public String getNome() {
 		return nome;
 	}

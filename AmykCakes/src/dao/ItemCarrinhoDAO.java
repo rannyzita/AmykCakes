@@ -11,9 +11,6 @@ import connection.DbConnection;
 import exceptions.ItemCarrinhoException;
 import logic.ItemCarrinhoLogic;
 import model.ItemCarrinho;
-import model.Pedido;
-import model.Personalizacao;
-import model.Produto;
 
 public class ItemCarrinhoDAO {
     private ItemCarrinhoLogic itemCarrinhoLogic;
@@ -24,6 +21,29 @@ public class ItemCarrinhoDAO {
     }
     
     public List<Integer> getIdForeignKeyPersonalizacao() {
+        String sql = "SELECT p.id AS idPedido, p.idPersonalizacao " +
+                     "FROM Pedido p " +
+                     "INNER JOIN Personalizacao ic ON ic.Pedido_idPedido = p.id " +
+                     "ORDER BY p.id DESC LIMIT 1"; // Pega o último inserido
+
+        List<Integer> ids = new ArrayList<>();
+
+        try (Connection conn = DbConnection.getConexao();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            if (rs.next()) {
+                ids.add(rs.getInt("idPedido"));  // ID do Pedido
+                ids.add(rs.getInt("idPersonalizacao")); // ID da Personalização
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ids; // Retorna a lista com os IDs encontrados
+    }
+    
+    public List<Integer> getIdForeignKeyProduto() {
         String sql = "SELECT p.id AS idPedido, p.idPersonalizacao " +
                      "FROM Pedido p " +
                      "INNER JOIN Personalizacao ic ON ic.Pedido_idPedido = p.id " +
@@ -60,8 +80,8 @@ public class ItemCarrinhoDAO {
         }
     }
 
-    public void create(int quantidade, int Pedido_idPedido,
-                       double valorUnitario) throws ItemCarrinhoException {
+    public void createPersonalizacao(int quantidade, int Pedido_idPedido,
+                       double valorUnitario, int idPersonalizacao) throws ItemCarrinhoException {
         itemCarrinhoLogic.validarCamposItemCarrinho(quantidade, valorUnitario);
 
         String sql = "INSERT INTO ItemCarrinho (quantidade, Pedido_idPedido, Produto_idProduto, valorUnitario, Personalizacao_id) VALUES (?, ?, ?, ?, ?)";
@@ -71,8 +91,9 @@ public class ItemCarrinhoDAO {
 
             ps.setInt(1, quantidade);
             ps.setInt(2, Pedido_idPedido);
+            ps.setInt(3, 0);
             ps.setDouble(4, valorUnitario);
-
+            ps.setInt(5, idPersonalizacao);
             ps.executeUpdate();
 
             // Buscar o último ID inserido

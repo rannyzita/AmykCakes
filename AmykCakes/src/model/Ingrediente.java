@@ -21,8 +21,8 @@ public class Ingrediente extends BaseEntity{
 		this.quantidadeEstoque = quantidadeEstoque;
 	}
 	
-	public Produto getProduto_idProduto() {
-		return Produto_idProduto;
+	public int getProduto_idProduto() {
+		return Produto_idProduto.getId();
 	}
 	
 	public void setProduto_idProduto(Produto produto_idProduto) {
