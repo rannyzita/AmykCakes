@@ -54,7 +54,7 @@ Antes de rodar o projeto, certifique-se de ter o seguinte ambiente configurado:
      ```sql
      CREATE DATABASE amyk_cakes;
      ```
-   - Baixe o arquivo do banco que está anexado no repositório.
+   - Baixe o arquivo do banco que está anexado no repositório, baixe e extraia o arquivo.
    - Vá para **Server > Data Import**.
    - Escolha a opção **Import from Self-Contained File**.
    - Selecione o arquivo SQL  (tem mais de 1, ai tem que exportar um por vez), exportado que estará no repositório.
