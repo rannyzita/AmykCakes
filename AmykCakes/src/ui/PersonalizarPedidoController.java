@@ -172,7 +172,6 @@ public class PersonalizarPedidoController {
             return;
         }
         
-        System.out.println("id do pedido personalizacao: " + pedido.getIdPersonalizacao());
         
         // Agora que a personalização e o pedido foram salvos, obtemos os IDs
         // List<Integer> personalizacaoData = itemCarrinhoDAO.getIdForeignKeyPersonalizacao();
@@ -186,7 +185,7 @@ public class PersonalizarPedidoController {
                 
         // Criando item do carrinho
         ItemCarrinho itemCarrinho = new ItemCarrinho();
-        itemCarrinho.setPedido_idPedido(pedidoId);
+        int pedidoId = itemCarrinho.setPedido_idPedido(pedido.getIdPersonalizacao());
         itemCarrinho.setQuantidade(quantidade_);
         itemCarrinho.setValorUnitario(valorTotal);
 
